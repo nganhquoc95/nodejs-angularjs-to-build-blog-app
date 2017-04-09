@@ -1,0 +1,175 @@
+<app-navbar></app-navbar>
+<!-- #masthead -->
+<div class="site-mainbwrap" id="mainbwrap">
+	<div class="content-areabwrap" id="primarybwrap">
+		<div class="site-contentbwrap" id="contentbwrap" role="main">
+			<div class="mainblogsec section" id="mainblogsec">
+				<div class="widget Blog" data-version="1" id="Blog1">
+					<div class="blog-posts hfeed">
+						<router-outlet></router-outlet>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- #content -->
+	</div>
+	<!-- #primary -->
+	<div class="sidebar-containerbwrap" id="secondarybwrap" role="complementary">
+		<div class="widget-areabwrap">
+			<div class="bsidebarright section" id="bsidebarright">
+				<div class="widget HTML" data-version="1" id="HTML1">
+					<h2 class="title">Bài viết mới</h2>
+					<div class="widget-content">
+						<ul>
+							<li *ngFor="let article of articlesNew | async"><a [routerLink]="['/bai-viet',article._id]"
+							(selectedArticleEvent)="onSelectArticle($even)">{{ article.title }}</a></li>
+						</ul>
+					</div>
+					<div class="clear"></div>
+					<span class="widget-item-control">
+						<span class="item-control blog-admin">
+							<a class="quickedit" href="//www.blogger.com/rearrange?blogID=3651875478626473481&amp;widgetType=HTML&amp;widgetId=HTML1&amp;action=editWidget&amp;sectionId=bsidebarright" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;HTML1&quot;));" target="configHTML1" title="Edit">
+								<img alt="" height="18" src="https://resources.blogblog.com/img/icon18_wrench_allbkg.png" width="18">
+							</a>
+						</span>
+					</span>
+					<div class="clear"></div>
+				</div>
+				<div class="widget Label" data-version="1" id="Label1">
+					<h2>Categories</h2>
+					<div class="widget-content list-label-widget-content">
+						<ul>
+							<li *ngFor="let category of categories | async">
+								<a dir="ltr" [routerLink]="['/danh-muc',category._id]" (click)="onClicked(category)">{{ category.title }}</a>
+							</li>
+						</ul>
+						<div class="clear"></div>
+						<span class="widget-item-control">
+							<span class="item-control blog-admin">
+								<a class="quickedit" href="//www.blogger.com/rearrange?blogID=3651875478626473481&amp;widgetType=Label&amp;widgetId=Label1&amp;action=editWidget&amp;sectionId=bsidebarright" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;Label1&quot;));" target="configLabel1" title="Edit">
+									<img alt="" height="18" src="https://resources.blogblog.com/img/icon18_wrench_allbkg.png" width="18">
+								</a>
+							</span>
+						</span>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="widget PageList" data-version="1" id="PageList1">
+					<h2>Pages</h2>
+					<div class="widget-content">
+						<ul>
+							<li routerLinkActive="selected"><a [routerLink]="['/']" (click)="scrollToTop(500)">Trang chủ</a></li>
+							<li routerLinkActive="selected"><a [routerLink]="['/ve-chung-toi']" (click)="scrollToTop(500)">Về chúng tôi</a></li>
+							<li routerLinkActive="selected"><a [routerLink]="['/bai-viet']" (click)="scrollToTop(500)">Bài viết</a></li>
+							<li routerLinkActive="selected"><a [routerLink]="['/lien-he']" (click)="scrollToTop(500)"> Liên hệ</a></li>
+						</ul>
+						<div class="clear"></div>
+						<span class="widget-item-control">
+							<span class="item-control blog-admin">
+								<a class="quickedit" href="//www.blogger.com/rearrange?blogID=3651875478626473481&amp;widgetType=PageList&amp;widgetId=PageList1&amp;action=editWidget&amp;sectionId=bsidebarright" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;PageList1&quot;));" target="configPageList1" title="Edit">
+									<img alt="" height="18" src="https://resources.blogblog.com/img/icon18_wrench_allbkg.png" width="18">
+								</a>
+							</span>
+						</span>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- .widget-area -->
+	</div>
+	<!-- #secondary -->
+</div>
+<!-- #main -->
+
+<footer class="site-footerbwrap" id="colophon" role="contentinfo">
+	<div class="sidebar-containerbwrap" id="tertiarybwrap" role="complementary">
+		<div class="sidebar-inner">
+			<div class="widget-areabwrap">
+				<div class="footersec section" id="footersec1">
+					<div class="widget Feed" data-version="1" id="Feed2">
+						<h2>Blogger Tutorials</h2>
+						<div class="widget-content" id="Feed2_feedItemListDisplay">
+							<ul>
+								<li><span class="item-title"><a href="http://feedproxy.google.com/~r/blogspot/WyNa/~3/EqckyFC8iR8/" target="_self">How To Create Expandable Post Summaries</a></span></li>
+								<li><span class="item-title"><a href="http://feedproxy.google.com/~r/blogspot/WyNa/~3/BBpBCd8N2g0/" target="_self">How to Find Your Facebook Numeric ID</a></span></li>
+								<li><span class="item-title"><a href="http://feedproxy.google.com/~r/blogspot/WyNa/~3/PQwtyKKRO3A/" target="_self">30 Premium Blogger Templates 2017</a></span></li>
+								<li><span class="item-title"><a href="http://feedproxy.google.com/~r/blogspot/WyNa/~3/i0PwVMhJe2M/" target="_self">Brakt Blogger Template</a></span></li>
+								<li><span class="item-title"><a href="http://feedproxy.google.com/~r/blogspot/WyNa/~3/GPMN3wX1X68/" target="_self">How to Hide a Web Page from Search Engines</a></span></li>
+							</ul>
+						</div>
+						<div class="clear"></div>
+						<span class="widget-item-control">
+							<span class="item-control blog-admin">
+								<a class="quickedit" href="//www.blogger.com/rearrange?blogID=3651875478626473481&amp;widgetType=Feed&amp;widgetId=Feed2&amp;action=editWidget&amp;sectionId=footersec1" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;Feed2&quot;));" target="configFeed2" title="Edit">
+									<img alt="" height="18" src="https://resources.blogblog.com/img/icon18_wrench_allbkg.png" width="18">
+								</a>
+							</span>
+						</span>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+			<div class="widget-areabwrap">
+				<div class="footersec section" id="footersec2">
+					<div class="widget Feed" data-version="1" id="Feed1">
+						<h2>Blogger Templates</h2>
+						<div class="widget-content" id="Feed1_feedItemListDisplay">
+							<ul>
+								<li><span class="item-title"><a href="http://feedproxy.google.com/~r/pbtemplates/~3/Ey3dtMpRjjo/" target="_self">inPress Blogger Template</a></span></li>
+								<li><span class="item-title"><a href="http://feedproxy.google.com/~r/pbtemplates/~3/4ySwlr2fseY/" target="_self">MediaNews Blogger Template</a></span></li>
+								<li><span class="item-title"><a href="http://feedproxy.google.com/~r/pbtemplates/~3/BKMoebWfvHQ/" target="_self">Stacker Blogger Template</a></span></li>
+								<li><span class="item-title"><a href="http://feedproxy.google.com/~r/pbtemplates/~3/DNQiwH7ps2E/" target="_self">Milla Blogger Template</a></span></li>
+								<li><span class="item-title"><a href="http://feedproxy.google.com/~r/pbtemplates/~3/oeIO3kaYq5U/" target="_self">TechOn Blogger Template</a></span></li>
+							</ul>
+						</div>
+						<div class="clear"></div>
+						<span class="widget-item-control">
+							<span class="item-control blog-admin">
+								<a class="quickedit" href="//www.blogger.com/rearrange?blogID=3651875478626473481&amp;widgetType=Feed&amp;widgetId=Feed1&amp;action=editWidget&amp;sectionId=footersec2" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;Feed1&quot;));" target="configFeed1" title="Edit">
+									<img alt="" height="18" src="https://resources.blogblog.com/img/icon18_wrench_allbkg.png" width="18">
+								</a>
+							</span>
+						</span>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+			<div class="widget-areabwrap">
+				<div class="footersec section" id="footersec3">
+					<div class="widget HTML" data-version="1" id="HTML2">
+						<h2 class="title">Sample Text</h2>
+						<div class="widget-content">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation test link ullamco laboris nisi ut aliquip ex ea commodo consequat. <br><br>Duis aute irure dolor in reprehenderit in voluptate another link velit esse cillum dolore eu fugiat nulla pariatur.
+						</div>
+						<div class="clear"></div>
+						<span class="widget-item-control">
+							<span class="item-control blog-admin">
+								<a class="quickedit" href="//www.blogger.com/rearrange?blogID=3651875478626473481&amp;widgetType=HTML&amp;widgetId=HTML2&amp;action=editWidget&amp;sectionId=footersec3" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;HTML2&quot;));" target="configHTML2" title="Edit">
+									<img alt="" height="18" src="https://resources.blogblog.com/img/icon18_wrench_allbkg.png" width="18">
+								</a>
+							</span>
+						</span>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- .sidebar-inner -->
+	</div>
+	<!-- #tertiary -->
+	<div class="site-info-container">
+		<div class="site-infobwrap">
+			<!-- Do not edit or remove credits without our permission: premiumbloggertemplates.com -->
+			Copyright ©
+			<script type="text/javascript">
+				var creditsyear = new Date();
+				document.write(creditsyear.getFullYear());
+			</script>2017
+			<a href="http://suits-pbt.blogspot.com/">Suits</a> | Powered by <a href="http://www.blogger.com/">Blogger</a><br>Design by <a href="http://www.themeweaver.net/" target="_blank">Theme Weaver</a> | Blogger Theme by <a href="http://www.bloggertipandtrick.net/" target="_blank" title="Blogging Tutorials">Lasantha</a> - <a href="http://www.premiumbloggertemplates.com/" target="_blank" title="Free Blogger Templates">PremiumBloggerTemplates.com</a>
+		</div>
+		<!-- .site-info -->
+	</div>
+	<!-- .site-info-container -->
+</footer>
+<!-- #colophon -->

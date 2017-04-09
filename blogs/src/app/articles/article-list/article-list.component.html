@@ -1,0 +1,1 @@
+<app-article *ngFor="let article of articles | async" [article]="article" (selectedEvent)="onSelect($even)"></app-article>

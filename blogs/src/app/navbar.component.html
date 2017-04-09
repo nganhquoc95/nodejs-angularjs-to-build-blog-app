@@ -1,0 +1,42 @@
+<header class="site-headerbwrap" id="mastheadbwrap" role="banner">
+	<div class="pbthome-link">
+		<div class="headersec section" id="headersec">
+			<div class="widget Header" data-version="1" id="Header1">
+				<div id="header-inner">
+					<div class="titlewrapper">
+						<h1 class="site-title">
+							<a [routerLink]="['/']">Suits</a>
+						</h1>
+					</div>
+					<h2 class="site-description">Suits Blogger Template</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="navbarbwrap" id="navbarbwrap">
+		<div class="navigationbwrap main-navigationbwrap" id="site-navigationbwrap" role="navigation">
+			<h3 class="menu-togglebwrap">Menu</h3>
+			<div class="menu-testing-menu-container">
+				<ul class="nav-menuul">
+					<li routerLinkActive="active"><a [routerLink]="['/']">Trang chủ</a></li>
+					<li routerLinkActive="active"><a [routerLink]="['/ve-chung-toi']">Về chúng tôi</a></li>
+					<li routerLinkActive="active"><a [routerLink]="['/bai-viet']">Bài viết</a>
+						<ul class="sub-menu">
+							<li *ngFor="let category of categories | async"><a [routerLink]="['/danh-muc', category._id]">{{ category.title }}</a></li>
+						</ul>
+					</li>
+					<li routerLinkActive="active"><a [routerLink]="['/lien-he']">Liên hệ</a></li>
+				</ul>
+			</div>
+			<form action="/search" class="search-form" id="searchform" method="get" role="search">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input class="search-field" name="q" placeholder="Search" title="Search for:" type="search" value="">
+				</label>
+				<input class="search-submit" type="submit" value="Search">
+			</form>
+		</div>
+		<!-- #site-navigation -->
+	</div>
+	<!-- #navbar -->
+</header>

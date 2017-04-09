@@ -1,0 +1,34 @@
+<div class="date-outer" *ngIf="selectedArticle">
+    <h2 class="date-header"><span>Wednesday, April 23, 2014</span></h2>
+    <div class="date-posts">
+
+        <div class="post-outer">
+            <article class="post hentry">
+                <a name="3031361824506875120"></a>
+                <header class="entry-header">
+                    <h1 class="post-title entry-title">
+                        <a [routerLink]="['/bai-viet',selectedArticle._id]">
+                            {{ selectedArticle.title }}
+                        </a>
+                    </h1>
+                </header>
+                <div class="post-header-line-1"></div>
+                <div class="post-body entry-content">
+                    <div class="separator" style="clear: both; text-align: center;">
+                        <a imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;">
+                            <img border="0" src="./assets/images/{{ selectedArticle.image }}" height="240" width="320">
+                        </a>
+                    </div>
+                    
+                    {{ selectedArticle.content }}
+
+                    <div style="clear: both;"></div>
+                </div>
+            </article>
+            <div style="clear: both;"></div>
+            <div class="blog-pager" id="blog-pager">
+                <a [routerLink]="['/']">Home</a>
+            </div>
+        </div>
+    </div>
+</div>

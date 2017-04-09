@@ -1,0 +1,32 @@
+<div class="col-md-12">
+	<a [routerLink]="['/admin/category/create']" class="btn btn-success btn-raised">
+		<span class="glyphicon glyphicon-plus"></span> Thêm danh mục
+	</a>
+	<a [routerLink]="['/admin']" class="btn btn-default btn-raised">
+		<span class="glyphicon glyphicon-chevron-left"></span> Trở về
+	</a>
+</div>
+
+<div class="col-md-12">
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th style="width: 140px;">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr *ngFor="let category of categories | async">
+					<td>{{ category.title }}</td>
+					<td>
+						<a [routerLink]="['/admin/category/edit', category._id]" class="btn btn-info"> Edit</a>
+						<a [routerLink]="['/admin/category/delete']" class="btn btn-danger"> Delete</a>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+</div>

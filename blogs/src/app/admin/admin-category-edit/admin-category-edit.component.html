@@ -1,0 +1,49 @@
+<div class="col-lg-12">
+	<div class="form-group">
+		<a [routerLink]="['/admin/categories']" class="btn btn-default"> <span class="glyphicon glyphicon-chevron-left"></span> Trở về</a>
+	</div>
+</div>
+
+<div class="container-fluid" *ngIf="category">
+	<div class="row">
+		<form class="form-horizontal" (ngSubmit)="updateCategory(category)" #updateCategoryForm="ngForm">
+
+			<fieldset>
+				<legend class="text-center text-uppercase">Sửa danh mục</legend>
+				<div class="col-lg-12">
+					<div *ngIf="status=='success'" class="alert alert-success" role="alert"> {{ message }} </div>
+					<div *ngIf="status=='error'" class="alert alert-danger" role="alert"> {{ message }} </div>
+				</div>
+
+				<div class="form-group">
+					<label for="title" class="col-lg-12">Tiêu đề</label>
+					<div class="col-lg-12">
+						<input type="text" class="form-control" id="title" name="title" placeholder="Tiêu đề" [(ngModel)]="category.title" #title="ngModel" required minlength="6">
+						<div *ngIf="title.errors?.required && title.touched" class="alert alert-danger">Tiêu đề bắt buộc nhập</div>
+						<div *ngIf="title.errors?.minlength && title.touched" class="alert alert-danger">Tiêu đề bắt buộc phải dài hơn 6 ký tự</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="describe" class="col-lg-12">Mô tả</label>
+					<div class="col-lg-12">
+						<textarea class="form-control" rows="5" id="describe" name="describe" placeholder="Mô tả ngắn gọn về bài viết" [(ngModel)]="category.describe" ngModel></textarea>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-lg-12">
+						<label for="visibility">Hiển thị: </label> <input type="checkbox" id="visibility" name="visibility" 
+						[checked]="category.visibility" (change)="category.visibility = $event.target.checked">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-12">
+						<button type="submit" class="btn btn-primary" [disabled]="updateCategoryForm.invalid">Cập nhật</button>
+						<a [routerLink]="['/admin/categories']" class="btn btn-default">Cancel</a>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>

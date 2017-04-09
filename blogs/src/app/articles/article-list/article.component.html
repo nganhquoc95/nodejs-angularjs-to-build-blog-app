@@ -1,0 +1,38 @@
+<div class="date-outer">
+    <h2 class="date-header"><span>{{ article.created_on }}</span></h2>
+
+    <div class="date-posts">
+
+        <div class="post-outer">
+            <article class="post hentry">
+                <a name="3031361824506875120"></a>
+                <header class="entry-header">
+                    <h1 class="post-title entry-title">
+                        <a [routerLink]="['/bai-viet', article._id]">{{ article.title }}</a>
+                    </h1>
+                </header>
+                <div class="post-header-line-1"></div>
+                <div class="post-body entry-content">
+                    <div id="summary3031361824506875120"><img [src]="srcImage(article)" class="pbtthumbimg">
+                        <div>
+                        	{{ article.describe }}
+                        </div>
+                    </div>
+                    
+                    <script type="text/javascript">
+                        createSummaryAndThumb("summary3031361824506875120");
+                    </script>
+
+                    <div style="float:right;padding-right:10px;margin-top:10px;">
+                        <a class="morer" [routerLink]="['/bai-viet', article._id]">Read More</a>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+                <footer class="entry-meta">
+                    Đăng {{ article.created_on | date: "\'ngày'\ dd\', tháng\' MM\', năm\' yyyy \'| Lúc\' h:m"}}
+                </footer>
+            </article>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+</div>

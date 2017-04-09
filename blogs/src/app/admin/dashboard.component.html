@@ -1,0 +1,37 @@
+<div class="container-fluid">
+	<div class="row banner">
+		<div class="col-md-12">
+			<div class="list-group">
+				<div class="list-group-item">
+					<div class="row-action-primary">
+						<h4 class="list-group-item-heading"><span class="glyphicon glyphicon-folder-open"></span> Quản lý danh mục </h4>
+					</div>
+					<div class="row-content">
+						<a [routerLink]="['/admin/categories']" class="btn btn-default btn-raised">
+							<span class="glyphicon glyphicon-list"></span>
+							Tất cả danh mục</a>
+						<a [routerLink]="['/admin/category/create']" class="btn btn-primary btn-raised">
+							<span class="glyphicon glyphicon-plus"></span>
+							Thêm danh mục</a>
+					</div>
+				</div>
+				<div class="list-group-separator"></div>
+
+				<div class="list-group-item">
+					<div class="row-action-primary">
+						<h4 class="list-group-item-heading"><span class="glyphicon glyphicon-list-alt"></span> Quản lý bài viết </h4>
+					</div>
+					<div class="row-content">
+						<a [routerLink]="['/admin/articles']" class="btn btn-default btn-raised">
+							<span class="glyphicon glyphicon-list"></span>
+							Tất cả bài viết</a>
+						<a [routerLink]="['/admin/article/create']" class="btn btn-primary btn-raised">
+							<span class="glyphicon glyphicon-plus"></span>
+							Bài viết mới</a>
+					</div>
+				</div>
+				<div class="list-group-separator"></div>
+			</div>
+		</div>
+	</div>
+</div>
