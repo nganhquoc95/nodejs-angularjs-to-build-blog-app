@@ -14,15 +14,7 @@
                 </header>
                 <div class="post-header-line-1"></div>
                 <div class="post-body entry-content">
-                    <div class="separator" style="clear: both; text-align: center;">
-                        <a imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;">
-                            <img border="0" src="./assets/images/{{ selectedArticle.image }}" height="240" width="320">
-                        </a>
-                    </div>
-                    
-                    {{ selectedArticle.content }}
-
-                    <div style="clear: both;"></div>
+                    <div [innerHTML]="selectedArticle.content"></div>
                 </div>
             </article>
             <div style="clear: both;"></div>

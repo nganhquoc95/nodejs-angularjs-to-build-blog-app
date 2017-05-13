@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { SelectModule } from 'ng-select';
 
+import { CKEditorModule } from 'ng2-ckeditor';
+
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar.component';
 import { ArticlesComponent } from './articles/articles.component';
@@ -60,7 +62,8 @@ import { AdminCategoryDeleteComponent } from './admin/admin-category-delete/admi
     BrowserModule,
     FormsModule,
     HttpModule,
-    SelectModule
+    SelectModule,
+    CKEditorModule
   ],
   providers: [
     ArticleService,

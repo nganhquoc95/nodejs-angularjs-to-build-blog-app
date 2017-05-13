@@ -21,4 +21,10 @@ export class ArticleDetailComponent implements OnInit {
 			this.selectedArticle = data.article;
 		});
 	}
+
+	srcImage(image){
+		if(image != undefined)
+			return "http://localhost:8000/uploads/"+image;
+		return "/assets/images/image-not-found.png";
+	}
 }

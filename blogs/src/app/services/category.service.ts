@@ -39,5 +39,4 @@ export class CategoryService {
 		.map(response => response.json())
 		.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
 	}
-
 }

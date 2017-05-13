@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, AfterViewChecked } from '@angular/core';
+// import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Article } from '../../models/article';
 import { Category } from '../../models/category';
@@ -17,12 +18,15 @@ export class AdminArticleEditComponent implements OnInit, OnDestroy {
 
 	id: any;
 	params: any;
+	static imgLink: string;
 
 	categories: Observable<Category[]>;
 
 	@Input() article : Article;
 
-	constructor(private activatedRoute: ActivatedRoute, private articleService: ArticleService, private categoryService: CategoryService) { }
+	constructor(private activatedRoute: ActivatedRoute, 
+		private articleService: ArticleService, 
+		private categoryService: CategoryService) { }
 
 	ngOnInit() {
 
@@ -35,15 +39,77 @@ export class AdminArticleEditComponent implements OnInit, OnDestroy {
 		this.categories = this.categoryService.getCategories();
 	}
 
+	fileChange($event): void {
+		let fileList: FileList = $event.target.files;
+		let apiUrl = 'http://localhost:8000/articles/uploads';
+		if (fileList.length > 0) {
+			let file: File = fileList[0];
+			let formData: FormData = new FormData();
+			formData.append('uploadFile', file);
+
+			var xhr = new XMLHttpRequest();
+
+			xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                    	AdminArticleEditComponent.imgLink = xhr.response;
+                    	let uri = "http://localhost:8000/uploads/";
+                    	let imageSelected = document.getElementById('image-selected');
+
+                    	imageSelected.style.backgroundImage = "url('" + uri + xhr.response + "')";
+                    	imageSelected.style.backgroundSize = "100%";
+                    } else {
+                        console.log(xhr.response);
+                    }
+                }
+            }
+            xhr.open("POST", apiUrl, true);
+            xhr.send(formData);
+		}
+	}
+
+	// initBg(){
+	// 	let uri = "http://localhost:8000/uploads/";
+	// 	let imageSelected = document.getElementById('image-selected');
+ //        	imageSelected.style.backgroundImage = "url('" + uri + this.article.image + "')";
+ //        	imageSelected.style.backgroundSize = "100%";
+	// }
+
+	// fileChange($event): void {
+	// 	let fileList: FileList = $event.target.files;
+	// 	if (fileList.length > 0) {
+	// 		let file: File = fileList[0];
+	// 		let formData: FormData = new FormData();
+	// 		this.formData.append('uploadFile', file);
+	// 		this.articleService.upload(this.formData)
+	// 		.subscribe(
+	// 			file=>{
+	// 			console.log(file);
+	// 			},
+	// 			error=>{
+
+	// 			}
+	// 		);
+	// 	}
+	// }
+
 	ngOnDestroy() {
 		this.params.unsubscribe();
 	}
 
 	updateArticle(article) {
-		this.articleService.updateArticle(article)
+		let headers = new Headers();
+			headers.append('Content-Type', 'json');
+			headers.append('Accept', 'multipart/form-data');
+
+		if(AdminArticleEditComponent.imgLink != ""){
+			article.image = AdminArticleEditComponent.imgLink;
+		}
+
+		console.log(article);
+		this.articleService.updateArticle(article._id, article)
 		.subscribe(
 			article=>{
-				console.log(article);
 				this.status = "success";
 				this.message = "Cập nhật bài viết thành công";
 			},
@@ -53,6 +119,18 @@ export class AdminArticleEditComponent implements OnInit, OnDestroy {
 				this.message = error['message'];
 			}
 		);
+
+		this.scrollToTop(100);
+	}
+
+	scrollToTop(scrollDuration) {
+	    var scrollStep = -window.scrollY / (scrollDuration / 15),
+	        scrollInterval = setInterval(function(){
+		        if ( window.scrollY != 0 ) {
+		            window.scrollBy( 0, scrollStep );
+		        }
+		        else clearInterval(scrollInterval); 
+		    },15);
 	}
 
 	onSelected(item){

@@ -35,8 +35,14 @@ export class ArticleService {
 			.catch((error:any) => Observable.throw(error || {message: "Server Error"}));
 	}
 
-	updateArticle(article: Object): Observable<Article[]> {
-		return this.http.put(this.apiUrl + article["_id"], article)
+	updateArticle(id, article: Object): Observable<Article[]> {
+		return this.http.put(this.apiUrl + id, article)
+			.map((response: Response)=>response.json())
+			.catch((error:any) => Observable.throw(error || {message: "Server Error"}));
+	}
+
+	upload(file: Object): Observable<Object> {
+		return this.http.post(this.apiUrl + 'uploads', file)
 			.map((response: Response)=>response.json())
 			.catch((error:any) => Observable.throw(error || {message: "Server Error"}));
 	}

@@ -16,9 +16,9 @@ export class ArticleComponent implements OnInit {
 
 	}
 
-	srcImage(article){
-		if(article != undefined)
-			return "/assets/images/"+article.image;
-		return null;
+	srcImage(image){
+		if(image != undefined)
+			return "http://localhost:8000/uploads/"+image;
+		return "/assets/images/image-not-found.png";
 	}
 }

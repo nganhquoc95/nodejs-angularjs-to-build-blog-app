@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Article } from '../models/article';
 import { ArticleService } from './article.service';
 import { Observable } from 'rxjs/Observable';
@@ -10,7 +10,7 @@ export class ArticleResolverService  implements Resolve<Article> {
 
 	constructor(private articleService: ArticleService,private router: Router) { }
 
-	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Article> {
+	resolve(route: ActivatedRouteSnapshot): Observable<Article> {
 		let id = route.params['id'];
 
 		return this.articleService.getArticle(id).map(

@@ -4,6 +4,7 @@ var express = require('express'),
     bodyParser = require('body-parser'), //parses information from POST
     methodOverride = require('method-override'), //used to manipulate POST
     multer = require('multer');
+var fs = require('fs');
 
 var article = require('../Models/Article');
 var category = require('../Models/Category');
@@ -17,9 +18,25 @@ router.use(methodOverride(function(req, res){
   }
 }));
 
+
+var storage = multer.diskStorage({ //multers disk storage settings
+    destination: function (req, file, cb) {
+        cb(null, './uploads/');
+    },
+    filename: function (req, file, cb) {
+        var datetimestamp = Date.now();
+        cb(null, file.originalname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+    }
+});
+
+var upload = multer({ //multer settings
+    storage: storage
+}).single('uploadFile');
+
+// fs.unlinkSync(link);
 router.route('/')
     .get(function(req, res, next){
-    	article.find({visibility: true},function(err, articles){
+    	article.find({},function(err, articles){
     		if(err){
     			res.send(err);
     		} else{
@@ -39,21 +56,20 @@ router.route('/')
 
     .post(function(req, res) {
         // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
-        var title = req.body.title;
-        var describe = req.body.describe;
-        var content = req.body.content;
-        var visibility = req.body.visibility;
-        var category_id = req.body.category_id;
         var updated_on = new Date();
         var created_on = new Date();
-
+        var image = "";
+        if(req.body.image != undefined && req.body.image != null && req.body.image != ""){
+            image = req.body.image;
+        }
         //call the create function for our database
         article.create({
-            title : title,
-            describe : describe,
-            content : content,
-            visibility : visibility,
-            category_id : category_id,
+            title : req.body.title,
+            image : image,
+            describe : req.body.describe,
+            content : req.body.content,
+            visibility : req.body.visibility,
+            category_id : req.body.category_id,
             updated_on : updated_on,
             created_on : created_on
         }, function (err, category) {
@@ -80,22 +96,6 @@ router.param('id', function(req, res, next, id) {
         } 
     });
 });
-
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, '/blogs/src/uploads/')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-})
-
-var upload = multer({ 
-        storage:storage,
-        onFileUploadStart: function (file) {
-          console.log(file.originalname + ' is starting ...')
-        }
-    }).single('image');
 
 router.route('/category/:cat_id').get(function(req, res){
     var cat_id = Number(req.params.cat_id);
@@ -134,6 +134,17 @@ router.route('/new-articles').get(function(req, res, next){
     });
 });
 
+router.route('/uploads')
+    .post(function(req, res){
+        upload(req, res, function (err) {
+            if(err){
+                res.end(err);
+            }
+
+            res.end(req.file.filename);
+        });
+    });
+
 router.route('/:id')
     .get(function(req, res){
     	article.findById(req.id, function(err, article){
@@ -146,20 +157,9 @@ router.route('/:id')
     		}); 
     	});
     })
-    // upload.single('image')
+
     .put(function (req, res){
 
-        // upload(req, res, function(err){
-        //     console.log(req.files + " - " + req.file);
-        // });
-
-        // return res.json({"error": "Lỗi"});
-
-        var title = req.body.title;
-        var describe = req.body.describe;
-        var content = req.body.content;
-        var visibility = req.body.visibility;
-        var category_id = req.body.category_id;
         var updated_on = new Date();
 
         //find article by ID
@@ -167,11 +167,14 @@ router.route('/:id')
             if (err) {
                 res.json(err);
             } else {
-                article.title= title;
-                article.describe = describe;
-                article.content = content;
-                article.visibility = visibility;
-                article.category_id = category_id;
+                article.title = req.body.title;
+                if(req.body.image != undefined && req.body.image != null){
+                    article.image = req.body.image;
+                }
+                article.describe = req.body.describe;
+                article.content = req.body.content;
+                article.visibility = req.body.visibility;;
+                article.category_id = req.body.category_id;
                 article.updated_on = updated_on;
 
                 article.save(function(err){
@@ -189,6 +192,12 @@ router.route('/:id')
             if (err) {
                 res.json(err);
             } else {
+
+            	var path = './uploads/' + article.image;
+            	if(fs.existsSync(path)){
+            		fs.unlinkSync(path);
+            	}
+
                 //remove it from Mongo
                 article.remove(function (err, article) {
                     if (err) {

@@ -20,4 +20,10 @@ export class CategoryComponent implements OnInit{
 			this.articles = data.articles;
 		});
 	}
+
+	srcImage(image){
+		if(image != undefined)
+			return "http://localhost:8000/uploads/"+image;
+		return "/assets/images/image-not-found.png";
+	}
 }

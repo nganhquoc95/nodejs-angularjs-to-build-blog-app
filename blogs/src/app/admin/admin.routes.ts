@@ -8,6 +8,7 @@ import { AdminArticleDeleteComponent } from './admin-article-delete/admin-articl
 import { AdminCategoryListComponent } from './admin-category-list/admin-category-list.component';
 import { AdminCategoryCreateComponent } from './admin-category-create/admin-category-create.component';
 import { AdminCategoryEditComponent } from './admin-category-edit/admin-category-edit.component';
+import { AdminCategoryDeleteComponent } from './admin-category-delete/admin-category-delete.component';
 
 export const adminRoutes: Routes = [
 	{ path: '', component: DashboardComponent},
@@ -17,5 +18,6 @@ export const adminRoutes: Routes = [
 	{ path: 'article/delete/:id', component: AdminArticleDeleteComponent},
 	{ path: 'categories', component: AdminCategoryListComponent},
 	{ path: 'category/create', component: AdminCategoryCreateComponent},
-	{ path: 'category/edit/:id', component: AdminCategoryEditComponent}
+	{ path: 'category/edit/:id', component: AdminCategoryEditComponent},
+	{ path: 'category/delete/:id', component: AdminCategoryDeleteComponent}
 ];

@@ -6,6 +6,7 @@ var express = require('express'),
     methodOverride = require('method-override'); //used to manipulate POST
 
 var categories = require('../Models/Category');
+var articles = require('../Models/Article');
 
 router.use(methodOverride(function(req, res){
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -122,6 +123,12 @@ router.route('/:id')
             if (err) {
                 res.json(err);
             } else {
+            	articles.find({category_id:category._id},function(err, articles){
+            		articles.forEach(function(item, index){
+            			item.remove();
+            		});
+            	});
+
                 //remove it from Mongo
                 category.remove(function (err, category) {
                     if (err) {

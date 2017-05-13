@@ -8,17 +8,19 @@ var http = require('http'),
 var app = express();
 
 app.use(expressLayouts);
-// app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(__dirname));
 // app.use(express.bodyParser({uploadDir:'./blogs/src/uploads'}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(express.static(__dirname + './blogs/src/uploads'));
+// app.use(express.static(__dirname + './uploads'));
 
 // Set view Engine to EJS
 app.set('port',8000);
-app.set('views', path.join(__dirname ,'public'));
-app.set('view engine','ejs');
-app.set('layout','views/layouts/main');
+app.set('views', __dirname);
+// app.set('views', path.join(__dirname ,'public'));
+// app.set('view engine','ejs');
+// app.set('layout','views/layouts/main');
 
 app.use(function(req, res, next) {
 	res.header("Content-Type", "*/*");

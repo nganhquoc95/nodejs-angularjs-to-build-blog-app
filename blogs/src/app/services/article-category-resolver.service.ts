@@ -9,7 +9,7 @@ export class ArticleCategoryResolverService implements Resolve<Article[]> {
 
   constructor(private articleService: ArticleService,private router: Router) { }
 
-	resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Article[]> {
+	resolve(route: ActivatedRouteSnapshot): Observable<Article[]> {
 		let id = route.params['id'];
 
 		return this.articleService.getArticlesCategories(id).map(
