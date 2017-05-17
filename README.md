@@ -5,7 +5,7 @@ this is project build on nodejs and angularjs
 #### Step 1:run command _npm install_ to install node module:
 > npm install
 
-#### Step 2:create folder _data_ and folder _uploads_inside project.
+#### Step 2:create folder _data_ and folder _uploads_ inside project.
 
 
 #### Step 3:open terminal and goto _Directory Path_ projcet. So,type command with follow:
