@@ -3,10 +3,13 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Category } from './models/category';
 import { CategoryService } from './services/category.service';
 
+import { AuthService } from './services/auth.service';
 import { Article } from './models/article';
 import { ArticleService } from './services/article.service';
 
 import { Observable } from 'rxjs/Observable';
+
+import { RegisterComponent } from './auth/register/register.component';
 
 @Component({
 	selector: 'app-root',
@@ -14,6 +17,10 @@ import { Observable } from 'rxjs/Observable';
 	styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+	status: string;
+	message: string;
+
+	isLoggedIn = false;
 
 	categories: Observable<Category[]>;
 
@@ -21,10 +28,16 @@ export class AppComponent implements OnInit {
 
 	@Output() selectedArticleEvent: EventEmitter<Article> = new EventEmitter<Article>();
 
-	constructor(private categoryService: CategoryService,
+	constructor(
+		private authService: AuthService,
+		private categoryService: CategoryService,
 		private articleService: ArticleService, 
 		private router: Router,
-		private route: ActivatedRoute) { }
+		private route: ActivatedRoute) {
+		if(localStorage.getItem('currentUser')){
+			this.isLoggedIn = true;
+		}
+	}
 
 	ngOnInit() {
 		this.categories = this.categoryService.getCategories();
@@ -50,5 +63,26 @@ export class AppComponent implements OnInit {
 		        }
 		        else clearInterval(scrollInterval); 
 		    },15);
+	}
+
+	login(authUser){
+		this.authService.login(authUser)
+		.subscribe( response => {
+			if(response.status == "error"){
+				this.status = response.status;
+				this.message = response.message;
+			}
+			else{
+				if(localStorage.getItem('currentUser')){
+					this.isLoggedIn = true;
+				}
+			}
+		});
+	}
+
+	logout(){
+		this.authService.logout();
+		this.isLoggedIn = false;
+		this.router.navigate(['/']);
 	}
 }

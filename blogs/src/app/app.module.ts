@@ -12,6 +12,8 @@ import { ArticlesComponent } from './articles/articles.component';
 import { ArticleListComponent } from './articles/article-list/article-list.component';
 import { ArticleComponent } from './articles/article-list/article.component';
 
+import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
 import { ArticleService } from './services/article.service';
 import { ArticleResolverService } from './services/article-resolver.service';
 import { CategoryService } from './services/category.service';
@@ -35,6 +37,9 @@ import { AdminCategoryEditComponent } from './admin/admin-category-edit/admin-ca
 import { AdminCategoryCreateComponent } from './admin/admin-category-create/admin-category-create.component';
 import { AdminCategoryDeleteComponent } from './admin/admin-category-delete/admin-category-delete.component';
 
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,7 +60,9 @@ import { AdminCategoryDeleteComponent } from './admin/admin-category-delete/admi
     AdminCategoryEditComponent,
     AdminCategoryCreateComponent,
     AdminCategoryDeleteComponent,
-    CategoryComponent
+    CategoryComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     routes,
@@ -66,6 +73,8 @@ import { AdminCategoryDeleteComponent } from './admin/admin-category-delete/admi
     CKEditorModule
   ],
   providers: [
+    AuthService,
+    UserService,
     ArticleService,
     CategoryService,
     ArticleResolverService,

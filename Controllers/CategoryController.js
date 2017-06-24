@@ -6,7 +6,6 @@ var express = require('express'),
     methodOverride = require('method-override'); //used to manipulate POST
 
 var categories = require('../Models/Category');
-var articles = require('../Models/Article');
 
 router.use(methodOverride(function(req, res){
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -55,23 +54,37 @@ router.route('/')
         })
     });
 
+function isEmptyObject(obj){
+    if(obj === null || obj === undefined)
+        return true;
+    return !Object.keys(obj).length;
+}
+
 // middleware bắt lỗi :id
 router.param('id', function(req, res, next, id) {
     //tìm id trong DB
     categories.findById(id, function (err, category) {
-        //nếu khong tìm thấy quăng ra lỗi 404
-        if (err) {
+        if(isEmptyObject(category)){
             res.json({
                 "status": "error",
                 "message": "404 page not found"
             });
+        }
+        else{
+            //nếu khong tìm thấy quăng ra lỗi 404
+            if (err) {
+                res.json({
+                    "status": "error",
+                    "message": "404 page not found"
+                });
 
-        //nếu tìm thấy thì tiếp tục
-        } else {
-            // Kiểm tra xác nhận get / put / delete sau đó lưu lại mục id trong yêu cầu
-            req.id = id;
-            // tới bước tiếp theo
-            next(); 
+            //nếu tìm thấy thì tiếp tục
+            } else {
+                // Kiểm tra xác nhận get / put / delete sau đó lưu lại mục id trong yêu cầu
+                req.id = id;
+                // tới bước tiếp theo
+                next(); 
+            }
         } 
     });
 });
@@ -123,12 +136,6 @@ router.route('/:id')
             if (err) {
                 res.json(err);
             } else {
-            	articles.find({category_id:category._id},function(err, articles){
-            		articles.forEach(function(item, index){
-            			item.remove();
-            		});
-            	});
-
                 //remove it from Mongo
                 category.remove(function (err, category) {
                     if (err) {

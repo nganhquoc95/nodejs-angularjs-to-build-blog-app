@@ -13,9 +13,8 @@
 				<div class="form-group">
 					<label for="title" class="col-lg-12">Tiêu đề</label>
 					<div class="col-lg-12">
-						<input type="text" class="form-control" id="title" name="title" placeholder="Tiêu đề" ngModel #title="ngModel" required minlength="6">
+						<input type="text" class="form-control" id="title" name="title" placeholder="Tiêu đề" ngModel #title="ngModel" required>
 						<div *ngIf="title.errors?.required && title.touched" class="alert alert-danger">Tiêu đề bắt buộc nhập</div>
-						<div *ngIf="title.errors?.minlength && title.touched" class="alert alert-danger">Tiêu đề bắt buộc phải dài hơn 6 ký tự</div>
 					</div>
 				</div>
 

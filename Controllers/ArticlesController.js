@@ -1,10 +1,10 @@
-var express = require('express'),
+var fs = require('fs'),
+    express = require('express'),
     router = express.Router(),
     mongoose = require('mongoose'), //mongo connection
     bodyParser = require('body-parser'), //parses information from POST
     methodOverride = require('method-override'), //used to manipulate POST
     multer = require('multer');
-var fs = require('fs');
 
 var article = require('../Models/Article');
 var category = require('../Models/Category');
@@ -18,14 +18,21 @@ router.use(methodOverride(function(req, res){
   }
 }));
 
-
 var storage = multer.diskStorage({ //multers disk storage settings
     destination: function (req, file, cb) {
         cb(null, './uploads/');
     },
     filename: function (req, file, cb) {
-        var datetimestamp = Date.now();
-        cb(null, file.originalname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+        var str_split = file.originalname.split('.'),
+            originalname = "";
+        for(var i = 0; i < str_split.length - 1; i++){
+            originalname += str_split[i];
+            if(i < str_split.length - 2){
+                originalname += ".";
+            }
+        }
+        originalname += "-" + Date.now() + ".";
+        cb(null, originalname + file.originalname.split('.')[file.originalname.split('.').length -1]);
     }
 });
 
@@ -33,7 +40,17 @@ var upload = multer({ //multer settings
     storage: storage
 }).single('uploadFile');
 
-// fs.unlinkSync(link);
+router.route('/uploads')
+    .post(function(req, res){
+        upload(req, res, function (err) {
+            if(err){
+                res.end(err);
+            }
+
+            res.end(req.file.filename);
+        });
+    });
+
 router.route('/')
     .get(function(req, res, next){
     	article.find({},function(err, articles){
@@ -82,18 +99,32 @@ router.route('/')
         });
     });
 
+function isEmptyObject(obj){
+    if(obj === null || obj === undefined)
+        return true;
+    return !Object.keys(obj).length;
+}
+
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {
     article.findById(id, function (err, article) {
-        if (err) {
+        if(isEmptyObject(article)){
             res.json({
-                "message": "404 Page not found",
-                "err": err
+                "status": "error",
+                "message": "404 Page not found"
             });
-        } else {
-            req.id = id;
-            next(); 
-        } 
+        }
+        else{
+            if (err) {
+                res.json({
+                    "message": "404 Page not found",
+                    "err": err
+                });
+            } else {
+                req.id = id;
+                next(); 
+            } 
+        }
     });
 });
 
@@ -133,17 +164,6 @@ router.route('/new-articles').get(function(req, res, next){
         }
     });
 });
-
-router.route('/uploads')
-    .post(function(req, res){
-        upload(req, res, function (err) {
-            if(err){
-                res.end(err);
-            }
-
-            res.end(req.file.filename);
-        });
-    });
 
 router.route('/:id')
     .get(function(req, res){
@@ -187,23 +207,24 @@ router.route('/:id')
         });
     })
     .delete(function (req, res){
-        //find article by ID
         article.findById(req.id, function (err, article) {
             if (err) {
                 res.json(err);
             } else {
+                var img = null;
+                if(article.image !== null && article.image !== undefined && article.image.length > 0 && article.image !== ""){
+                    var img = __dirname + "/../uploads/" + article.image;
+                }
 
-            	var path = './uploads/' + article.image;
-            	if(fs.existsSync(path)){
-            		fs.unlinkSync(path);
-            	}
-
-                //remove it from Mongo
                 article.remove(function (err, article) {
                     if (err) {
                         res.json(err);
                     } else {
-                        //Returning success messages saying it was deleted
+                        if(img !== null){
+                            if(fs.existsSync(img))
+                                fs.unlinkSync(img);
+                        }
+
                         res.json({
                             'status': "success",
                             "message": '1 article has been deleted'

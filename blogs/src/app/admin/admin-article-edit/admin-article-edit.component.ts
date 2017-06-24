@@ -106,7 +106,6 @@ export class AdminArticleEditComponent implements OnInit, OnDestroy {
 			article.image = AdminArticleEditComponent.imgLink;
 		}
 
-		console.log(article);
 		this.articleService.updateArticle(article._id, article)
 		.subscribe(
 			article=>{

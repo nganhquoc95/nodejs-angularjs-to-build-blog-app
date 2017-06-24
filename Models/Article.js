@@ -1,7 +1,8 @@
-// var AutoIncrement = require('mongoose-sequence');
+var AutoIncrement = require('mongoose-sequence');
 var mongoose = require('mongoose');
 
 var Article = new mongoose.Schema({
+	_id: Number,
 	title: String,
 	slug: String,
 	describe: String,
@@ -11,9 +12,8 @@ var Article = new mongoose.Schema({
 	category_id : Number,
 	created_on: { type: Date, default: Date.now },
 	updated_on: { type: Date, default: Date.now }
-});
-// }, { _id: false });
+}, { _id: false });
 
-// Article.plugin(AutoIncrement);
+Article.plugin(AutoIncrement, {id: 'article_id_counter'});
 
 module.exports = mongoose.model('Article', Article, 'articles');;

@@ -11,6 +11,6 @@ var Category = new mongoose.Schema({
 	updated_on: { type: Date, default: Date.now }
 }, { _id: false });
 
-Category.plugin(AutoIncrement);
+Category.plugin(AutoIncrement,{id: 'category_id_counter'});
 
 module.exports = mongoose.model('Category', Category, 'Categories');
