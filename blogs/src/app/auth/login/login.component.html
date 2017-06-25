@@ -1,3 +1,32 @@
-<p>
-  login works!
-</p>
+<div *ngIf="!isLoggedIn" class="widget HTML" data-version="1" id="HTML1">
+	<h2 class="title">Đăng nhập</h2>
+	<div class="widget-content">
+		<form class="form-vertical" (ngSubmit)="login(loginForm.value)" #loginForm="ngForm">
+			<div *ngIf="status=='error'" class="text-red">{{ message }}</div>
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input type="email" class="form-control" id="email" name="email" ngModel placeholder="E-Mail" required>
+			</div>
+			<div class="form-group">
+				<label for="password">Mật khẩu</label>
+				<input type="password" class="form-control" id="password" ngModel name="password" placeholder="Password" required>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-sm btn-primary" [disabled]="loginForm.invalid">Đăng nhập</button>
+				<a style="border: 1px solid #ddd;" class="btn btn-sm btn-link" [routerLink]="['/register']">Đăng ký</a>
+			</div>
+		</form>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<div *ngIf="isLoggedIn" class="widget HTML" data-version="1" id="HTML1">
+	<h2 class="title">Bảng điều khiển</h2>
+	<div class="widget-content">
+		<div class="list-group">
+			<a style="border: 1px solid #ddd;" class="list-group-item" [routerLink]="['/admin']">Trang Quản Trị</a>
+			<a style="border: 1px solid #ddd;" class="btn-link list-group-item" (click)="logout()">Đăng xuất</a>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>

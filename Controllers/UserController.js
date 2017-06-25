@@ -37,6 +37,13 @@ router.route('/')
 router.route('/create')
     .post(function(req,res){
 
+        if(req.body.password !== req.body.confirm_password){
+            res.json({
+                "status": "error",
+                "message": "Mật khẩu không khớp, kiểm tra lại"
+            });
+        }
+
         // Check if has exists user
         users.find({"email": req.body.email}, function(err, user){
             if(err){
@@ -52,54 +59,59 @@ router.route('/create')
                         "message": "Email này đã tồn tại"
                     });
                 }
-            }
-        });
-
-        if(req.body.password !== req.body.confirm_password){
-            res.json({
-                "status": "error",
-                "message": "Mật khẩu không khớp, kiểm tra lại"
-            });
-        }
-
-        users.find({}, function(err, results){
-            if(err){
-                res.json({
-                    "status": "error",
-                    "message": err
-                })
-            }
-
-            role = "member";
-            if(results.length === 0){
-                role = "admin";
-            }
-
-            users.create({
-                name: req.body.name,
-                email: req.body.email,
-                password: sha1(req.body.password),
-                phone: req.body.phone,
-                address: req.body.address,
-                gender: req.body.gender,
-                born: req.body.born,
-                image: req.body.image,
-                role: role,
-            }, function(err, user){
-                if(err){
-                    res.json({
-                        "status": "error",
-                        "message": err
-                    });
-                }
                 else{
-                    res.json({
-                        "status": "success",
-                        "message": "Đăng ký thành công",
-                        "user": user
+                    users.find({}, function(err, results){
+                        if(err){
+                            res.json({
+                                "status": "error",
+                                "message": err
+                            })
+                        }
+
+                        role = "member";
+                        if(results.length === 0){
+                            role = "admin";
+                        }
+
+                        // res.json({
+                        //     "status": "success",
+                        //     "message": "Đăng ký thành công",
+                        //     "user": {
+                        //         'id': 1,
+                        //         'name': "Nguyễn Anh Quốc",
+                        //         "email": "nganhquoc95@gmail.com",
+                        //         "role": "admin"
+                        //     }
+                        // });
+
+                        users.create({
+                            name: req.body.name,
+                            email: req.body.email,
+                            password: sha1(req.body.password),
+                            phone: req.body.phone,
+                            address: req.body.address,
+                            gender: req.body.gender,
+                            born: req.body.born,
+                            image: req.body.image,
+                            role: role
+                        }, function(err, user){
+                            if(err){
+                                res.json({
+                                    "status": "error",
+                                    "message": err
+                                });
+                            }
+                            else{
+                                res.json({
+                                    "status": "success",
+                                    "message": "Đăng ký thành công",
+                                    "user": user
+                                });
+                            }
+                        });
                     });
                 }
-            });
+            }
         });
     });
 

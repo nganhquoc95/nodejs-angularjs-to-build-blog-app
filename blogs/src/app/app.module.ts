@@ -40,6 +40,11 @@ import { AdminCategoryDeleteComponent } from './admin/admin-category-delete/admi
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 
+import { AdminUserListComponent } from './admin/user/admin-user-list/admin-user-list.component';
+import { AdminUserDeleteComponent } from './admin/user/admin-user-delete/admin-user-delete.component';
+import { AdminUserUpdateComponent } from './admin/user/admin-user-update/admin-user-update.component';
+import { AdminUserCreateComponent } from './admin/user/admin-user-create/admin-user-create.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +67,11 @@ import { RegisterComponent } from './auth/register/register.component';
     AdminCategoryDeleteComponent,
     CategoryComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AdminUserListComponent,
+    AdminUserDeleteComponent,
+    AdminUserUpdateComponent,
+    AdminUserCreateComponent
   ],
   imports: [
     routes,

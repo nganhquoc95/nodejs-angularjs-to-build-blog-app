@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router} from '@angular/router';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
@@ -11,11 +11,8 @@ import { Observable } from 'rxjs/Observable';
 	})
 export class RegisterComponent implements OnInit {
 
-	isLoggedIn = false;
 	status: string;
 	message: string;
-
-	@Output() emitLoggedIn:EventEmitter<any> = new EventEmitter();
 
 	constructor( private userService: UserService, private router: Router ) { }
 
@@ -29,7 +26,6 @@ export class RegisterComponent implements OnInit {
 			this.message = response.message;
 
 			if(this.status == "success"){
-				this.emitLoggedIn.emit(this.isLoggedIn);
 				localStorage.setItem('currentUser', JSON.stringify(response.user));
 				this.router.navigate(['/']);
 			}

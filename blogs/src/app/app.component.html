@@ -17,38 +17,7 @@
 	<div class="sidebar-containerbwrap" id="secondarybwrap" role="complementary">
 		<div class="widget-areabwrap">
 			<div class="bsidebarright section" id="bsidebarright">
-				<div *ngIf="!isLoggedIn" class="widget HTML" data-version="1" id="HTML1">
-					<h2 class="title">Đăng nhập</h2>
-					<div class="widget-content">
-						<form class="form-vertical" (ngSubmit)="login(loginForm.value)" #loginForm="ngForm">
-							<div *ngIf="status=='error'" class="text-red">{{ message }}</div>
-							<div class="form-group">
-								<label for="email">Email</label>
-								<input type="email" class="form-control" id="email" name="email" ngModel placeholder="E-Mail">
-							</div>
-							<div class="form-group">
-								<label for="password">Mật khẩu</label>
-								<input type="password" class="form-control" id="password" ngModel name="password" placeholder="Password">
-							</div>
-							<div class="form-group">
-								<button type="submit" class="btn btn-sm btn-primary">Đăng nhập</button>
-								<a style="border-bottom:0px;" class="btn btn-sm btn-link" [routerLink]="['/register']">Đăng ký</a>
-							</div>
-						</form>
-					</div>
-					<div class="clear"></div>
-				</div>
-
-				<div *ngIf="isLoggedIn" class="widget HTML" data-version="1" id="HTML1">
-					<h2 class="title">Bảng điều khiển</h2>
-					<div class="widget-content">
-						<div class="list-group">
-							<a style="border-bottom:0px;" class="list-group-item" [routerLink]="['/admin']">Trang Quản Trị</a>
-							<a style="border-bottom:0px;" class="btn-link list-group-item" (click)="logout()">Đăng xuất</a>
-						</div>
-					</div>
-					<div class="clear"></div>
-				</div>
+				<app-login></app-login>
 
 				<div class="widget HTML" data-version="1" id="HTML1">
 					<h2 class="title">Bài viết mới</h2>
