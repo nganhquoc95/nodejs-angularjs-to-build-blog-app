@@ -9,6 +9,7 @@ import { CategoryComponent } from './articles/category/category.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { AdminComponent } from './admin/admin.component';
+import { ProfileComponent } from './profile/profile.component';
 
 import { ArticleResolverService } from './services/article-resolver.service';
 import { ArticleCategoryResolverService } from './services/article-category-resolver.service';
@@ -24,6 +25,7 @@ const appRoutes: Routes = [
   { path: 'danh-muc/:id', component: CategoryComponent, resolve: {articles: ArticleCategoryResolverService} },
   { path: 'lien-he', component: ContactComponent },
   { path: 've-chung-toi', component: AboutComponent },
+  { path: 'profiles', component: ProfileComponent },
   { path: 'admin', component: AdminComponent, children: adminRoutes }
 ];
 

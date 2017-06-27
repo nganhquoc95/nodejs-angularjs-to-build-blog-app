@@ -1,3 +1,38 @@
-<p>
-  admin-user-list works!
-</p>
+<div class="col-md-12">
+	<a [routerLink]="['/admin/user/create']" class="btn btn-success btn-raised">
+		<span class="glyphicon glyphicon-plus"></span> Tạo thành viên
+	</a>
+	<a [routerLink]="['/admin']" class="btn btn-default btn-raised">
+		<span class="glyphicon glyphicon-chevron-left"></span> Trở về
+	</a>
+</div>
+
+<div class="col-md-12">
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="text-center">Họ &amp; Tên</th>
+					<th class="text-center">Email</th>
+					<th class="text-center" style="white-space: nowrap;">Ngày Tham Gia</th>
+					<th class="text-center" style="width: 140px;">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr *ngFor="let user of users | async">
+					<ng-template [ngIf]="user.role!='admin'">
+						<td>{{ user.name }}</td>
+						<td>{{ user.email }}</td>
+						<td class="text-center">{{ user.created_on | date: "dd/MM/yyyy HH:mm" }}</td>
+						<td class="text-center">
+							<a [routerLink]="['/admin/user/edit', user._id]" class="btn btn-sm btn-info inline"> Sửa</a>
+							<a [routerLink]="['/admin/user/delele', user._id]" class="btn btn-sm btn-danger inline"> Xóa</a>
+						</td>
+					</ng-template>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+</div>

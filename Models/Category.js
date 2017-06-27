@@ -7,6 +7,7 @@ var Category = new mongoose.Schema({
 	describe: String,
 	slug: String,
 	visibility: Boolean,
+	user_id: Number,
 	created_on: { type: Date, default: Date.now },
 	updated_on: { type: Date, default: Date.now }
 }, { _id: false });

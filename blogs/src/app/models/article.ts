@@ -7,6 +7,7 @@ export class Article {
 		public image:string,
 		public visibility:boolean,
 		public category_id:string,
+		public user_id:string,
 		public updated_on:number,
 		public created_on:number
 		) { }

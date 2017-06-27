@@ -44,6 +44,7 @@ import { AdminUserListComponent } from './admin/user/admin-user-list/admin-user-
 import { AdminUserDeleteComponent } from './admin/user/admin-user-delete/admin-user-delete.component';
 import { AdminUserUpdateComponent } from './admin/user/admin-user-update/admin-user-update.component';
 import { AdminUserCreateComponent } from './admin/user/admin-user-create/admin-user-create.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { AdminUserCreateComponent } from './admin/user/admin-user-create/admin-u
     AdminUserListComponent,
     AdminUserDeleteComponent,
     AdminUserUpdateComponent,
-    AdminUserCreateComponent
+    AdminUserCreateComponent,
+    ProfileComponent
   ],
   imports: [
     routes,

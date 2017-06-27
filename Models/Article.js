@@ -10,6 +10,7 @@ var Article = new mongoose.Schema({
 	image: String,
 	visibility: Boolean,
 	category_id : Number,
+	user_id: Number,
 	created_on: { type: Date, default: Date.now },
 	updated_on: { type: Date, default: Date.now }
 }, { _id: false });

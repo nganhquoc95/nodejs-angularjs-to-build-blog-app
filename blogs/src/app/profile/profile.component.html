@@ -1,17 +1,10 @@
-<div class="col-lg-12">
-	<div class="form-group">
-		<a [routerLink]="['/admin/users']" class="btn btn-default"> <span class="glyphicon glyphicon-chevron-left"></span> Trở về</a>
-	</div>
-</div>
-
 <div class="container-fluid">
-	<div class="row" *ngIf="user">
-		<form class="form-horizontal" (ngSubmit)="updateUser(updateUserForm.value)" #updateUserForm="ngForm">
+	<div class="row">
+		<form class="form-horizontal" (ngSubmit)="updateProfiles(profilesForm.value)" #profilesForm="ngForm">
 			<fieldset>
-				<legend class="text-center text-uppercase">Cập nhật thành viên</legend>
+				<legend class="text-center text-uppercase">Thông tin cá nhân</legend>
 				<div *ngIf="status=='error'" class="text-red">{{ message }}</div>
 				<div *ngIf="status=='success'" class="text-green">{{ message }}</div>
-				<div *ngIf="error" class="text-red">{{ error }}</div>
 				<div class="form-group">
 					<label for="name" class="col-lg-12">Họ và tên</label>
 					<div class="col-lg-12">
@@ -23,8 +16,7 @@
 				<div class="form-group">
 					<label for="email" class="col-lg-12">E-Mail</label>
 					<div class="col-lg-12">
-						<input type="email" class="form-control" id="email" name="email" placeholder="Email" [(ngModel)]="user.email"  ngModel #email="ngModel" required>
-						<div *ngIf="email.errors?.required && email.touched" class="alert alert-danger">E-Mail là trường bắt buộc nhập</div>
+						<input type="email" class="form-control" id="email" name="email" placeholder="Email" [(ngModel)]="user.email" disabled>
 					</div>
 				</div>
 
@@ -41,32 +33,33 @@
 				<div class="form-group">
 					<label for="password" class="col-lg-12">Password</label>
 					<div class="col-lg-12">
-						<input type="password" class="form-control" id="password" name="password" placeholder="Password" ngModel #password="ngModel" minlength="6">
+						<input type="password" class="form-control" id="password" name="password" placeholder="Password" ngModel #password="ngModel" required minlength="6">
+						<div *ngIf="password.errors?.required && password.touched" class="alert alert-danger">
+							Mật khẩu là trường bắt buộc</div>
 						<div *ngIf="password.errors?.minlength && password.touched" class="alert alert-danger">
 							Mật khẩu phải tối thiểu là 6 ký tự</div>
 					</div>
 				</div>
-
+<!-- 
 				<div class="form-group">
 					<label for="confirm_password" class="col-lg-12">Confirm Password</label>
 					<div class="col-lg-12">
-						<input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password" ngModel #confirm_password="ngModel">
+						<input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password" ngModel #confirm_password="ngModel" required>
+						<div *ngIf="confirm_password.errors?.required && confirm_password.touched" class="alert alert-danger">
+							Nhập lại mật khẩu không được bỏ trống</div>
 						<div *ngIf="confirm_password.value!=password.value && confirm_password.touched" class="alert alert-danger">
 							Mật khẩu không khớp</div>
 					</div>
-				</div>
+				</div> -->
 
 				<div class="form-group">
 					<div class="col-lg-12">
-						<button type="submit" class="btn btn-primary" [disabled]="updateUserForm.invalid">Đồng Ý</button>
-						<a [routerLink]="['/admin/users']" class="btn btn-default">Hủy bỏ</a>
+						<button type="submit" class="btn btn-primary" [disabled]="profilesForm.invalid">Cập nhật</button>
+						<a [routerLink]="['/']" class="btn btn-default"> <span class="glyphicon glyphicon-chevron-left"></span> Trở về</a>
 					</div>
 				</div>
 			</fieldset>
 		</form>
-	</div>
-	<div class="row" *ngIf="!user">
-		<h3>Không tồn tại thành viên này, hoặc server đang bị lỗi</h3>
 	</div>
 </div>
 

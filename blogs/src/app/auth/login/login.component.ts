@@ -29,6 +29,11 @@ export class LoginComponent implements OnInit {
 	}
 
 	login(authUser){
+		// localStorage.setItem('currentUser',JSON.stringify({_id: 5,name: "Anh QUoc", password: "123123123", role:"admin"}));
+
+		// if(localStorage.getItem('currentUser')){
+		// 	this.isLoggedIn = true;
+		// }
 		this.authService.login(authUser)
 		.subscribe( response => {
 			if(response.status == "error"){
@@ -44,6 +49,8 @@ export class LoginComponent implements OnInit {
 	}
 
 	logout(){
+		this.status = "";
+		this.message = "";
 		this.authService.logout();
 		this.isLoggedIn = false;
 		this.router.navigate(['/']);

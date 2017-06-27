@@ -53,7 +53,7 @@ router.route('/uploads')
 
 router.route('/')
     .get(function(req, res, next){
-    	article.find({},function(err, articles){
+    	article.find({}, function(err, articles){
     		if(err){
     			res.send(err);
     		} else{

@@ -8,7 +8,7 @@ var http = require('http'),
 
 var app = express();
 
-app.use(session({secret: 'blogapps', saveUninitialized: true, resave: true}));
+app.use(session({secret: 'blogapps-nodejs', saveUninitialized: true, resave: true}));
 
 app.use(express.static(__dirname));
 app.use(bodyParser.json());

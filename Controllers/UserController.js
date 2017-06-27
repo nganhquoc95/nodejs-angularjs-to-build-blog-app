@@ -121,9 +121,7 @@ function isEmptyObject(obj){
     return !Object.keys(obj).length;
 }
 
-// middleware bắt lỗi :id
 router.param('id', function(req, res, next, id) {
-    //tìm id trong DB
     users.findById(id, function (err, user) {
         if(isEmptyObject(user)){
             res.json({
@@ -132,23 +130,33 @@ router.param('id', function(req, res, next, id) {
             });
         }
         else{
-            //nếu khong tìm thấy quăng ra lỗi 404
             if (err) {
                 res.json({
                     "status": "error",
                     "message": "404 page not found"
                 });
-
-            //nếu tìm thấy thì tiếp tục
             } else {
-                // Kiểm tra xác nhận get / put / delete sau đó lưu lại mục id trong yêu cầu
                 req.id = id;
-                // tới bước tiếp theo
                 next(); 
             }
         }
     });
 });
+
+
+router.route("/:id")
+    .get(function(req, res){
+        users.findById(req.id, function(err, user){
+            if(err){
+                res.json(err);
+            } else{
+                res.json({
+                    "status": "success",
+                    "user": user
+                });
+            }
+        });
+    });
 
 router.route('/:id/update')
     .put(function(req,res){
@@ -160,7 +168,62 @@ router.route('/:id/update')
                 });
             }
             else{
+                if(req.body.password.trim().length===0){
+                    delete req.body.password;
+                    delete req.body.confirm_password;
+                }
+                else{
+                    delete req.body.confirm_password;
+                    req.body.password = sha1(req.body.password);
+                }
+
                 user.update(req.body, function(err, user){
+                    if(err){
+                        res.json({
+                            "status": "error",
+                            "message": err
+                        });
+                    }
+                    else{
+                        res.json({
+                            "status": "success",
+                            "message": "Cập nhật thông tin thành công",
+                            "user": user
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+router.route('/:id/profiles')
+    .put(function(req,res){
+        users.findById(req.id, function(err, user){
+            if(err){
+                res.json({
+                    "status": "error",
+                    "message": err
+                });
+            }
+            else{
+                var new_pass = sha1(req.body.password);
+                if(req.body.password == req.body.confirm_password && req.body.password.length!==0){
+                    req.body.password = new_pass;
+                    delete req.body.confirm_password;
+                }
+                else if(new_pass==user.password){
+                    delete req.body.password;
+                    delete req.body.confirm_password;
+                }
+                else if(new_pass!=user.password){
+                    res.json({
+                        "status": "error",
+                        "message": "Sai mật khẩu, nhập lại"
+                    });
+                    return false;
+                }
+
+                user.update(req.body, function(err){
                     if(err){
                         res.json({
                             "status": "error",

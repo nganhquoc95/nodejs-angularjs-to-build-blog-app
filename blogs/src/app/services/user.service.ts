@@ -14,7 +14,7 @@ export class UserService {
 
 	getAll(): Observable<User[]> {
 		return this.http.get(this.apiUrl)
-		.map(response => response.json().categories);
+		.map(response => response.json().users);
 	}
 
 	getById(id: string) {
@@ -23,13 +23,21 @@ export class UserService {
 	}
 
 	create(user: Object) {
-		return this.http.post(this.apiUrl + "/create", user)
+		return this.http.post(this.apiUrl + "create", user)
 			.map((response: Response)=>response.json())
 			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
 	}
 
-	update(user: Object): Observable<User[]> {
+	update(user: Object){
+		console.log(user);
 		return this.http.put(this.apiUrl + user["_id"] + "/update", user)
+			.map((response: Response)=>response.json())
+			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
+	}
+
+	profiles(user: Object){
+		console.log(user);
+		return this.http.put(this.apiUrl + user["_id"] + "/profiles", user)
 			.map((response: Response)=>response.json())
 			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
 	}
