@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category } from '../../models/category';
-import { CategoryService } from '../../services/category.service';
+import { AdminCategoryService } from '../../services/admin/category.service';
 
 @Component({
 	selector: 'app-admin-category-create',
@@ -10,16 +10,19 @@ import { CategoryService } from '../../services/category.service';
 })
 export class AdminCategoryCreateComponent implements OnInit {
 
-	constructor(private categoryService: CategoryService, private router: Router) { }
+	status: string;
+	message: string;
+
+	constructor(private categoryService: AdminCategoryService, private router: Router) { }
 
 	ngOnInit() {
-
 	}
 
 	onSubmitCreate(category){
 		this.categoryService.addCategory(category)
-		.subscribe( category=>{
-			console.log(category);
+		.subscribe( response =>{
+			this.status = response.status;
+			this.message = response.message;
 			this.router.navigate(['/admin/categories']);
 		},
 		error => console.log(<any>error));

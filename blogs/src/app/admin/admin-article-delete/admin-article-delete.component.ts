@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ArticleService } from '../../services/article.service';
+import { AdminArticleService } from '../../services/admin/article.service';
 
 @Component({
 	selector: 'app-admin-article-delete',
@@ -11,7 +11,7 @@ export class AdminArticleDeleteComponent implements OnInit, OnDestroy {
 	id: any;
 	params: any;
 
-	constructor(private activatedRoute: ActivatedRoute,private articleService: ArticleService, private router: Router) { }
+	constructor(private activatedRoute: ActivatedRoute,private articleService: AdminArticleService, private router: Router) { }
 
 	ngOnInit() {
 		this.params = this.activatedRoute.params.subscribe(params=>this.id=params['id']);

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../../models/user';
-import { UserService } from '../../../services/user.service';
+import { AdminUserService } from '../../../services/admin/user.service';
 
 @Component({
 	selector: 'app-admin-user-update',
@@ -20,7 +20,7 @@ export class AdminUserUpdateComponent implements OnInit {
 
 	@Input() user : User;
 
-	constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService) {
+	constructor(private router: Router, private activatedRoute: ActivatedRoute, private userService: AdminUserService) {
 		this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 		if(!localStorage.getItem('currentUser') || this.currentUser.role!="admin"){
 			this.router.navigate(['/admin/']);

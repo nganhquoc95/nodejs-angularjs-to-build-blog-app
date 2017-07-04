@@ -1,24 +1,24 @@
 var fs = require('fs'),
     express = require('express'),
     router = express.Router(),
-    mongoose = require('mongoose'), //mongo connection
-    bodyParser = require('body-parser'), //parses information from POST
-    methodOverride = require('method-override'), //used to manipulate POST
+    mongoose = require('mongoose'),
+    bodyParser = require('body-parser'),
+    methodOverride = require('method-override'),
     multer = require('multer');
 
-var article = require('../Models/Article');
-var category = require('../Models/Category');
+var article = require('../../Models/Article');
+var category = require('../../Models/Category');
+var users = require('../../Models/User');
 
 router.use(methodOverride(function(req, res){
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-    // look in urlencoded POST bodies and delete it
     var method = req.body._method
     delete req.body._method
     return method
   }
 }));
 
-var storage = multer.diskStorage({ //multers disk storage settings
+var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/');
     },
@@ -36,51 +36,85 @@ var storage = multer.diskStorage({ //multers disk storage settings
     }
 });
 
-var upload = multer({ //multer settings
+function isEmptyObject(obj){
+    if(obj === null || obj === undefined)
+        return true;
+    return !Object.keys(obj).length;
+}
+
+router.use(function(req, res, next){
+    if(req.headers.authorization){
+        var param_user = req.headers.authorization.split(':');
+        users.find({_id: param_user[0], password: param_user[1]}, function(err, user){
+            if(err){
+                res.json({
+                    "status": "error",
+                    "message": err
+                });
+            } else{
+                if(isEmptyObject(user)){
+                    res.json({
+                        "status": "error",
+                        "message": "Authorization!"
+                    });
+                } else{
+                    req.user_id = param_user[0];
+                    req.user_role = user.role;
+                    next()
+                }
+            }
+        });
+    } else{
+        res.json({
+            "status": "error",
+            "message": "Authorization!"
+        });
+    }
+});
+
+var upload = multer({
     storage: storage
 }).single('uploadFile');
 
-router.route('/uploads')
-    .post(function(req, res){
-        upload(req, res, function (err) {
-            if(err){
-                res.end(err);
-            }
+router.route('/uploads').post(function(req, res){
+    upload(req, res, function (err) {
+        if(err){
+            res.end(err);
+        }
 
-            res.end(req.file.filename);
-        });
+        res.end(req.file.filename);
     });
+});
 
 router.route('/')
     .get(function(req, res, next){
-    	article.find({}, null, {sort: {created_on: -1}}, function(err, articles){
-    		if(err){
-    			res.send(err);
-    		} else{
+        article.find({ user_id: req.user_id }, null, {sort: {created_on: -1}}, function(err, articles){
+            if(err){
+                res.send({
+                    "status": "error",
+                    "message": err
+                });
+            } else{
                 category.find({},function(err, categories){
                     if (err){
                         res.json(err);
                     }
                     res.json({
-                        "status": "success",
                         "title": "Danh sách bài viết",
                         "articles": articles,
                         "categories": categories
                     }); 
                 });
-    		}
-    	});
+            }
+        });
     })
-
     .post(function(req, res) {
-        // Get values from POST request. These can be done through forms or REST calls. These rely on the "name" attributes for forms
         var updated_on = new Date();
         var created_on = new Date();
         var image = "";
         if(req.body.image != undefined && req.body.image != null && req.body.image != ""){
             image = req.body.image;
         }
-        //call the create function for our database
         article.create({
             title : req.body.title,
             image : image,
@@ -88,15 +122,22 @@ router.route('/')
             content : req.body.content,
             visibility : req.body.visibility,
             category_id : req.body.category_id,
+            user_id : req.user_id,
             updated_on : updated_on,
             created_on : created_on
         }, function (err, category) {
             if (err) {
-                res.json(err);
+                res.json({
+                    "status": "error",
+                    "message": err
+                });
             }
-            res.json({
-                "message": "Bài viết đã được thêm"
-            });
+            else{
+                res.json({
+                    "status": "success",
+                    "message": "Bài viết đã được thêm"
+                });
+            }
         });
     });
 
@@ -108,18 +149,17 @@ function isEmptyObject(obj){
 
 // route middleware to validate :id
 router.param('id', function(req, res, next, id) {
-    article.findById(id, function (err, article) {
+    article.find({ _id: id, user_id: req.user_id }, function (err, article) {
         if(isEmptyObject(article)){
             res.json({
                 "status": "error",
                 "message": "404 Page not found"
             });
-        }
-        else{
+        } else{
             if (err) {
                 res.json({
-                    "message": "404 Page not found",
-                    "err": err
+                    "error": err,
+                    "message": "404 Page not found"
                 });
             } else {
                 req.id = id;
@@ -129,64 +169,28 @@ router.param('id', function(req, res, next, id) {
     });
 });
 
-router.route('/category/:cat_id').get(function(req, res){
-    var cat_id = Number(req.params.cat_id);
-    if(isNaN(cat_id)){
-        res.json({"error": "404 Page not found"});
-        return;
-    }
-    article.find({category_id : cat_id}).exec(function(err, articles){
-        if (err){
-            res.json(err);
-        }
-        res.json({
-            "status": "success",
-            "articles": articles
-        }); 
-    });
-});
-
-// Limit 5
-router.route('/new-articles').get(function(req, res, next){
-    article.find({}).sort({created_on: -1}).limit(5).exec(function(err, articles){
-        if(err){
-            res.send(err);
-        } else{
-            category.find({},function(err, categories){
-                if (err){
-                    res.json(err);
-                }
-                res.json({
-                    "title": "Danh sách bài viết",
-                    "articles": articles,
-                    "categories": categories
-                }); 
-            });
-        }
-    });
-});
-
 router.route('/:id')
     .get(function(req, res){
-    	article.findById(req.id, function(err, article){
-    		if (err){
-    			res.json(err);
-    		}
-    		res.json({
-    			"title": article.title,
-    			"article": article
-    		}); 
-    	});
+        article.findById(req.id, function(err, article){
+            if (err){
+                res.json({
+                    "status": "error",
+                    "message": err
+                });
+            }
+            res.json({
+                "title": article.title,
+                "article": article
+            }); 
+        });
     })
-
     .put(function (req, res){
-
-        var updated_on = new Date();
-
-        //find article by ID
-        article.findById(req.params.id, function (err, article) {
+        article.findById(req.id, function (err, article) {
             if (err) {
-                res.json(err);
+                res.json({
+                    "status": "error",
+                    "message": err
+                });
             } else {
                 article.title = req.body.title;
                 if(req.body.image != undefined && req.body.image != null){
@@ -196,13 +200,19 @@ router.route('/:id')
                 article.content = req.body.content;
                 article.visibility = req.body.visibility;;
                 article.category_id = req.body.category_id;
-                article.updated_on = updated_on;
-
+                article.updated_on = new Date();
                 article.save(function(err){
                     if(err){
-                        res.json({"error": err});
+                        res.json({
+                            "status": "error",
+                            "message": err
+                        });
                     }
-                    res.json(article);
+                    res.json({
+                        "status": "success",
+                        "message": "Cập nhật thành công",
+                        "article": article
+                    });
                 });
             }
         });
@@ -210,7 +220,10 @@ router.route('/:id')
     .delete(function (req, res){
         article.findById(req.id, function (err, article) {
             if (err) {
-                res.json(err);
+                res.json({
+                    "status": "error",
+                    "message": err
+                });
             } else {
                 var img = null;
                 if(article.image !== null && article.image !== undefined && article.image.length > 0 && article.image !== ""){
@@ -219,20 +232,23 @@ router.route('/:id')
 
                 article.remove(function (err, article) {
                     if (err) {
-                        res.json(err);
+                        res.json({
+                            "status": "error",
+                            "message": err
+                        });
                     } else {
                         if(img !== null){
                             if(fs.existsSync(img))
                                 fs.unlinkSync(img);
                         }
-
                         res.json({
                             'status': "success",
-                            "message": '1 article has been deleted'
+                            "message": 'Bài viết đã được xóa'
                         });
                     }
                 });
             }
         });
     });
+
 module.exports = router;

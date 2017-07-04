@@ -16,62 +16,23 @@ router.use(methodOverride(function(req, res){
   }
 }));
 
-function isEmptyObject(obj){
-    if(obj === null || obj === undefined)
-        return true;
-    return !Object.keys(obj).length;
-}
-
-router.use(function(req, res, next){
-    if(req.headers.authorization){
-        var param_user = req.headers.authorization.split(':');
-        users.find({_id: param_user[0], password: param_user[1]}, function(err, user){
-            if(err){
-                res.json({
+router.route('/')
+	.get(function(req, res, next){
+		users.find({},function(err, users){
+			if(err){
+				res.json({
                     "status": "error",
                     "message": err
                 });
-            } else{
-                if(isEmptyObject(user)){
-                    res.json({
-                        "status": "error",
-                        "message": "Authorization!"
-                    });
-                } else{
-                    req.user_id = param_user[0];
-                    next()
-                }
-            }
-        });
-    } else{
-        res.json({
-            "status": "error",
-            "message": "Authorization!"
-        });
-    }
-});
-
-router.param('id', function(req, res, next, id) {
-    users.findById(id, function (err, user) {
-        if(isEmptyObject(user)){
-            res.json({
-                "status": "error",
-                "message": "404 page not found"
-            });
-        }
-        else{
-            if (err) {
+			} else{
                 res.json({
-                    "status": "error",
-                    "message": "404 page not found"
+                    "status": "success",
+                    "message": "Danh sách thành viên",
+                    "users": users
                 });
-            } else {
-                req.id = id;
-                next(); 
-            }
-        }
-    });
-});
+			}
+		});
+	});
 
 router.route('/create')
     .post(function(req,res){
@@ -112,6 +73,17 @@ router.route('/create')
                             role = "admin";
                         }
 
+                        // res.json({
+                        //     "status": "success",
+                        //     "message": "Đăng ký thành công",
+                        //     "user": {
+                        //         'id': 1,
+                        //         'name': "Nguyễn Anh Quốc",
+                        //         "email": "nganhquoc95@gmail.com",
+                        //         "role": "admin"
+                        //     }
+                        // });
+
                         users.create({
                             name: req.body.name,
                             email: req.body.email,
@@ -143,6 +115,35 @@ router.route('/create')
         });
     });
 
+function isEmptyObject(obj){
+    if(obj === null || obj === undefined)
+        return true;
+    return !Object.keys(obj).length;
+}
+
+router.param('id', function(req, res, next, id) {
+    users.findById(id, function (err, user) {
+        if(isEmptyObject(user)){
+            res.json({
+                "status": "error",
+                "message": "404 page not found"
+            });
+        }
+        else{
+            if (err) {
+                res.json({
+                    "status": "error",
+                    "message": "404 page not found"
+                });
+            } else {
+                req.id = id;
+                next(); 
+            }
+        }
+    });
+});
+
+
 router.route("/:id")
     .get(function(req, res){
         users.findById(req.id, function(err, user){
@@ -157,9 +158,9 @@ router.route("/:id")
         });
     });
 
-router.route('/:id/change-password')
+router.route('/:id/update')
     .put(function(req,res){
-        users.findById(req.user_id, function(err, user){
+        users.findById(req.id, function(err, user){
             if(err){
                 res.json({
                     "status": "error",
@@ -167,55 +168,30 @@ router.route('/:id/change-password')
                 });
             }
             else{
-                if(req.user_id != req.id){
-                    res.json({
-                        "status": "error",
-                        "message": "Authorization!"
-                    });
-                }
-
                 if(req.body.password.trim().length===0){
-                    res.json({
-                        "status": "error",
-                        "message": "Mật khẩu chưa được nhập"
-                    });
+                    delete req.body.password;
+                    delete req.body.confirm_password;
                 }
                 else{
+                    delete req.body.confirm_password;
                     req.body.password = sha1(req.body.password);
-                    req.body.new_password = sha1(req.body.new_password);
-                    req.body.confirm_password = sha1(req.body.confirm_password);
-                    // req.user_id
-                    if(req.body.password != user.password){
+                }
+
+                user.update(req.body, function(err, user){
+                    if(err){
                         res.json({
                             "status": "error",
-                            "message": "Mật khẩu không đúng"
-                        });
-                    }
-                    else if(req.body.new_password != req.body.confirm_password){
-                        res.json({
-                            "status": "error",
-                            "message": "Nhập lại mật khẩu không đúng"
+                            "message": err
                         });
                     }
                     else{
-                        user.password = req.body.new_password;
-                        user.save(function(err){
-                            if(err){
-                                res.json({
-                                    "status": "error",
-                                    "message": err
-                                });
-                            }
-                            else{
-                                res.json({
-                                    "status": "success",
-                                    "message": "Cập nhật thành công",
-                                    "user": user
-                                });
-                            }
+                        res.json({
+                            "status": "success",
+                            "message": "Cập nhật thông tin thành công",
+                            "user": user
                         });
                     }
-                }
+                });
             }
         });
     });
@@ -230,35 +206,38 @@ router.route('/:id/profiles')
                 });
             }
             else{
-                req.body.password = sha1(req.body.password);
-                if(req.body.password!=user.password){
+                var new_pass = sha1(req.body.password);
+                if(req.body.password == req.body.confirm_password && req.body.password.length!==0){
+                    req.body.password = new_pass;
+                    delete req.body.confirm_password;
+                }
+                else if(new_pass==user.password){
+                    delete req.body.password;
+                    delete req.body.confirm_password;
+                }
+                else if(new_pass!=user.password){
                     res.json({
                         "status": "error",
                         "message": "Sai mật khẩu, nhập lại"
                     });
                     return false;
                 }
-                else{
-                    delete req.body.password;
-                    delete req.body.confirm_password;
-                    delete req.body.new_password;
 
-                    user.update(req.body, function(err){
-                        if(err){
-                            res.json({
-                                "status": "error",
-                                "message": err
-                            });
-                        }
-                        else{
-                            res.json({
-                                "status": "success",
-                                "message": "Cập nhật thông tin thành công",
-                                "user": user
-                            });
-                        }
-                    });
-                }
+                user.update(req.body, function(err){
+                    if(err){
+                        res.json({
+                            "status": "error",
+                            "message": err
+                        });
+                    }
+                    else{
+                        res.json({
+                            "status": "success",
+                            "message": "Cập nhật thông tin thành công",
+                            "user": user
+                        });
+                    }
+                });
             }
         });
     });

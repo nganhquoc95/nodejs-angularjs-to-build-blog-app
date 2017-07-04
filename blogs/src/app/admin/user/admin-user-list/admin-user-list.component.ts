@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../../models/user';
-import { UserService } from '../../../services/user.service';
+import { AdminUserService } from '../../../services/admin/user.service';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -14,7 +14,7 @@ export class AdminUserListComponent implements OnInit {
 	user: User;
 	users: Observable<User[]>;
 
-	constructor(private router: Router, private userService: UserService) {
+	constructor(private router: Router, private userService: AdminUserService) {
 		this.user = JSON.parse(localStorage.getItem('currentUser'));
 		if(!localStorage.getItem('currentUser') || this.user.role!="admin"){
 			this.router.navigate(['/admin/']);

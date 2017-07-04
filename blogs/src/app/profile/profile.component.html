@@ -1,10 +1,10 @@
 <div class="container-fluid">
 	<div class="row">
-		<form class="form-horizontal" (ngSubmit)="updateProfiles(profilesForm.value)" #profilesForm="ngForm">
+		<form class="form-horizontal" (ngSubmit)="updateCurrentLoggined(profilesForm.value)" #profilesForm="ngForm">
 			<fieldset>
 				<legend class="text-center text-uppercase">Thông tin cá nhân</legend>
-				<div *ngIf="status=='error'" class="text-red">{{ message }}</div>
-				<div *ngIf="status=='success'" class="text-green">{{ message }}</div>
+				<div *ngIf="status=='error'" class="alert alert-danger">{{ message }}</div>
+				<div *ngIf="status=='success'" class="alert alert-success">{{ message }}</div>
 				<div class="form-group">
 					<label for="name" class="col-lg-12">Họ và tên</label>
 					<div class="col-lg-12">
@@ -29,28 +29,45 @@
 					</div>
 				</div>
 
-
 				<div class="form-group">
-					<label for="password" class="col-lg-12">Password</label>
-					<div class="col-lg-12">
-						<input type="password" class="form-control" id="password" name="password" placeholder="Password" ngModel #password="ngModel" required minlength="6">
-						<div *ngIf="password.errors?.required && password.touched" class="alert alert-danger">
-							Mật khẩu là trường bắt buộc</div>
-						<div *ngIf="password.errors?.minlength && password.touched" class="alert alert-danger">
-							Mật khẩu phải tối thiểu là 6 ký tự</div>
+					<div for="isChangePassword" class="col-lg-12">
+						Đổi mật khẩu
+						<input type="checkbox" id="isChangePassword" name="isChangePassword" [(ngModel)]="isChangePassword">
 					</div>
 				</div>
-<!-- 
-				<div class="form-group">
-					<label for="confirm_password" class="col-lg-12">Confirm Password</label>
-					<div class="col-lg-12">
-						<input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password" ngModel #confirm_password="ngModel" required>
-						<div *ngIf="confirm_password.errors?.required && confirm_password.touched" class="alert alert-danger">
-							Nhập lại mật khẩu không được bỏ trống</div>
-						<div *ngIf="confirm_password.value!=password.value && confirm_password.touched" class="alert alert-danger">
-							Mật khẩu không khớp</div>
+
+				<div *ngIf="isChangePassword">
+					<div class="form-group">
+						<label for="new_password" class="col-lg-12">Mật khẩu mới</label>
+						<div class="col-lg-12">
+							<input type="password" class="form-control" id="new_password" name="new_password" placeholder="New Password" ngModel #new_password="ngModel" required minlength="6">
+							<div *ngIf="new_password.errors?.required && new_password.touched" class="alert alert-danger">
+								Mật khẩu là trường bắt buộc</div>
+							<div *ngIf="new_password.errors?.minlength && new_password.touched" class="alert alert-danger">
+								Mật khẩu phải tối thiểu là 6 ký tự</div>
+						</div>
 					</div>
-				</div> -->
+
+					<div class="form-group">
+						<label for="confirm_password" class="col-lg-12">Nhập lại mật khẩu</label>
+						<div class="col-lg-12">
+							<input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password" ngModel #confirm_password="ngModel" required>
+							<div *ngIf="confirm_password.errors?.required && confirm_password.touched" class="alert alert-danger">
+								Nhập lại mật khẩu không được bỏ trống</div>
+							<div *ngIf="confirm_password.value!=new_password.value && confirm_password.touched" class="alert alert-danger">
+								Mật khẩu không khớp</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="password" class="col-lg-12">Mật khẩu</label>
+					<div class="col-lg-12">
+						<input type="password" class="form-control" id="password" name="password" placeholder="Password" #password="ngModel" ngModel required>
+						<div *ngIf="password.errors?.required && password.touched" class="alert alert-danger">
+							Mật khẩu là trường bắt buộc</div>
+					</div>
+				</div>
 
 				<div class="form-group">
 					<div class="col-lg-12">

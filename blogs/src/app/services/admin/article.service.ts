@@ -4,12 +4,12 @@ import { Injectable } from '@angular/core';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
-import { Article } from '../models/article';
+import { Article } from '../../models/article';
 
 @Injectable()
-export class ArticleService {
+export class AdminArticleService {
 
-	apiUrl = 'http://localhost:8000/articles/';
+	apiUrl = 'http://localhost:8000/admin/articles/';
 	apiCategoryUrl = this.apiUrl + 'category/';
 
 	constructor(private http:Http) { }

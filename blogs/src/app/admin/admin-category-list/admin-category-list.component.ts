@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from '../../models/category';
-import { CategoryService } from '../../services/category.service';
+import { AdminCategoryService } from '../../services/admin/category.service';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -12,7 +12,7 @@ export class AdminCategoryListComponent implements OnInit {
 
 	categories: Observable<Category[]>;
 	
-	constructor(private categoryService: CategoryService) { }
+	constructor(private categoryService: AdminCategoryService) { }
 
 	ngOnInit() {
 		this.categories = this.categoryService.getCategories();

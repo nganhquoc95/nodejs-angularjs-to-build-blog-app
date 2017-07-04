@@ -4,27 +4,39 @@ import { Injectable } from '@angular/core';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
-import { User } from '../models/user';
+import { User } from '../../models/user';
 
 @Injectable()
-export class UserService {
+export class AdminUserService {
 
-  	apiUrl = 'http://localhost:8000/user/';
+  	apiUrl = 'http://localhost:8000/admin/user/';
 	constructor(private http:Http) { }
+
+	getAll(): Observable<User[]> {
+		return this.http.get(this.apiUrl, this._options())
+		.map(response => response.json().users);
+	}
 
 	getById(id: string) {
 		return this.http.get(this.apiUrl + id, this._options())
 		.map(response => response.json().user);
 	}
 
-	profiles(user: Object){
-		return this.http.put(this.apiUrl + user["_id"] + "/profiles", user, this._options())
+	create(user: Object) {
+		return this.http.post(this.apiUrl + "create", user, this._options())
 			.map((response: Response)=>response.json())
 			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
 	}
 
-	changePassword(user: Object){
-		return this.http.put(this.apiUrl + user["_id"] + "/change-password", user, this._options())
+	update(user: Object){
+		return this.http.put(this.apiUrl + user["_id"] + "/update", user, this._options())
+			.map((response: Response)=>response.json())
+			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
+	}
+
+	profiles(user: Object){
+		console.log(user);
+		return this.http.put(this.apiUrl + user["_id"] + "/profiles", user, this._options())
 			.map((response: Response)=>response.json())
 			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
 	}

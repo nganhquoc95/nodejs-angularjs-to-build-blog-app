@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
 import { User } from '../../../models/user';
-import { UserService } from '../../../services/user.service';
+import { AdminUserService } from '../../../services/admin/user.service';
 
 @Component({
 	selector: 'app-admin-user-create',
@@ -15,7 +15,7 @@ export class AdminUserCreateComponent implements OnInit {
 	sex: string;
 	user: User;
 
-	constructor(private router: Router, private userService: UserService) {
+	constructor(private router: Router, private userService: AdminUserService) {
 		this.sex = 'other';
 		
 		this.user = JSON.parse(localStorage.getItem('currentUser'));

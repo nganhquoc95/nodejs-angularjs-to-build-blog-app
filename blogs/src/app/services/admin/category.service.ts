@@ -4,12 +4,12 @@ import { Injectable } from '@angular/core';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
-import { Category } from '../models/category';
+import { Category } from '../../models/category';
 
 @Injectable()
-export class CategoryService {
+export class AdminCategoryService {
 
-  apiUrl = 'http://localhost:8000/categories/';
+  apiUrl = 'http://localhost:8000/admin/categories/';
 	constructor(private http:Http) { }
 
 	getCategories(): Observable<Category[]> {
@@ -22,7 +22,7 @@ export class CategoryService {
 		.map(response => response.json().category);
 	}
 
-	addCategory(category: Object)/*: Observable<Category[]> */{
+	addCategory(category: Object){
 		return this.http.post(this.apiUrl, category, this._options())
 			.map((response: Response)=>response.json())
 			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
@@ -34,7 +34,7 @@ export class CategoryService {
 			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
 	}
 
-	deleteCategory(id: string): Observable<Category[]>{
+	deleteCategory(id: string){
 		return this.http.delete(this.apiUrl + id, this._options())
 		.map(response => response.json())
 		.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
 import { Category } from '../../models/category';
-import { ArticleService } from '../../services/article.service';
-import { CategoryService } from '../../services/category.service';
+import { AdminArticleService } from '../../services/admin/article.service';
+import { AdminCategoryService } from '../../services/admin/category.service';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -16,7 +16,7 @@ export class AdminArticleCreateComponent implements OnInit {
 	isBusy = false;
 	static imgLink: string;
 
-	constructor(private articleService: ArticleService, private categoryService: CategoryService, private router: Router) { }
+	constructor(private articleService: AdminArticleService, private categoryService: AdminCategoryService, private router: Router) { }
 
 	ngOnInit() {
 		this.categories = this.categoryService.getCategories();

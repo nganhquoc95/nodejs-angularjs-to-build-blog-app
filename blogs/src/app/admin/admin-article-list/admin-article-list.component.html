@@ -12,7 +12,7 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Article</th>
+					<th style="width: 70px">Image</th>
 					<th>Title</th>
 					<th style="white-space: nowrap;">Visibility</th>
 					<th style="width: 140px;">Action</th>
@@ -21,7 +21,7 @@
 			<tbody>
 
 				<tr *ngFor="let article of articles | async">
-					<td><img [src]="srcImage(article.image)" width="100"/></td>
+					<td><img [src]="srcImage(article.image)" width="70"/></td>
 					<td>{{article.title}} </td>
 					<td class="text-center">{{article.visibility}} </td>
 					<td>

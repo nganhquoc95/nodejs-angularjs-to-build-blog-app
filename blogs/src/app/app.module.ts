@@ -12,11 +12,17 @@ import { ArticlesComponent } from './articles/articles.component';
 import { ArticleListComponent } from './articles/article-list/article-list.component';
 import { ArticleComponent } from './articles/article-list/article.component';
 
+// admin services
+import { AdminUserService } from './services/admin/user.service';
+import { AdminArticleService } from './services/admin/article.service';
+import { AdminCategoryService } from './services/admin/category.service';
+import { AdminArticleResolverService } from './services/admin/article-resolver.service';
+
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { ArticleService } from './services/article.service';
-import { ArticleResolverService } from './services/article-resolver.service';
 import { CategoryService } from './services/category.service';
+import { ArticleResolverService } from './services/article-resolver.service';
 import { ArticleCategoryResolverService } from './services/article-category-resolver.service';
 
 import { ArticleDetailComponent } from './articles/article-detail/article-detail.component';
@@ -89,7 +95,12 @@ import { ProfileComponent } from './profile/profile.component';
     ArticleService,
     CategoryService,
     ArticleResolverService,
-    ArticleCategoryResolverService
+    ArticleCategoryResolverService,
+
+    AdminUserService,
+    AdminArticleService,
+    AdminCategoryService,
+    AdminArticleResolverService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Category } from '../../models/category';
-import { CategoryService } from '../../services/category.service';
+import { AdminCategoryService } from '../../services/admin/category.service';
 // import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -18,7 +18,7 @@ export class AdminCategoryEditComponent implements OnInit, OnDestroy {
 
 	@Input() category : Category;
 
-	constructor(private activatedRoute: ActivatedRoute, private categoryService: CategoryService) { }
+	constructor(private activatedRoute: ActivatedRoute, private categoryService: AdminCategoryService) { }
 
 	ngOnInit() {
 		this.params = this.activatedRoute.params.subscribe(params => this.id = params['id']);
@@ -35,10 +35,9 @@ export class AdminCategoryEditComponent implements OnInit, OnDestroy {
 	updateCategory(category) {
 		this.categoryService.updateCategory(category)
 		.subscribe(
-			category=>{
-				console.log(category);
-				this.status = "success";
-				this.message = "Cập nhật bài viết thành công";
+			response => {
+				this.status = response.status;
+				this.message = response.message;
 			},
 			error => {
 				console.log(<any>error);

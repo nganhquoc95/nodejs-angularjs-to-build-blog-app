@@ -53,7 +53,7 @@ router.route('/uploads')
 
 router.route('/')
     .get(function(req, res, next){
-    	article.find({}, null, {sort: {created_on: -1}}, function(err, articles){
+    	article.find({}, function(err, articles){
     		if(err){
     			res.send(err);
     		} else{
@@ -62,7 +62,6 @@ router.route('/')
                         res.json(err);
                     }
                     res.json({
-                        "status": "success",
                         "title": "Danh sách bài viết",
                         "articles": articles,
                         "categories": categories
