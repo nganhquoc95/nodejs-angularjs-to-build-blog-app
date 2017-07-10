@@ -9,35 +9,17 @@ import { Category } from '../models/category';
 @Injectable()
 export class CategoryService {
 
-  apiUrl = 'http://localhost:8000/categories/';
+  apiUrl = 'http://localhost:8000/';
 	constructor(private http:Http) { }
 
-	getCategories(): Observable<Category[]> {
-		return this.http.get(this.apiUrl, this._options())
-		.map(response => response.json().categories);
+	getCategories(page: string) {
+		return this.http.get(this.apiUrl + page + "/categories/", this._options())
+		.map(response => response.json());
 	}
 
-	getCategory(id: string) {
-		return this.http.get(this.apiUrl + id, this._options())
+	getCategory(page:string, id: string) {
+		return this.http.get(this.apiUrl + page + "/categories/" + id, this._options())
 		.map(response => response.json().category);
-	}
-
-	addCategory(category: Object)/*: Observable<Category[]> */{
-		return this.http.post(this.apiUrl, category, this._options())
-			.map((response: Response)=>response.json())
-			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
-	}
-
-	updateCategory(category: Object){
-		return this.http.put(this.apiUrl + category["_id"], category, this._options())
-			.map((response: Response)=>response.json())
-			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
-	}
-
-	deleteCategory(id: string): Observable<Category[]>{
-		return this.http.delete(this.apiUrl + id, this._options())
-		.map(response => response.json())
-		.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
 	}
 
 	private _options(): RequestOptions{

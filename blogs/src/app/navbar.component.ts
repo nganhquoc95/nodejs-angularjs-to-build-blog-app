@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, Output, Inject, EventEmitter } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Category } from './models/category';
+import { User } from './models/user';
 import { CategoryService } from './services/category.service';
 import { Observable } from 'rxjs/Observable';
 
@@ -11,15 +12,50 @@ import { Observable } from 'rxjs/Observable';
 })
 export class NavbarComponent implements OnInit {
 
-	categories: Observable<Category[]>;
+	user: User;
 
-	constructor(private categoryService: CategoryService, private router: Router) { }
+	page: string;
 
-	ngOnInit() {
-		this.categories = this.categoryService.getCategories();
+	homePage: string;
+
+	categories: Category[];
+
+	@Output()
+	selectedCategoryEvent: EventEmitter<Category[]> = new EventEmitter<Category[]>();
+
+	constructor(
+		private categoryService: CategoryService,
+		private router: Router,
+		private activatedRoute: ActivatedRoute,
+		@Inject(Window) private window: Window) {
+			this.user = JSON.parse(localStorage.getItem('currentUser'));
+			this.homePage = "";
 	}
 
-	onClicked(category){
-		this.router.navigate(['/danh-muc',category.id]);
+	ngOnInit() {
+		this.page = this.window.location.pathname.split('/')[1] || 'NguyenAnhQuoc';
+
+		this.categoryService.getCategories(this.page)
+			.subscribe(res => {
+				this.categories = res.categories;
+			});
+
+		if(this.user){
+			this.homePage = this.user.page;
+		}
+
+		this.selectedCategoryEvent.emit(this.categories);
+	}
+
+	onClicked(id){
+		this.router.navigate([this.page + '/danh-muc', id], { relativeTo: this.activatedRoute });
+	}
+
+	onClickHome(){
+		this.page = this.user.page;
+		this.categoryService.getCategories(this.page)
+			.subscribe(res => {
+				this.categories = res.categories;
+			});
 	}
 }

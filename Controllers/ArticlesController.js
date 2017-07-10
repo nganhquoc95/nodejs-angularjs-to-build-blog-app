@@ -1,11 +1,12 @@
 var fs = require('fs'),
     express = require('express'),
-    router = express.Router(),
+    router = express.Router({mergeParams: true}),
     mongoose = require('mongoose'), //mongo connection
     bodyParser = require('body-parser'), //parses information from POST
     methodOverride = require('method-override'), //used to manipulate POST
     multer = require('multer');
 
+var user = require('../Models/User');
 var article = require('../Models/Article');
 var category = require('../Models/Category');
 
@@ -46,30 +47,34 @@ router.route('/uploads')
             if(err){
                 res.end(err);
             }
-
             res.end(req.file.filename);
         });
     });
 
 router.route('/')
     .get(function(req, res, next){
-    	article.find({}, null, {sort: {created_on: -1}}, function(err, articles){
-    		if(err){
-    			res.send(err);
-    		} else{
-                category.find({},function(err, categories){
-                    if (err){
-                        res.json(err);
+        user.find({page: req.params.page}, function(err, users){
+            var user = users[0] || null;
+            if(user != null){
+                article.find({user_id: user.id}, null, {sort: {created_on: -1}}, function(err, articles){
+                    if(err){
+                        res.send(err);
+                    } else{
+                        category.find({user_id: user.id},function(err, categories){
+                            if (err){
+                                res.json(err);
+                            }
+                            res.json({
+                                "status": "success",
+                                "title": "Danh sách bài viết",
+                                "articles": articles,
+                                "categories": categories
+                            }); 
+                        });
                     }
-                    res.json({
-                        "status": "success",
-                        "title": "Danh sách bài viết",
-                        "articles": articles,
-                        "categories": categories
-                    }); 
                 });
-    		}
-    	});
+            }
+        });
     })
 
     .post(function(req, res) {
@@ -133,16 +138,32 @@ router.route('/category/:cat_id').get(function(req, res){
     var cat_id = Number(req.params.cat_id);
     if(isNaN(cat_id)){
         res.json({"error": "404 Page not found"});
-        return;
     }
-    article.find({category_id : cat_id}).exec(function(err, articles){
-        if (err){
-            res.json(err);
+
+    user.find({page: req.params.page}, function(err, users){
+        var user = users[0] || null;
+        if(user){
+            category.findById(cat_id, function(err, category){
+                if(err){
+                    res.json({
+                        "status": "error",
+                        "message": err
+                    });
+                }
+                else{
+                    article.find({user_id: user._id, category_id : cat_id}).exec(function(err, articles){
+                        if (err){
+                            res.json(err);
+                        }
+                        res.json({
+                            "status": "success",
+                            "articles": articles,
+                            "category": category
+                        }); 
+                    });
+                }
+            });
         }
-        res.json({
-            "status": "success",
-            "articles": articles
-        }); 
     });
 });
 

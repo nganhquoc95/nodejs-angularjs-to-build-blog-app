@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Article } from '../../models/article';
 import { ArticleService } from '../../services/article.service';
@@ -10,15 +10,24 @@ import { Observable } from 'rxjs/Observable';
 	styleUrls: ['./article-detail.component.css']
 })
 
-export class ArticleDetailComponent implements OnInit {
+export class ArticleDetailComponent implements OnInit, OnDestroy {
 
 	selectedArticle: Article;
+
+	sub: any;
+
+	page: string;
 
 	constructor(private activatedRoute: ActivatedRoute, private articleService: ArticleService) { }
 
 	ngOnInit() {
-		this.activatedRoute.data.subscribe((data: {article: Article}) => {
+		this.sub = this.activatedRoute.data.subscribe((data: {article: Article}) => {
 			this.selectedArticle = data.article;
+			this.page = data['page'];
 		});
+	}
+
+	ngOnDestroy(){
+		this.sub.unsubscribe();
 	}
 }

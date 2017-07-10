@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Article } from '../../models/article';
+import { User } from '../../models/user';
 
 @Component({
 	selector: 'app-article',
@@ -7,14 +9,26 @@ import { Article } from '../../models/article';
 	styles: []
 })
 
-export class ArticleComponent implements OnInit {
+export class ArticleComponent implements OnInit, OnDestroy {
 	@Input() article: Article;
 
-	constructor() { }
+	user: User;
+	
+	sub: any;
+
+	page: string;
+
+	constructor(private activatedRoute: ActivatedRoute) {
+		this.user = JSON.parse(localStorage.getItem('currentUser'));
+	}
 
 	ngOnInit() {
-
+		this.sub = this.activatedRoute.params.subscribe(params => this.page = params['page']);
 	}
+
+	ngOnDestroy() {
+    	this.sub.unsubscribe();
+  	}
 
 	srcImage(image){
 		if(image != undefined && image != "")

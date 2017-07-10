@@ -104,6 +104,7 @@ router.route('/create').post(function(req,res){
                     if(results.length === 0){
                         role = "admin";
                     }
+                    var objectId = mongoose.Types.ObjectId();
 
                     users.create({
                         name: req.body.name,
@@ -114,7 +115,8 @@ router.route('/create').post(function(req,res){
                         gender: req.body.gender,
                         born: req.body.born,
                         image: req.body.image,
-                        role: role
+                        role: role,
+                        page: objectId
                     }, function(err, user){
                         if(err){
                             res.json({

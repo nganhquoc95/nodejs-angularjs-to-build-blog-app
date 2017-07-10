@@ -33,8 +33,9 @@
 					<h2>Categories</h2>
 					<div class="widget-content list-label-widget-content">
 						<ul>
-							<li *ngFor="let category of categories | async">
-								<a dir="ltr" [routerLink]="['/danh-muc',category._id]" (click)="onClicked(category)">{{ category.title }}</a>
+						<!--  | async -->
+							<li *ngFor="let category of categories">
+								<a dir="ltr" [routerLink]="[page + '/danh-muc',category._id]" (click)="onClicked(category)">{{ category.title }}</a>
 							</li>
 						</ul>
 						<div class="clear"></div>

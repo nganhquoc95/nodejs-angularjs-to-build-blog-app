@@ -242,7 +242,6 @@ router.route('/:id/profiles')
                     delete req.body.password;
                     delete req.body.confirm_password;
                     delete req.body.new_password;
-
                     user.update(req.body, function(err){
                         if(err){
                             res.json({
@@ -259,6 +258,55 @@ router.route('/:id/profiles')
                         }
                     });
                 }
+            }
+        });
+    });
+
+router.route('/:id/url-page')
+    .put(function(req, res){
+        users.find({ page: req.body.page }, function(err, resutlUser){
+            if(resutlUser.length > 0){
+                var idUserFirst = resutlUser[0].id || null;
+                if(req.user_id == idUserFirst){
+                    res.json({
+                        "status": "complated",
+                        "message": "Url đã được thay đổi"
+                    });
+                }
+                else{
+                    res.json({
+                        "status": "error",
+                        "message": "Url đã được sử dụng bởi người dùng khác"
+                    });
+                }
+            }
+            else{
+                users.findById(req.user_id, function(err, user){
+                    if(err){
+                        res.json({
+                            "status": "error",
+                            "message": err
+                        });
+                    }
+                    else{
+                        user.page = req.body.page;
+                        user.save(function(err){
+                            if(err){
+                                res.json({
+                                    "status": "error",
+                                    "message": err
+                                });
+                            }
+                            else{
+                                res.json({
+                                    "status": "success",
+                                    "message": "Url đã được thay đổi",
+                                    "user": user
+                                })
+                            }
+                        });
+                    }
+                });
             }
         });
     });

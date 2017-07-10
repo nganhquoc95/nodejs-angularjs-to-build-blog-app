@@ -1,19 +1,23 @@
+<div *ngIf="category">
+    <h4 class="text-uppercase categogy-header">
+        <span>{{ category.title }}</span>
+    </h4>
+</div>
+
+<div *ngIf="articles.length==0"><div class="well">Danh mục trống</div></div>
+
 <div class="date-outer" *ngFor="let article of articles">
     <h2 class="date-header"><span>Đăng {{ article.created_on | date: "\'ngày'\ dd\', tháng\' MM\', năm\' yyyy \'| Lúc\' h:m"}}</span></h2>
-
     <div class="date-posts">
-
         <div class="post-outer">
             <article class="post hentry">
-                <a name="3031361824506875120"></a>
                 <header class="entry-header">
                     <h1 class="post-title entry-title">
                         <a [routerLink]="['/bai-viet', article._id]">{{ article.title }}</a>
                     </h1>
                 </header>
-                <div class="post-header-line-1"></div>
                 <div class="post-body entry-content">
-                    <div id="summary3031361824506875120"><img [src]="srcImage(article.image)" class="pbtthumbimg">
+                    <div id="entry-item-list"><img [src]="srcImage(article.image)" class="pbtthumbimg">
                         <div>
                         	{{ article.describe }}
                         </div>

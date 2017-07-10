@@ -29,6 +29,12 @@ export class UserService {
 			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
 	}
 
+	changeUrl(user: Object){
+		return this.http.put(this.apiUrl + user["_id"] + "/url-page", user, this._options())
+			.map((response: Response)=>response.json())
+			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
+	}
+
 	delete(id: string){
 		return this.http.delete(this.apiUrl + id + "/delete", this._options())
 			.map(response => response.json())

@@ -1,6 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from "@angular/core";
 
+// import { NavbarComponent } from './navbar.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ArticlesComponent } from './articles/articles.component';
@@ -10,6 +11,9 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { AdminComponent } from './admin/admin.component';
 import { ProfileComponent } from './profile/profile.component';
+import { IndexComponent } from './index/index.component';
+
+import { CategoryResolverService } from './services/category-resolver.service';
 
 import { ArticleResolverService } from './services/article-resolver.service';
 import { ArticleCategoryResolverService } from './services/article-category-resolver.service';
@@ -17,16 +21,18 @@ import { ArticleCategoryResolverService } from './services/article-category-reso
 import { adminRoutes } from './admin/admin.routes';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo:'/bai-viet', pathMatch: 'full' },
+  // { path: '', redirectTo:'/:page', pathMatch: 'full' },
+  { path: '', component: IndexComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'bai-viet', component: ArticlesComponent },
-  { path: 'bai-viet/:id', component: ArticleDetailComponent, resolve: { article: ArticleResolverService } },
-  { path: 'danh-muc/:id', component: CategoryComponent, resolve: {articles: ArticleCategoryResolverService} },
+  { path: ':page/danh-muc/:id', component: CategoryComponent, resolve: {res: ArticleCategoryResolverService} },
   { path: 'lien-he', component: ContactComponent },
   { path: 've-chung-toi', component: AboutComponent },
   { path: 'profiles', component: ProfileComponent },
-  { path: 'admin', component: AdminComponent, children: adminRoutes }
+  { path: 'admin', component: AdminComponent, children: adminRoutes },
+
+  { path: ':page', component: ArticlesComponent, resolve: {categories: CategoryResolverService} },
+  { path: ':page/:id', component: ArticleDetailComponent, resolve: { article: ArticleResolverService } }
 ];
 
 export const routes:ModuleWithProviders = RouterModule.forRoot(appRoutes);

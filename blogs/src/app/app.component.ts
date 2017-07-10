@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Inject, EventEmitter, Output, Input } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Category } from './models/category';
 import { CategoryService } from './services/category.service';
@@ -16,9 +16,12 @@ import { RegisterComponent } from './auth/register/register.component';
 	styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-	categories: Observable<Category[]>;
+	@Input()
+	categories: Category[];
 
 	articlesNew: Observable<Article[]>;
+
+	page: string;
 
 	@Output()
 	selectedArticleEvent: EventEmitter<Article> = new EventEmitter<Article>();
@@ -27,22 +30,28 @@ export class AppComponent implements OnInit {
 		private categoryService: CategoryService,
 		private articleService: ArticleService, 
 		private router: Router,
-		private route: ActivatedRoute) {
+		private route: ActivatedRoute,
+		@Inject(Window) private window: Window) {
+
 	}
 
 	ngOnInit() {
-		this.categories = this.categoryService.getCategories();
+		this.page = this.window.location.pathname.split('/')[1] || 'NguyenAnhQuoc';
 
-		this.articlesNew = this.articleService.getArticleNew();
+		this.categoryService.getCategories(this.page)
+			.subscribe( res => {
+				this.categories = res.categories;
+			});
+
+		this.articlesNew = this.articleService.getArticleNew(this.page);
 	}
 
 	onSelectArticle(article: Article){
-		console.log(article);
 		this.selectedArticleEvent.emit(article);
 	}
 
 	onClicked(category){
-		this.router.navigate(['/danh-muc',category._id],{ relativeTo: this.route });
+		this.router.navigate([this.page + '/danh-muc', category._id],{ relativeTo: this.route });
 		this.scrollToTop(500);
 	}
 

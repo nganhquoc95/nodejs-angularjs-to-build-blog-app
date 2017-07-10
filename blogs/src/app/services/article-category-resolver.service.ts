@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Article } from '../models/article';
 import { ArticleService } from './article.service';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class ArticleCategoryResolverService implements Resolve<Article[]> {
+export class ArticleCategoryResolverService implements Resolve<any> {
 
-  constructor(private articleService: ArticleService,private router: Router) { }
+  constructor(private articleService: ArticleService) { }
 
-	resolve(route: ActivatedRouteSnapshot): Observable<Article[]> {
+	resolve(route: ActivatedRouteSnapshot): Observable<any> {
 		let id = route.params['id'];
+		let page = route.params['page'];
 
-		return this.articleService.getArticlesCategories(id).map(
-			ariticles => {
-				if (ariticles) {
-					return ariticles;
-				} else { // id not found
-					this.router.navigate(['/bai-viet']);
+		return this.articleService.getArticlesCategories(page, id).map(
+			pages => {
+				if (pages) {
+					return pages;
+				} else { 
 					return null;
 				}
 			}

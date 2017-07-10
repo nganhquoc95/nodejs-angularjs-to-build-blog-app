@@ -10,6 +10,7 @@ export class User {
 		public born:number,
 		public image:string,
 		public role:string,
+		public page:string,
 		public created_on:number,
 		public updated_on:number
 		) { }

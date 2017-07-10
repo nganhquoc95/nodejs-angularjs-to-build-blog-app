@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router} from '@angular/router';
 import { User } from '../../models/user';
-import { UserService } from '../../services/user.service';
+import { AdminUserService } from '../../services/admin/user.service';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
 	status: string;
 	message: string;
 
-	constructor( private userService: UserService, private router: Router ) { }
+	constructor( private userService: AdminUserService, private router: Router ) { }
 
 	ngOnInit() {
 	}

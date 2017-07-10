@@ -23,6 +23,7 @@ import { UserService } from './services/user.service';
 import { ArticleService } from './services/article.service';
 import { CategoryService } from './services/category.service';
 import { ArticleResolverService } from './services/article-resolver.service';
+import { CategoryResolverService } from './services/category-resolver.service';
 import { ArticleCategoryResolverService } from './services/article-category-resolver.service';
 
 import { ArticleDetailComponent } from './articles/article-detail/article-detail.component';
@@ -51,6 +52,7 @@ import { AdminUserDeleteComponent } from './admin/user/admin-user-delete/admin-u
 import { AdminUserUpdateComponent } from './admin/user/admin-user-update/admin-user-update.component';
 import { AdminUserCreateComponent } from './admin/user/admin-user-create/admin-user-create.component';
 import { ProfileComponent } from './profile/profile.component';
+import { IndexComponent } from './index/index.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,8 @@ import { ProfileComponent } from './profile/profile.component';
     AdminUserDeleteComponent,
     AdminUserUpdateComponent,
     AdminUserCreateComponent,
-    ProfileComponent
+    ProfileComponent,
+    IndexComponent
   ],
   imports: [
     routes,
@@ -90,12 +93,15 @@ import { ProfileComponent } from './profile/profile.component';
     CKEditorModule
   ],
   providers: [
+    { provide: Window, useValue: window },
     AuthService,
     UserService,
     ArticleService,
     CategoryService,
     ArticleResolverService,
     ArticleCategoryResolverService,
+
+    CategoryResolverService,
 
     AdminUserService,
     AdminArticleService,

@@ -6,6 +6,7 @@ var express = require('express'),
     methodOverride = require('method-override'); //used to manipulate POST
 
 var categories = require('../Models/Category');
+var user = require('../Models/User');
 
 router.use(methodOverride(function(req, res){
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -16,18 +17,35 @@ router.use(methodOverride(function(req, res){
   }
 }));
 
+router.use(function(req, res, next){
+    var page = req.baseUrl.split('/');
+    req.page = page[1];
+    next();
+});
+
 router.route('/')
 	.get(function(req, res, next){
-		categories.find({},function(err, categories){
-			if(err){
-				res.json(err);
-			} else{
+        user.find({page: req.page}, function(err, users){
+            var user = users[0] || null;
+            if(user != null){
+        		categories.find({ user_id: user.id },function(err, categories){
+        			if(err){
+        				res.json(err);
+        			} else{
+                        res.json({
+                            "title": "Danh mục",
+                            "categories": categories
+                        });
+        			}
+        		});
+            }
+            else{
                 res.json({
                     "title": "Danh mục",
-                    "categories": categories
+                    "categories": []
                 });
-			}
-		});
+            }
+        });
 	})
 
 	.post(function(req, res) {

@@ -5,56 +5,32 @@ import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
 import { Article } from '../models/article';
+import { User } from '../models/user';
 
 @Injectable()
 export class ArticleService {
 
-	apiUrl = 'http://localhost:8000/articles/';
-	apiCategoryUrl = this.apiUrl + 'category/';
+	apiUrl = 'http://localhost:8000/';
 
 	constructor(private http:Http) { }
 
-	getArticles(): Observable<Article[]> {
-		return this.http.get(this.apiUrl, this._options())
+	getArticles(page: string): Observable<Article[]> {
+		return this.http.get(this.apiUrl + page + "/articles", this._options())
 		.map(response => response.json().articles);
 	}
 
-	getArticle(id: string) {
-		return this.http.get(this.apiUrl + id, this._options())
+	getArticle(page: string, id: string) {
+		return this.http.get(this.apiUrl + page + "/articles" + "/" + id, this._options())
 		.map(response => response.json().article);
 	}
 
-	getArticlesCategories(id: string): Observable<Article[]> {
-		return this.http.get(this.apiCategoryUrl + id, this._options())
-		.map(response => response.json().articles);
+	getArticlesCategories(page: string, id: string) {
+		return this.http.get(this.apiUrl + page + "/articles" + '/category/' + id, this._options())
+		.map(response => response.json());
 	}
 
-	addArticle(article: Object): Observable<Article[]> {
-		return this.http.post(this.apiUrl, article, this._options())
-			.map((response: Response)=>response.json())
-			.catch((error:any) => Observable.throw(error || {message: "Server Error"}));
-	}
-
-	updateArticle(id, article: Object){
-		return this.http.put(this.apiUrl + id, article, this._options())
-			.map((response: Response)=>response.json())
-			.catch((error:any) => Observable.throw(error || {message: "Server Error"}));
-	}
-
-	upload(file: Object): Observable<Object> {
-		return this.http.post(this.apiUrl + 'uploads', file, this._options())
-			.map((response: Response)=>response.json())
-			.catch((error:any) => Observable.throw(error || {message: "Server Error"}));
-	}
-
-	deleteArticle(id: string): Observable<Article[]>{
-		return this.http.delete(this.apiUrl + id, this._options())
-		.map(response => response.json())
-		.catch((error:any) => Observable.throw(error || {message: "Server Error"}));
-	}
-
-	getArticleNew(){
-		return this.http.get(this.apiUrl + "/new-articles", this._options())
+	getArticleNew(page: string){
+		return this.http.get(this.apiUrl + page + "/articles" + "/new-articles", this._options())
 		.map(response => response.json().articles);
 	}
 
