@@ -9,7 +9,7 @@ export class AuthService {
 
 	apiUrl = 'http://localhost:8000/login/';
 
-	public configObservable = new Subject<any>();
+	public configObservable = new Subject<string>();
 
   	constructor(private http: Http) { }
 

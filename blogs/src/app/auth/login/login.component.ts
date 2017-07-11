@@ -21,13 +21,8 @@ export class LoginComponent implements OnInit {
 	constructor(
 		private authService: AuthService,
 		private router: Router) {
-		if(localStorage.getItem('currentUser') != "undefined"){
+		if(localStorage.getItem('currentUser') != "undefined" && localStorage.getItem('currentUser') != null){
 			this.isLoggedIn = true;
-		}
-
-		this.objData = {
-			title: "Tieu De",
-			slogan: "Slogan"
 		}
 	}
 
@@ -47,7 +42,7 @@ export class LoginComponent implements OnInit {
 			else{
 				if(localStorage.getItem('currentUser')){
 					this.isLoggedIn = true;
-					this.emit(JSON.stringify(this.objData));
+					this.emit(localStorage.getItem('currentUser'));
 				}
 			}
 		});
@@ -57,7 +52,6 @@ export class LoginComponent implements OnInit {
 		this.status = "";
 		this.message = "";
 		this.emit(null);
-		localStorage.removeItem('currentPageUser');
 		this.authService.logout();
 		this.isLoggedIn = false;
 		this.router.navigate(['/']);

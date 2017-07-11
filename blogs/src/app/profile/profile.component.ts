@@ -72,6 +72,8 @@ export class ProfileComponent implements OnInit {
 	onEditDoneUrl(){
 		this.userService.changeUrl(this.user)
 			.subscribe( res => {
+				this.status = res.status;
+				this.message = res.message;
 				if(res.user){
 					this.user = res.user;
 					localStorage.setItem('currentUser', JSON.stringify(this.user));
@@ -87,9 +89,18 @@ export class ProfileComponent implements OnInit {
 	onSettingPageDone(){
 		this.userService.settingBlog(this.user)
 			.subscribe( res => {
-				this.user = res.user;
-				localStorage.setItem('currentUser', JSON.stringify(this.user));
+				this.status = res.status;
+				this.message = res.message;
+				if(res.user){
+					this.user = res.user;
+					localStorage.setItem('currentUser', JSON.stringify(this.user));
+					this.emit(JSON.stringify(this.user));
+				}
 			});
 		this.onSettingPageEdit();
+	}
+
+	emit(val){
+		this.userService.emitConfig(val);
 	}
 }

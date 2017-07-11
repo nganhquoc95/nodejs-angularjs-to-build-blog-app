@@ -5,7 +5,7 @@ var adminUsers = require('./Controllers/Admin/UserController');
 var adminCategories = require('./Controllers/Admin/CategoryController');
 var adminArticles = require('./Controllers/Admin/ArticlesController');
 
-// var users = require('./Controllers/UserController');
+var users = require('./Controllers/UserController');
 var categories = require('./Controllers/CategoryController');
 var articles = require('./Controllers/ArticlesController');
 
@@ -23,6 +23,7 @@ module.exports = function(app){
 	app.use('/admin/articles', adminArticles);
 	app.use('/admin/user', adminUsers);
 
+    app.use('/user', users);
 	app.use('/:page/categories', categories);
 	app.use('/:page/articles', articles);
 

@@ -1,0 +1,23 @@
+.index-title{
+	font-size: 48px;
+	margin-bottom: 50px;
+	text-transform: uppercase;
+	text-shadow: 1px 1px 0px gray,2px 2px 0px gray,3px 3px 0px gray;
+}
+
+ul.index-slogan{
+	list-style-type: none;
+	counter-reset: section;
+	list-style-type: none;
+    padding-left: 0;
+}
+
+ul.index-slogan li{
+	font-size: 20px;
+	margin-bottom: 20px;
+}
+
+ul.index-slogan li:before{
+	counter-increment: section;
+	content: counter(section) ". ";
+}

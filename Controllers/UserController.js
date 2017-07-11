@@ -44,10 +44,15 @@ router.use(function(req, res, next){
             }
         });
     } else{
-        res.json({
-            "status": "error",
-            "message": "Authorization!"
-        });
+        if(req.headers.userid){
+            req.user_id = req.headers.userid;
+            next()
+        } else{
+            res.json({
+                "status": "error",
+                "message": "Authorization!"
+            });
+        }
     }
 });
 
@@ -72,6 +77,24 @@ router.param('id', function(req, res, next, id) {
         }
     });
 });
+
+router.route('/get')
+    .get(function(req, res){
+        users.findById(req.user_id, function(err, user){
+            if(err){
+                res.json({
+                    "status": "error",
+                    "message": err
+                });
+            } else{
+                res.json({
+                    "status": "success",
+                    "message": "Lấy dữ liệu thành công",
+                    "user": user
+                });
+            }
+        });
+    });
 
 router.route('/create')
     .post(function(req,res){

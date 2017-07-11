@@ -5,13 +5,13 @@
             <article class="post hentry">
                 <header class="entry-header">
                     <h1 class="post-title entry-title">
-                        <a [routerLink]="['/' + page, article._id]">{{ article.title }}</a>
+                        <a [routerLink]="['/' + page + '/bai-viet', article._id]">{{ article.title }}</a>
                     </h1>
                 </header>
                 <div class="post-header-line-1"></div>
                 <div class="post-body entry-content">
                     <div class="entry-item-list">
-                        <a [routerLink]="['/' + page, article._id]">
+                        <a [routerLink]="['/' + page + '/bai-viet', article._id]">
                             <img [src]="srcImage(article.image)" class="pbtthumbimg">
                         </a>
                         <div>
@@ -20,7 +20,7 @@
                     </div>
 
                     <div style="float:right;padding-right:10px;margin-top:10px;">
-                        <a class="morer" [routerLink]="['/' + page, article._id]">Read More</a>
+                        <a class="morer" [routerLink]="['/' + page + '/bai-viet', article._id]">Read More</a>
                     </div>
                     <div style="clear: both;"></div>
                 </div>

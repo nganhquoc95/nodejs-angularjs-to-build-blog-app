@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { User } from '../models/user';
 
@@ -11,11 +12,19 @@ export class UserService {
 
   	apiUrl = 'http://localhost:8000/user/';
 
+  	public configObservable = new Subject<string>();
+
 	constructor(private http:Http) { }
 
+	emitConfig(val) {
+	    this.configObservable.next(val);
+	}
+
 	getById(id: string) {
-		return this.http.get(this.apiUrl + id, this._options())
-		.map(response => response.json().user);
+		let headers = new Headers({ 'Userid': id });
+	  	let requestOptions = new RequestOptions({ headers: headers, withCredentials: true });
+		return this.http.get(this.apiUrl + '/get', requestOptions)
+		.map(response => response.json());
 	}
 
 	profiles(user: Object){
@@ -50,7 +59,7 @@ export class UserService {
 
 	private _options(): RequestOptions{
 		let tmpUser = localStorage.getItem('currentUser');
-		if(tmpUser != "undefined"){
+		if(tmpUser != "undefined" && tmpUser != null){
 			let user = JSON.parse(tmpUser);
 			let headers = new Headers({ 'Authorization': user._id + ":" + user.password });
 	  		return new RequestOptions({ headers: headers, withCredentials: true });

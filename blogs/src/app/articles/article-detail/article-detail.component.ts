@@ -28,8 +28,6 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
 
 		this.sub = this.activatedRoute.data.subscribe((data: {article: Article}) => {
 			this.selectedArticle = data.article;
-			// this.page = data['page'];
-			console.log(this.page);
 		});
 	}
 

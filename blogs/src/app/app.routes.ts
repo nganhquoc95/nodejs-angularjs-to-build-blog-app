@@ -25,14 +25,18 @@ const appRoutes: Routes = [
   { path: '', component: IndexComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: ':page/danh-muc/:id', component: CategoryComponent, resolve: {res: ArticleCategoryResolverService} },
-  { path: 'lien-he', component: ContactComponent },
-  { path: 've-chung-toi', component: AboutComponent },
   { path: 'profiles', component: ProfileComponent },
+
   { path: 'admin', component: AdminComponent, children: adminRoutes },
 
   { path: ':page', component: ArticlesComponent, resolve: {categories: CategoryResolverService} },
-  { path: ':page/:id', component: ArticleDetailComponent, resolve: { article: ArticleResolverService } }
+
+  { path: ':page/danh-muc/:id', component: CategoryComponent, resolve: {res: ArticleCategoryResolverService} },
+  { path: ':page/lien-he', component: ContactComponent },
+  { path: ':page/ve-chung-toi', component: AboutComponent },
+
+  { path: ':page/bai-viet', component: ArticlesComponent, resolve: {categories: CategoryResolverService} },
+  { path: ':page/bai-viet/:id', component: ArticleDetailComponent, resolve: { article: ArticleResolverService } }
 ];
 
 export const routes:ModuleWithProviders = RouterModule.forRoot(appRoutes);

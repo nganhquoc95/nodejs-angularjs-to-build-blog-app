@@ -34,7 +34,13 @@ export class AppComponent implements OnInit {
 		@Inject(Window) private window: Window) {  }
 
 	ngOnInit() {
-		this.page = this.window.location.pathname.split('/')[1] || 'NguyenAnhQuoc';
+		let arrUrl = ['lien-he','ve-chung-toi'];
+
+		if(arrUrl.indexOf(this.window.location.pathname.split('/')[1])==-1){
+			this.page = this.window.location.pathname.split('/')[1] || 'NguyenAnhQuoc';
+		} else{
+			this.page = 'NguyenAnhQuoc';
+		}
 
 		this.categoryService.getCategories(this.page)
 			.subscribe( res => {
@@ -50,7 +56,7 @@ export class AppComponent implements OnInit {
 
 	onClicked(category){
 		this.router.navigate([this.page + '/danh-muc', category._id],{ relativeTo: this.route });
-		this.scrollToTop(500);
+		this.scrollToTop(15);
 	}
 
 	scrollToTop(scrollDuration) {

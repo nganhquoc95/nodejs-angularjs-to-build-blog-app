@@ -45,10 +45,10 @@
 					<h2>Thanh Điều Hướng</h2>
 					<div class="widget-content">
 						<ul>
-							<li routerLinkActive="selected"><a [routerLink]="['/']" (click)="scrollToTop(500)">Trang chủ</a></li>
-							<li routerLinkActive="selected"><a [routerLink]="['/ve-chung-toi']" (click)="scrollToTop(500)">Về chúng tôi</a></li>
-							<li routerLinkActive="selected"><a [routerLink]="[page]" (click)="scrollToTop(500)">Bài viết</a></li>
-							<li routerLinkActive="selected"><a [routerLink]="['/lien-he']" (click)="scrollToTop(500)"> Liên hệ</a></li>
+							<li routerLinkActive="selected"><a [routerLink]="['/']" (click)="scrollToTop(15)">Trang chủ</a></li>
+							<li routerLinkActive="selected"><a [routerLink]="[page + '/ve-chung-toi']" (click)="scrollToTop(15)">Về chúng tôi</a></li>
+							<li routerLinkActive="selected"><a [routerLink]="[page + '/bai-viet']" (click)="scrollToTop(15)">Bài viết</a></li>
+							<li routerLinkActive="selected"><a [routerLink]="[page + '/lien-he']" (click)="scrollToTop(15)"> Liên hệ</a></li>
 						</ul>
 						<div class="clear"></div>
 					</div>

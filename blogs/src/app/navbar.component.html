@@ -9,7 +9,8 @@
 							<a [routerLink]="['/']" *ngIf="!objData">Blog tin tức</a>
 						</h1>
 					</div>
-					<h2 class="site-description">Blog tin tức</h2>
+					<h2 class="site-description" *ngIf="objData">{{ objData.slogan }}</h2>
+					<h2 class="site-description" *ngIf="!objData">Blog tin tức</h2>
 				</div>
 			</div>
 		</div>
@@ -19,15 +20,15 @@
 			<h3 class="menu-togglebwrap">Menu</h3>
 			<div class="menu-testing-menu-container">
 				<ul class="nav-menuul">
-					<li routerLinkActive="active"><a [routerLink]="[homePage]" (click)="onClickHome()">Trang chủ</a></li>
-					<li routerLinkActive="active"><a [routerLink]="['/ve-chung-toi']">Về chúng tôi</a></li>
-					<li routerLinkActive="active"><a [routerLink]="[page]">Bài viết</a>
+					<li routerLinkActive="active"><a [routerLink]="['/']" (click)="onClickHome()">Trang chủ</a></li>
+					<li routerLinkActive="active"><a [routerLink]="[page + '/ve-chung-toi']">Về chúng tôi</a></li>
+					<li routerLinkActive="active"><a [routerLink]="[page + '/bai-viet']">Bài viết</a>
 						<ul class="sub-menu">
 						<!--  | async -->
 							<li *ngFor="let category of categories"><a [routerLink]="[page + '/danh-muc', category._id]" (click)="onClicked(category._id)">{{ category.title }}</a></li>
 						</ul>
 					</li>
-					<li routerLinkActive="active"><a [routerLink]="['/lien-he']">Liên hệ</a></li>
+					<li routerLinkActive="active"><a [routerLink]="[page + '/lien-he']">Liên hệ</a></li>
 				</ul>
 			</div>
 			<form action="/search" class="search-form" id="searchform" method="get" role="search">

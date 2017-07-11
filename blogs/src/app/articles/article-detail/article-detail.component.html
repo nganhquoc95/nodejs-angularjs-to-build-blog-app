@@ -1,3 +1,13 @@
+<ol class="breadcrumb">
+    <li>
+        <a [routerLink]="['/']"><span class="glyphicon glyphicon-home"></span> Trang Chủ</a>
+    </li>
+    <li>
+        <a [routerLink]="['/' + page + '/bai-viet']">Bài viết</a>
+    </li>
+    <li class="active" *ngIf="selectedArticle">{{ selectedArticle.title }}</li>
+</ol>
+
 <div class="date-outer" *ngIf="selectedArticle">
     <h2 class="date-header"><span>Wednesday, April 23, 2014</span></h2>
     <div class="date-posts">
@@ -16,9 +26,9 @@
                 </div>
             </article>
             <div style="clear: both;"></div>
-            <div class="blog-pager" id="blog-pager">
+            <!-- <div class="blog-pager" id="blog-pager">
                 <a [routerLink]="['/']">Trang Chủ</a>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

@@ -42,7 +42,7 @@ export class AdminCategoryService {
 
 	private _options(): RequestOptions{
 		let tmpUser = localStorage.getItem('currentUser');
-		if(tmpUser != "undefined"){
+		if(tmpUser != "undefined" && tmpUser != null){
 			let user = JSON.parse(tmpUser);
 			let headers = new Headers({ 'Authorization': user._id + ":" + user.password });
 	  		return new RequestOptions({ headers: headers, withCredentials: true });
