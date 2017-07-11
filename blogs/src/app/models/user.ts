@@ -11,6 +11,8 @@ export class User {
 		public image:string,
 		public role:string,
 		public page:string,
+		public page_title: string, 
+		public page_slogan: String,
 		public created_on:number,
 		public updated_on:number
 		) { }

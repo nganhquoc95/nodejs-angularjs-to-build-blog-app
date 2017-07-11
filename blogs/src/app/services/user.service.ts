@@ -10,6 +10,7 @@ import { User } from '../models/user';
 export class UserService {
 
   	apiUrl = 'http://localhost:8000/user/';
+
 	constructor(private http:Http) { }
 
 	getById(id: string) {
@@ -35,6 +36,12 @@ export class UserService {
 			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
 	}
 
+	settingBlog(user: Object){
+		return this.http.put(this.apiUrl + user["_id"] + "/setting-blog", user, this._options())
+			.map((response: Response)=>response.json())
+			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
+	}
+
 	delete(id: string){
 		return this.http.delete(this.apiUrl + id + "/delete", this._options())
 			.map(response => response.json())
@@ -42,8 +49,9 @@ export class UserService {
 	}
 
 	private _options(): RequestOptions{
-		let user = JSON.parse(localStorage.getItem('currentUser'));
-		if(user){
+		let tmpUser = localStorage.getItem('currentUser');
+		if(tmpUser != "undefined"){
+			let user = JSON.parse(tmpUser);
 			let headers = new Headers({ 'Authorization': user._id + ":" + user.password });
 	  		return new RequestOptions({ headers: headers, withCredentials: true });
 		}

@@ -19,10 +19,13 @@ export class ProfileComponent implements OnInit {
 
 	isChangeUrl: boolean;
 
+	isSettingPage: boolean;
+
 	constructor(private userService: UserService, private router: Router) {
 		this.user = JSON.parse(localStorage.getItem('currentUser'));
 		this.isChangePassword = false;
 		this.isChangeUrl = false;
+		this.isSettingPage = false;
 	}
 
 	ngOnInit() {
@@ -62,11 +65,11 @@ export class ProfileComponent implements OnInit {
 		});
 	}
 
-	onClickEdit(){
+	onClickEditUrl(){
 		this.isChangeUrl = !this.isChangeUrl;
 	}
 
-	onEditDone(){
+	onEditDoneUrl(){
 		this.userService.changeUrl(this.user)
 			.subscribe( res => {
 				if(res.user){
@@ -74,6 +77,19 @@ export class ProfileComponent implements OnInit {
 					localStorage.setItem('currentUser', JSON.stringify(this.user));
 				}
 			});
-		this.onClickEdit();
+		this.onClickEditUrl();
+	}
+
+	onSettingPageEdit(){
+		this.isSettingPage = !this.isSettingPage;
+	}
+
+	onSettingPageDone(){
+		this.userService.settingBlog(this.user)
+			.subscribe( res => {
+				this.user = res.user;
+				localStorage.setItem('currentUser', JSON.stringify(this.user));
+			});
+		this.onSettingPageEdit();
 	}
 }

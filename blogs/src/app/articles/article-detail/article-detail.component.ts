@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Article } from '../../models/article';
 import { ArticleService } from '../../services/article.service';
@@ -18,12 +18,18 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
 
 	page: string;
 
-	constructor(private activatedRoute: ActivatedRoute, private articleService: ArticleService) { }
+	constructor(
+		private activatedRoute: ActivatedRoute, 
+		private articleService: ArticleService,
+		@Inject(Window) private window: Window) { }
 
 	ngOnInit() {
+		this.page = this.window.location.pathname.split('/')[1] || 'NguyenAnhQuoc';
+
 		this.sub = this.activatedRoute.data.subscribe((data: {article: Article}) => {
 			this.selectedArticle = data.article;
-			this.page = data['page'];
+			// this.page = data['page'];
+			console.log(this.page);
 		});
 	}
 

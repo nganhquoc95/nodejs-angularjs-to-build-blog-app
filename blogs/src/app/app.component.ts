@@ -31,9 +31,7 @@ export class AppComponent implements OnInit {
 		private articleService: ArticleService, 
 		private router: Router,
 		private route: ActivatedRoute,
-		@Inject(Window) private window: Window) {
-
-	}
+		@Inject(Window) private window: Window) {  }
 
 	ngOnInit() {
 		this.page = this.window.location.pathname.split('/')[1] || 'NguyenAnhQuoc';

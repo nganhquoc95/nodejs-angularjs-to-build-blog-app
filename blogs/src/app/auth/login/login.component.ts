@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
@@ -14,11 +14,20 @@ export class LoginComponent implements OnInit {
 
 	isLoggedIn: boolean = false;
 
+	objData: any;
+
+	@Output() onLogin: EventEmitter<any> = new EventEmitter<any>();
+
 	constructor(
 		private authService: AuthService,
 		private router: Router) {
-		if(localStorage.getItem('currentUser')){
+		if(localStorage.getItem('currentUser') != "undefined"){
 			this.isLoggedIn = true;
+		}
+
+		this.objData = {
+			title: "Tieu De",
+			slogan: "Slogan"
 		}
 	}
 
@@ -29,11 +38,6 @@ export class LoginComponent implements OnInit {
 	}
 
 	login(authUser){
-		// localStorage.setItem('currentUser',JSON.stringify({_id: 5,name: "Anh QUoc", password: "123123123", role:"admin"}));
-
-		// if(localStorage.getItem('currentUser')){
-		// 	this.isLoggedIn = true;
-		// }
 		this.authService.login(authUser)
 		.subscribe( response => {
 			if(response.status == "error"){
@@ -43,6 +47,7 @@ export class LoginComponent implements OnInit {
 			else{
 				if(localStorage.getItem('currentUser')){
 					this.isLoggedIn = true;
+					this.emit(JSON.stringify(this.objData));
 				}
 			}
 		});
@@ -51,6 +56,8 @@ export class LoginComponent implements OnInit {
 	logout(){
 		this.status = "";
 		this.message = "";
+		this.emit(null);
+		localStorage.removeItem('currentPageUser');
 		this.authService.logout();
 		this.isLoggedIn = false;
 		this.router.navigate(['/']);
@@ -59,4 +66,8 @@ export class LoginComponent implements OnInit {
 	onRegister(event){
 		this.isLoggedIn = event;
 	}
+
+	emit(val) {
+		this.authService.emitConfig(val);
+    }
 }

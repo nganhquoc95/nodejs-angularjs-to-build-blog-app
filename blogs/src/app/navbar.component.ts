@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Category } from './models/category';
 import { User } from './models/user';
 import { CategoryService } from './services/category.service';
+import { AuthService } from './services/auth.service';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -20,6 +21,8 @@ export class NavbarComponent implements OnInit {
 
 	categories: Category[];
 
+	objData: any;
+
 	@Output()
 	selectedCategoryEvent: EventEmitter<Category[]> = new EventEmitter<Category[]>();
 
@@ -27,9 +30,18 @@ export class NavbarComponent implements OnInit {
 		private categoryService: CategoryService,
 		private router: Router,
 		private activatedRoute: ActivatedRoute,
+		private authService: AuthService,
 		@Inject(Window) private window: Window) {
-			this.user = JSON.parse(localStorage.getItem('currentUser'));
+			let tempUser = localStorage.getItem('currentUser');
+			if(tempUser != "undefined"){
+				this.user = JSON.parse(tempUser);
+			}
 			this.homePage = "";
+
+			this.authService.configObservable.subscribe( res => {
+		        localStorage.setItem('currentPageUser', this.objData);
+		        this.objData = JSON.parse(localStorage.getItem('currentPageUser'));
+		    });
 	}
 
 	ngOnInit() {
@@ -52,7 +64,9 @@ export class NavbarComponent implements OnInit {
 	}
 
 	onClickHome(){
-		this.page = this.user.page;
+		if(this.user)
+			this.page = this.user.page;
+
 		this.categoryService.getCategories(this.page)
 			.subscribe(res => {
 				this.categories = res.categories;

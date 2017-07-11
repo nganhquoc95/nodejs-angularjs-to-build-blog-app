@@ -1,0 +1,14 @@
+.wrapper-partial:not(:last-child){
+	margin-bottom: 10px;
+	border-bottom: 1px solid #c1c1c1;
+}
+
+.wrapper-edit-btn {
+    background: #d8d8d8;
+    color: black;
+    padding: 5px;
+}
+
+.wrapper-edit-btn strong{
+    line-height: 30px;
+}

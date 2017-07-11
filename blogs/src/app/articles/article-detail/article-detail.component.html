@@ -4,22 +4,20 @@
 
         <div class="post-outer">
             <article class="post hentry">
-                <a name="3031361824506875120"></a>
                 <header class="entry-header">
                     <h1 class="post-title entry-title">
-                        <a [routerLink]="[page, selectedArticle._id]">
+                        <a [routerLink]="['/' + page, selectedArticle._id]">
                             {{ selectedArticle.title }}
                         </a>
                     </h1>
                 </header>
-                <div class="post-header-line-1"></div>
                 <div class="post-body entry-content">
                     <div [innerHTML]="selectedArticle.content"></div>
                 </div>
             </article>
             <div style="clear: both;"></div>
             <div class="blog-pager" id="blog-pager">
-                <a [routerLink]="['/']">Home</a>
+                <a [routerLink]="['/']">Trang Chủ</a>
             </div>
         </div>
     </div>

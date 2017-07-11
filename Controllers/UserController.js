@@ -311,6 +311,44 @@ router.route('/:id/url-page')
         });
     });
 
+router.route('/:id/setting-blog')
+    .put(function(req, res){
+        users.findById(req.id, function(err, user){
+            if(err){
+                res.json({
+                    "status": "error",
+                    "message": err
+                });
+            }
+            else{
+                if(req.id != req.user_id){
+                    res.json({
+                        "error": "error",
+                        "message": "Authorization!"
+                    });
+                }
+                else{
+                    user.page_title = req.body.page_title;
+                    user.page_slogan = req.body.page_slogan;
+                    user.save(function(err){
+                        if(err){
+                            res.json({
+                                "status": "error",
+                                "message": err
+                            });
+                        } else{
+                            res.json({
+                                "status": "success",
+                                "message": "Cập nhật thông tin thành công",
+                                "user": user
+                            });
+                        }
+                    })
+                }
+            }
+        });
+    });
+
 router.route('/:id/delete')
     .delete(function(req,res){
         users.findById(req.id, function(err, user){

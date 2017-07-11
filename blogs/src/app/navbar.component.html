@@ -5,7 +5,8 @@
 				<div id="header-inner">
 					<div class="titlewrapper">
 						<h1 class="site-title">
-							<a [routerLink]="['/']">Blog tin tức</a>
+							<a [routerLink]="['/']" *ngIf="objData">{{ objData.title }}</a>
+							<a [routerLink]="['/']" *ngIf="!objData">Blog tin tức</a>
 						</h1>
 					</div>
 					<h2 class="site-description">Blog tin tức</h2>

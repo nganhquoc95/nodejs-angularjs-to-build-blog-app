@@ -13,6 +13,8 @@ var User = new mongoose.Schema({
 	image: String,
 	role: String,
 	page: String,
+	page_title: String,
+	page_slogan: String,
 	created_on: { type: Date, default: Date.now },
 	updated_on: { type: Date, default: Date.now }
 }, { _id: false });
