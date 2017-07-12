@@ -6,11 +6,11 @@
 					<div class="titlewrapper">
 						<h1 class="site-title">
 							<a [routerLink]="['/']" *ngIf="objData">{{ objData.title }}</a>
-							<a [routerLink]="['/']" *ngIf="!objData">Blog tin tức</a>
+							<a [routerLink]="['/']" *ngIf="objData==null || !objData.title">Blog tin tức</a>
 						</h1>
 					</div>
 					<h2 class="site-description" *ngIf="objData">{{ objData.slogan }}</h2>
-					<h2 class="site-description" *ngIf="!objData">Blog tin tức</h2>
+					<h2 class="site-description" *ngIf="objData==null || !objData.slogan">Blog tin tức</h2>
 				</div>
 			</div>
 		</div>
