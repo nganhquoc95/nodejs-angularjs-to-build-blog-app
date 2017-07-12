@@ -21,6 +21,7 @@ import { AdminArticleResolverService } from './services/admin/article-resolver.s
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { ArticleService } from './services/article.service';
+import { CommentService } from './services/comment.service';
 import { CategoryService } from './services/category.service';
 import { ArticleResolverService } from './services/article-resolver.service';
 import { CategoryResolverService } from './services/category-resolver.service';
@@ -97,6 +98,7 @@ import { IndexComponent } from './index/index.component';
     AuthService,
     UserService,
     ArticleService,
+    CommentService,
     CategoryService,
     ArticleResolverService,
     ArticleCategoryResolverService,

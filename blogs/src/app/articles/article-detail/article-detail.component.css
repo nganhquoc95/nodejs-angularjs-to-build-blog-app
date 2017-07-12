@@ -1,3 +1,23 @@
+.text-red{
+	color: #d33333;
+}
 .entry-title {
     border-bottom: 1px solid #929292;
+}
+.wrapper-comment-input {
+    position: relative;
+    border-bottom: 1px solid #d0cfcf;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+.comment-input{
+	height: auto;
+	min-height: 32px;
+	padding: 5px;
+	border: 1px solid #d0cfcf;
+	margin-bottom: 10px;
+}
+.wrapper-comment-content{
+	margin-top: 10px;
+	padding-top: 10px;
 }

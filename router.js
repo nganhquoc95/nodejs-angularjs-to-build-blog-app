@@ -8,6 +8,7 @@ var adminArticles = require('./Controllers/Admin/ArticlesController');
 var users = require('./Controllers/UserController');
 var categories = require('./Controllers/CategoryController');
 var articles = require('./Controllers/ArticlesController');
+var comments = require('./Controllers/CommentController');
 
 // Routes
 module.exports = function(app){
@@ -24,6 +25,7 @@ module.exports = function(app){
 	app.use('/admin/user', adminUsers);
 
     app.use('/user', users);
+    app.use('/comment', comments);
 	app.use('/:page/categories', categories);
 	app.use('/:page/articles', articles);
 

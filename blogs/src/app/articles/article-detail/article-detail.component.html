@@ -26,9 +26,30 @@
                 </div>
             </article>
             <div style="clear: both;"></div>
-            <!-- <div class="blog-pager" id="blog-pager">
-                <a [routerLink]="['/']">Trang Chủ</a>
-            </div> -->
+
+            <div class="wrapper-comment">
+                <strong>Bình luận</strong>
+                <div class="wrapper-comment-input" [hidden]="!isAllowComment">
+                    <div class="comment-input" contenteditable="true" [textContent]="comment" (input)="comment=$event.target.textContent"></div>
+                    <div class="comment-button text-right">
+                        <button class="btn btn-sm btn-primary btn-send" (click)="doComment()">Đăng</button>
+                    </div>
+                </div>
+                <div *ngIf="comments.length===0" class="wrapper-comment-content">
+                    <p class="well">Hãy là người đầu tiên bình luận bài viết này</p>
+                </div>
+                <div *ngIf="comments.length!==0" class="wrapper-comment-content">
+                    <div *ngFor="let cmt of comments">
+                        <div *ngFor="let ur of users">
+                            <div *ngIf="cmt.user_id==ur._id">
+                                <p><a [routerLink]="['/' + ur.page]"><strong>{{ ur.name }}</strong></a>: {{ cmt.content }}
+                                    <span *ngIf="cmt.user_id==user._id" class="close text-red" (click)="doRemove(cmt._id, $event.target.parentElement)">&times;</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

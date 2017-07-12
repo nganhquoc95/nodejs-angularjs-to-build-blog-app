@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { Article } from '../models/article';
 import { User } from '../models/user';
@@ -12,7 +13,13 @@ export class ArticleService {
 
 	apiUrl = 'http://localhost:8000/';
 
+  	public configObservable = new Subject<boolean>();
+
 	constructor(private http:Http) { }
+
+	emitConfig(val) {
+	    this.configObservable.next(val);
+	}
 
 	getArticles(page: string): Observable<Article[]> {
 		return this.http.get(this.apiUrl + page + "/articles", this._options())
