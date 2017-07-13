@@ -50,8 +50,12 @@ export class LoginComponent implements OnInit {
 			}
 			else{
 				if(localStorage.getItem('currentUser')){
+					let user = JSON.parse(localStorage.getItem('currentUser'));
 					this.isLoggedIn = true;
 					this.articleService.emitConfig(true);
+					this.articleService.getArticleNew(user.page).subscribe(res=>{
+						this.articleService.emitArticleNew(JSON.stringify(res.articles));
+					});
 					this.emit(localStorage.getItem('currentUser'));
 				}
 			}

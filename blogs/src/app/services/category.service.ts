@@ -3,14 +3,22 @@ import { Injectable } from '@angular/core';
 
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { Category } from '../models/category';
 
 @Injectable()
 export class CategoryService {
 
-  apiUrl = 'http://localhost:8000/';
+  	apiUrl = 'http://localhost:8000/';
+  	
+  	public categoryObservable = new Subject<string>();
+
 	constructor(private http:Http) { }
+
+	emitCategories(val) {
+	    this.categoryObservable.next(val);
+	}
 
 	getCategories(page: string) {
 		return this.http.get(this.apiUrl + page + "/categories/", this._options())

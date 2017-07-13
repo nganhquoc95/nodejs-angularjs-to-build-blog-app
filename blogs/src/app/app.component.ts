@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
 	@Input()
 	categories: Category[];
 
-	articlesNew: Observable<Article[]>;
+	articlesNew: Article[];
 
 	user: User;
 
@@ -38,15 +38,29 @@ export class AppComponent implements OnInit {
 		private router: Router,
 		private route: ActivatedRoute,
 		@Inject(Window) private window: Window) { 
+
+			// Trang của user
 			this.userService.configObservable.subscribe(res=>{
 				this.user = JSON.parse(res);
 				if(this.user!=null)
 					this.page = this.user.page;
 			});
+
+			// 5 bài viết mới nhất
+			this.articleService.articleNewObservable.subscribe(res=>{
+				let tmpRes = JSON.parse(res);
+				this.articlesNew = tmpRes.articles;
+			});
+
+			// thông tin danh mục của trang cá nhân
+			this.categoryService.categoryObservable.subscribe(res=>{
+				let tmpRes = JSON.parse(res);
+				this.categories = tmpRes.categories;
+			});
 		}
 
 	ngOnInit() {
-		let arrUrl = ['lien-he','ve-chung-toi','register','admin'];
+		let arrUrl = ['lien-he','ve-chung-toi','register','admin','profiles'];
 
 		let tmpPage = this.window.location.pathname.split('/')[1];
 		
@@ -63,7 +77,9 @@ export class AppComponent implements OnInit {
 				this.categories = res.categories;
 			});
 
-		this.articlesNew = this.articleService.getArticleNew(this.page);
+		this.articleService.getArticleNew(this.page).subscribe(res=>{
+			this.articlesNew = res.articles;
+		});
 	}
 
 	onSelectArticle(article: Article){

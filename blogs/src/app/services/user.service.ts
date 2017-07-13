@@ -31,14 +31,14 @@ export class UserService {
 	getFirst() {
 		let headers = new Headers({ 'Guest': true });
 	  	let requestOptions = new RequestOptions({ headers: headers, withCredentials: true });
-		return this.http.get(this.apiUrl + '/guest', requestOptions)
+		return this.http.get(this.apiUrl + 'guest', requestOptions)
 		.map(response => response.json());
 	}
 
 	getById(id: string) {
 		let headers = new Headers({ 'Userid': id });
 	  	let requestOptions = new RequestOptions({ headers: headers, withCredentials: true });
-		return this.http.get(this.apiUrl + '/get', requestOptions)
+		return this.http.get(this.apiUrl + 'get', requestOptions)
 		.map(response => response.json());
 	}
 

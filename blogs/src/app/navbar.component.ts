@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Category } from './models/category';
 import { User } from './models/user';
 import { CategoryService } from './services/category.service';
+import { ArticleService } from './services/article.service';
 import { UserService } from './services/user.service';
 import { Observable } from 'rxjs/Observable';
 
@@ -27,30 +28,20 @@ export class NavbarComponent implements OnInit {
 	selectedCategoryEvent: EventEmitter<Category[]> = new EventEmitter<Category[]>();
 
 	constructor(
+		private articleService: ArticleService,
 		private categoryService: CategoryService,
 		private router: Router,
 		private activatedRoute: ActivatedRoute,
 		private userService: UserService,
 		@Inject(Window) private window: Window) {
-			// let tempUser = localStorage.getItem('currentUser');
-			// if(tempUser != "undefined" && tempUser != null){
-			// 	this.user = JSON.parse(tempUser);
-			// 	this.objData = {
-			// 		title: this.user.page_title,
-			// 		slogan: this.user.page_slogan
-			// 	};
-			// }
-			// else{
-			// 	this.userService.getFirst()
-			// 		.subscribe( res => {
-			// 			this.objData = {
-			// 	        	title: res.user.page_title,
-			// 	        	slogan: res.user.page_slogan
-			// 	        }
-			// 		});
-			// }
 
 			this.homePage = "";
+			this.articleService.categoryObservable.subscribe( res => {
+				let objTmp = JSON.parse(res);
+				this.categories = objTmp.categories;
+			});
+
+			// Thiết lập tiêu đề và slogan cho blog khi đăng nhập
 			this.userService.configObservable.subscribe( res => {
 				if(res == null){
 					this.objData = null;
@@ -63,10 +54,16 @@ export class NavbarComponent implements OnInit {
 			        this.page = tmp.page;
 				}
 		    });
+
+		    // thông tin danh mục của trang cá nhân
+			this.categoryService.categoryObservable.subscribe(res=>{
+				let tmpRes = JSON.parse(res);
+				this.categories = tmpRes.categories;
+			});
 	}
 
 	ngOnInit() {
-		let arrUrl = ['lien-he','ve-chung-toi','register','admin'];
+		let arrUrl = ['lien-he','ve-chung-toi','register','admin','profiles'];
 
 		let tmpPage = this.window.location.pathname.split('/')[1];
 

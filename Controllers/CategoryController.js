@@ -30,10 +30,14 @@ router.route('/')
             if(user != null){
         		categories.find({ user_id: user.id },function(err, categories){
         			if(err){
-        				res.json(err);
+        				res.json({
+                            "status": "error",
+                            "message": err
+                        });
         			} else{
                         res.json({
-                            "title": "Danh mục",
+                            "status": "success",
+                            "message": "Lấy dữ liệu thành công",
                             "categories": categories
                         });
         			}
@@ -41,7 +45,8 @@ router.route('/')
             }
             else{
                 res.json({
-                    "title": "Danh mục",
+                    "status": "success",
+                    "message": "Lấy dữ liệu thành công",
                     "categories": []
                 });
             }

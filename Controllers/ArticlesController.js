@@ -169,20 +169,45 @@ router.route('/category/:cat_id').get(function(req, res){
 
 // Limit 5
 router.route('/new-articles').get(function(req, res, next){
-    article.find({}).sort({created_on: -1}).limit(5).exec(function(err, articles){
+    user.findOne({page: req.params.page}, function(err, user){
         if(err){
-            res.send(err);
-        } else{
-            category.find({},function(err, categories){
-                if (err){
-                    res.json(err);
-                }
-                res.json({
-                    "title": "Danh sách bài viết",
-                    "articles": articles,
-                    "categories": categories
-                }); 
+            res.json({
+                "status": "error",
+                "message": err
             });
+        }else{
+            if(!isEmptyObject(user)){
+                article.find({ user_id: user._id }).sort({created_on: -1}).limit(5).exec(function(err, articles){
+                    if(err){
+                        res.json({
+                            "status": "error",
+                            "message": err
+                        });
+                    } else{
+                        category.find({ user_id:user._id },function(err, categories){
+                            if (err){
+                                res.json({
+                                    "status": "error",
+                                    "message": err
+                                });
+                            }
+                            res.json({
+                                "status": "success",
+                                "message": "Danh sách bài viết",
+                                "articles": articles,
+                                "categories": categories
+                            }); 
+                        });
+                    }
+                });
+            } else {
+                res.json({
+                    "status": "success",
+                    "message": "Danh sách bài viết",
+                    "articles": [],
+                    "categories": []
+                }); 
+            }
         }
     });
 });

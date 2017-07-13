@@ -23,7 +23,7 @@
 					<h2 class="title">Bài viết mới</h2>
 					<div class="widget-content">
 						<ul>
-							<li *ngFor="let article of articlesNew | async"><a [routerLink]="['/bai-viet',article._id]"
+							<li *ngFor="let article of articlesNew"><a [routerLink]="['/bai-viet',article._id]"
 							(selectedArticleEvent)="onSelectArticle($even)">{{ article.title }}</a></li>
 						</ul>
 					</div>

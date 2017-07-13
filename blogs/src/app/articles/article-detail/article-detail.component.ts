@@ -5,6 +5,7 @@ import { Article } from '../../models/article';
 import { Comment } from '../../models/comment';
 import { ArticleService } from '../../services/article.service';
 import { UserService } from '../../services/user.service';
+import { CategoryService } from '../../services/category.service';
 import { CommentService } from '../../services/comment.service';
 import { Observable } from 'rxjs/Observable';
 
@@ -36,6 +37,7 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
 		private userService: UserService,
 		private activatedRoute: ActivatedRoute,
 		private articleService: ArticleService,
+		private categoryService: CategoryService,
 		private commentService: CommentService,
 		@Inject(Window) private window: Window) {
 
@@ -89,6 +91,21 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
 	}
 
 	onClickUserPage(page: string){
+
+		// Lấy thông tin bài viết mới của người dùng
+		this.articleService.getArticleNew(page).subscribe(res=>{
+			if(res.status == "success"){
+				this.articleService.emitArticleNew(JSON.stringify(res));
+			}
+		});
+
+		// Lấy tất cả danh mục của trang người dùng
+		this.categoryService.getCategories(page).subscribe(res=>{
+			if(res.status=="success"){
+				this.categoryService.emitCategories(JSON.stringify(res));
+			}
+		});
+
 		this.userService.getByPage(page).subscribe(res=>{
 			if(res.status == "success"){
 				this.userService.emitConfig(JSON.stringify(res.user));

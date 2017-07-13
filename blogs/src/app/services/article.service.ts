@@ -15,10 +15,22 @@ export class ArticleService {
 
   	public configObservable = new Subject<boolean>();
 
+  	public categoryObservable = new Subject<string>();
+
+  	public articleNewObservable = new Subject<string>();
+
 	constructor(private http:Http) { }
 
 	emitConfig(val) {
 	    this.configObservable.next(val);
+	}
+
+	emitCategory(val) {
+	    this.categoryObservable.next(val);
+	}
+
+	emitArticleNew(val) {
+	    this.articleNewObservable.next(val);
 	}
 
 	getArticles(page: string): Observable<Article[]> {
@@ -38,7 +50,7 @@ export class ArticleService {
 
 	getArticleNew(page: string){
 		return this.http.get(this.apiUrl + page + "/articles" + "/new-articles", this._options())
-		.map(response => response.json().articles);
+		.map(response => response.json());
 	}
 
 	private _options(): RequestOptions{
