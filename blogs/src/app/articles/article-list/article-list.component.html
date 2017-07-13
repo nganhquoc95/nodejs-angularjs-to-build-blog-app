@@ -5,4 +5,7 @@
     <li class="active">Bài viết</li>
 </ol>
 
-<app-article *ngFor="let article of articles | async" [article]="article" (selectedEvent)="onSelect($even)"></app-article>
+<div *ngIf="articles.length===0">
+	<p class="well">Chưa có bài viết nào</p>
+</div>
+<app-article *ngFor="let article of articles" [article]="article" (selectedEvent)="onSelect($even)"></app-article>

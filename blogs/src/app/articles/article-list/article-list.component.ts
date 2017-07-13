@@ -12,7 +12,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ArticleListComponent implements OnInit, OnDestroy {
 
-	articles: Observable<Article[]>;
+	articles: Article[] = [];
 
 	sub: any;
 
@@ -27,7 +27,9 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.sub = this.activatedRoute.params.subscribe(params => this.page = params['page']);
-		this.articles = this.articleService.getArticles(this.page);
+		this.articleService.getArticles(this.page).subscribe(res=>{
+			this.articles = res;
+		});
 	}
 
 	ngOnDestroy() {

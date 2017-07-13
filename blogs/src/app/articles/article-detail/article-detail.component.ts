@@ -4,6 +4,7 @@ import { User } from '../../models/user';
 import { Article } from '../../models/article';
 import { Comment } from '../../models/comment';
 import { ArticleService } from '../../services/article.service';
+import { UserService } from '../../services/user.service';
 import { CommentService } from '../../services/comment.service';
 import { Observable } from 'rxjs/Observable';
 
@@ -32,7 +33,8 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
 	user: User;
 
 	constructor(
-		private activatedRoute: ActivatedRoute, 
+		private userService: UserService,
+		private activatedRoute: ActivatedRoute,
 		private articleService: ArticleService,
 		private commentService: CommentService,
 		@Inject(Window) private window: Window) {
@@ -84,6 +86,14 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
 				this.comments.splice(indexCmt, 1);
 			});
 		}
+	}
+
+	onClickUserPage(page: string){
+		this.userService.getByPage(page).subscribe(res=>{
+			if(res.status == "success"){
+				this.userService.emitConfig(JSON.stringify(res.user));
+			}
+		});
 	}
 
 	ngOnInit() {

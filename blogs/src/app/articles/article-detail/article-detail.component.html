@@ -42,7 +42,7 @@
                     <div *ngFor="let cmt of comments">
                         <div *ngFor="let ur of users">
                             <div *ngIf="cmt.user_id==ur._id">
-                                <p><a [routerLink]="['/' + ur.page]"><strong>{{ ur.name }}</strong></a>: {{ cmt.content }}
+                                <p><a [routerLink]="['/' + ur.page]" (click)="onClickUserPage(ur.page)"><strong>{{ ur.name }}</strong></a>: {{ cmt.content }}
                                     <span *ngIf="cmt.user_id==user._id" class="close text-red" (click)="doRemove(cmt._id, $event.target.parentElement)">&times;</span>
                                 </p>
                             </div>

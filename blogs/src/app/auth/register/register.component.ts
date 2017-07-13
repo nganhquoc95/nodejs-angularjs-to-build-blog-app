@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router} from '@angular/router';
 import { User } from '../../models/user';
-import { AdminUserService } from '../../services/admin/user.service';
+import { UserService } from '../../services/user.service';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
 	status: string;
 	message: string;
 
-	constructor( private userService: AdminUserService, private router: Router ) { }
+	constructor( private userService: UserService, private router: Router ) { }
 
 	ngOnInit() {
 	}
@@ -27,6 +27,8 @@ export class RegisterComponent implements OnInit {
 
 			if(this.status == "success"){
 				localStorage.setItem('currentUser', JSON.stringify(response.user));
+
+				this.userService.emitConfig(JSON.stringify(response.user));
 				this.router.navigate(['/']);
 			}
 		});

@@ -47,6 +47,11 @@ router.use(function(req, res, next){
         if(req.headers.userid){
             req.user_id = req.headers.userid;
             next()
+        } else if(req.headers.register || req.headers.guest){
+            next();
+        } else if(req.headers.userpage){
+            req.userpage = req.headers.userpage;
+            next();
         } else{
             res.json({
                 "status": "error",
@@ -81,6 +86,42 @@ router.param('id', function(req, res, next, id) {
 router.route('/get')
     .get(function(req, res){
         users.findById(req.user_id, function(err, user){
+            if(err){
+                res.json({
+                    "status": "error",
+                    "message": err
+                });
+            } else{
+                res.json({
+                    "status": "success",
+                    "message": "Lấy dữ liệu thành công",
+                    "user": user
+                });
+            }
+        });
+    });
+
+router.route('/user-page')
+    .get(function(req, res){
+        users.findOne({ page: req.userpage }, function(err, user){
+            if(err){
+                res.json({
+                    "status": "error",
+                    "message": err
+                });
+            } else{
+                res.json({
+                    "status": "success",
+                    "message": "Lấy dữ liệu thành công",
+                    "user": user
+                });
+            }
+        });
+    });
+
+router.route('/guest')
+    .get(function(req, res){
+        users.findOne({}, null, { sort: { '_id' : 1 } }, function(err, user){
             if(err){
                 res.json({
                     "status": "error",
@@ -144,7 +185,8 @@ router.route('/create')
                             gender: req.body.gender,
                             born: req.body.born,
                             image: req.body.image,
-                            role: role
+                            role: role,
+                            page: mongoose.Types.ObjectId()
                         }, function(err, user){
                             if(err){
                                 res.json({

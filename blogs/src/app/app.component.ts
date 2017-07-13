@@ -6,6 +6,9 @@ import { CategoryService } from './services/category.service';
 import { Article } from './models/article';
 import { ArticleService } from './services/article.service';
 
+import { User } from './models/user';
+import { UserService } from './services/user.service';
+
 import { Observable } from 'rxjs/Observable';
 
 import { RegisterComponent } from './auth/register/register.component';
@@ -21,6 +24,8 @@ export class AppComponent implements OnInit {
 
 	articlesNew: Observable<Article[]>;
 
+	user: User;
+
 	page: string;
 
 	@Output()
@@ -29,17 +34,28 @@ export class AppComponent implements OnInit {
 	constructor(
 		private categoryService: CategoryService,
 		private articleService: ArticleService, 
+		private userService: UserService,
 		private router: Router,
 		private route: ActivatedRoute,
-		@Inject(Window) private window: Window) {  }
+		@Inject(Window) private window: Window) { 
+			this.userService.configObservable.subscribe(res=>{
+				this.user = JSON.parse(res);
+				if(this.user!=null)
+					this.page = this.user.page;
+			});
+		}
 
 	ngOnInit() {
-		let arrUrl = ['lien-he','ve-chung-toi'];
+		let arrUrl = ['lien-he','ve-chung-toi','register','admin'];
 
-		if(arrUrl.indexOf(this.window.location.pathname.split('/')[1])==-1){
-			this.page = this.window.location.pathname.split('/')[1] || 'NguyenAnhQuoc';
+		let tmpPage = this.window.location.pathname.split('/')[1];
+		
+		if( tmpPage.trim()!="" && arrUrl.indexOf(tmpPage)==-1 ){
+			this.page = tmpPage;
 		} else{
-			this.page = 'NguyenAnhQuoc';
+			this.userService.getFirst().subscribe( res => {
+				this.page = res.user.page;
+			});
 		}
 
 		this.categoryService.getCategories(this.page)

@@ -46,9 +46,9 @@
 					<div class="widget-content">
 						<ul>
 							<li routerLinkActive="selected"><a [routerLink]="['/']" (click)="scrollToTop(15)">Trang chủ</a></li>
-							<li routerLinkActive="selected"><a [routerLink]="[page + '/ve-chung-toi']" (click)="scrollToTop(15)">Về chúng tôi</a></li>
-							<li routerLinkActive="selected"><a [routerLink]="[page + '/bai-viet']" (click)="scrollToTop(15)">Bài viết</a></li>
-							<li routerLinkActive="selected"><a [routerLink]="[page + '/lien-he']" (click)="scrollToTop(15)"> Liên hệ</a></li>
+							<li *ngIf="page!='' && page!=null" routerLinkActive="selected"><a [routerLink]="[page + '/ve-chung-toi']" (click)="scrollToTop(15)">Về chúng tôi</a></li>
+							<li *ngIf="page!='' && page!=null" routerLinkActive="selected"><a [routerLink]="[page + '/bai-viet']" (click)="scrollToTop(15)">Bài viết</a></li>
+							<li *ngIf="page!='' && page!=null" routerLinkActive="selected"><a [routerLink]="[page + '/lien-he']" (click)="scrollToTop(15)"> Liên hệ</a></li>
 						</ul>
 						<div class="clear"></div>
 					</div>

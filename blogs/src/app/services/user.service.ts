@@ -20,10 +20,32 @@ export class UserService {
 	    this.configObservable.next(val);
 	}
 
+	create(user: Object) {
+		let headers = new Headers({ 'Register': true });
+  		let requestOptions = new RequestOptions({ headers: headers, withCredentials: true });
+		return this.http.post(this.apiUrl + "create", user, requestOptions)
+			.map((response: Response)=>response.json())
+			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
+	}
+
+	getFirst() {
+		let headers = new Headers({ 'Guest': true });
+	  	let requestOptions = new RequestOptions({ headers: headers, withCredentials: true });
+		return this.http.get(this.apiUrl + '/guest', requestOptions)
+		.map(response => response.json());
+	}
+
 	getById(id: string) {
 		let headers = new Headers({ 'Userid': id });
 	  	let requestOptions = new RequestOptions({ headers: headers, withCredentials: true });
 		return this.http.get(this.apiUrl + '/get', requestOptions)
+		.map(response => response.json());
+	}
+
+	getByPage(page: string) {
+		let headers = new Headers({ 'Userpage': page });
+	  	let requestOptions = new RequestOptions({ headers: headers, withCredentials: true });
+		return this.http.get(this.apiUrl + 'user-page', requestOptions)
 		.map(response => response.json());
 	}
 

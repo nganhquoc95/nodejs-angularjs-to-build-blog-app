@@ -32,23 +32,23 @@ export class NavbarComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 		private userService: UserService,
 		@Inject(Window) private window: Window) {
-			let tempUser = localStorage.getItem('currentUser');
-			if(tempUser != "undefined" && tempUser != null){
-				this.user = JSON.parse(tempUser);
-				this.objData = {
-					title: this.user.page_title,
-					slogan: this.user.page_slogan
-				};
-			}
-			else{
-				this.userService.getById('4')
-					.subscribe( res => {
-						this.objData = {
-				        	title: res.user.page_title,
-				        	slogan: res.user.page_slogan
-				        }
-					});
-			}
+			// let tempUser = localStorage.getItem('currentUser');
+			// if(tempUser != "undefined" && tempUser != null){
+			// 	this.user = JSON.parse(tempUser);
+			// 	this.objData = {
+			// 		title: this.user.page_title,
+			// 		slogan: this.user.page_slogan
+			// 	};
+			// }
+			// else{
+			// 	this.userService.getFirst()
+			// 		.subscribe( res => {
+			// 			this.objData = {
+			// 	        	title: res.user.page_title,
+			// 	        	slogan: res.user.page_slogan
+			// 	        }
+			// 		});
+			// }
 
 			this.homePage = "";
 			this.userService.configObservable.subscribe( res => {
@@ -60,20 +60,31 @@ export class NavbarComponent implements OnInit {
 			        	title: tmp.page_title,
 			        	slogan: tmp.page_slogan
 			        }
+			        this.page = tmp.page;
 				}
 		    });
 	}
 
 	ngOnInit() {
-		let arrUrl = ['lien-he','ve-chung-toi'];
+		let arrUrl = ['lien-he','ve-chung-toi','register','admin'];
 
-		if(arrUrl.indexOf(this.window.location.pathname.split('/')[1])==-1){
-			this.page = this.window.location.pathname.split('/')[1] || 'NguyenAnhQuoc';
+		let tmpPage = this.window.location.pathname.split('/')[1];
+
+		if( tmpPage.trim()!="" && arrUrl.indexOf(tmpPage)==-1 ){
+			this.page = this.window.location.pathname.split('/')[1];
+			this.userService.getByPage(this.page).subscribe(res=>{
+				this.objData = {
+					title: res.user.page_title,
+				    slogan: res.user.page_slogan
+				}
+			});
 		} else{
 			if(this.user){
 				this.page = this.user.page;
 			} else{
-				this.page = 'NguyenAnhQuoc';
+				this.userService.getFirst().subscribe( res => {
+					this.page = res.user.page;
+				});
 			}
 		}
 

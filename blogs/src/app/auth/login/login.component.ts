@@ -25,6 +25,11 @@ export class LoginComponent implements OnInit {
 		private userService: UserService,
 		private articleService: ArticleService,
 		private router: Router) {
+
+		this.userService.configObservable.subscribe( res => {
+			this.isLoggedIn = (res == localStorage.getItem('currentUser'));
+		});
+
 		if(localStorage.getItem('currentUser') != "undefined" && localStorage.getItem('currentUser') != null){
 			this.isLoggedIn = true;
 		}
