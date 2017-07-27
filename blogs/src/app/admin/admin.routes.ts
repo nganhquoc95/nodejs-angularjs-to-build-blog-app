@@ -16,10 +16,15 @@ import { AdminUserCreateComponent } from './user/admin-user-create/admin-user-cr
 import { AdminUserUpdateComponent } from './user/admin-user-update/admin-user-update.component';
 import { AdminUserDeleteComponent } from './user/admin-user-delete/admin-user-delete.component';
 
+import { AdminAboutPageComponent } from './about/admin-about-page/admin-about-page.component';
+import { AdminContactPageComponent } from './contact/admin-contact-page/admin-contact-page.component';
+
 import { AdminArticleResolverService } from '../services/admin/article-resolver.service';
 
 export const adminRoutes: Routes = [
 	{ path: '', component: DashboardComponent},
+	{ path: 'about', component: AdminAboutPageComponent},
+	{ path: 'contact', component: AdminContactPageComponent},
 	{ path: 'articles', component: AdminArticleListComponent},
 	{ path: 'article/create', component: AdminArticleCreateComponent},
 	{ path: 'article/edit/:id', component: AdminArticleEditComponent, resolve: { article: AdminArticleResolverService }},

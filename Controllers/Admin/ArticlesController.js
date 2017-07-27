@@ -120,7 +120,7 @@ router.route('/')
             image : image,
             describe : req.body.describe,
             content : req.body.content,
-            visibility : req.body.visibility,
+            visibility : true,//req.body.visibility,
             category_id : req.body.category_id,
             user_id : req.user_id,
             updated_on : updated_on,
@@ -198,7 +198,7 @@ router.route('/:id')
                 }
                 article.describe = req.body.describe;
                 article.content = req.body.content;
-                article.visibility = req.body.visibility;;
+                article.visibility = true;//req.body.visibility;
                 article.category_id = req.body.category_id;
                 article.updated_on = new Date();
                 article.save(function(err){

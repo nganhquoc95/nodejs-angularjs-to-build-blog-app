@@ -19,6 +19,11 @@ router.use(methodOverride(function(req, res){
   }
 }));
 
+router.use(function(req, res, next){
+    req.per_page = req.headers.per_page;
+    next();
+});
+
 var storage = multer.diskStorage({ //multers disk storage settings
     destination: function (req, file, cb) {
         cb(null, './uploads/');
@@ -151,15 +156,17 @@ router.route('/category/:cat_id').get(function(req, res){
                     });
                 }
                 else{
-                    article.find({user_id: user._id, category_id : cat_id}).exec(function(err, articles){
-                        if (err){
-                            res.json(err);
-                        }
-                        res.json({
-                            "status": "success",
-                            "articles": articles,
-                            "category": category
-                        }); 
+                    article.find({user_id: user._id, category_id : cat_id})
+                        .sort({created_on: -1})
+                        .exec(function(err, articles){
+                            if (err){
+                                res.json(err);
+                            }
+                            res.json({
+                                "status": "success",
+                                "articles": articles,
+                                "category": category
+                            });
                     });
                 }
             });

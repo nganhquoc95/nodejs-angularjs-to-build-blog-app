@@ -32,6 +32,7 @@ const appRoutes: Routes = [
   { path: ':page', component: ArticlesComponent, resolve: {categories: CategoryResolverService} },
 
   { path: ':page/danh-muc/:id', component: CategoryComponent, resolve: {res: ArticleCategoryResolverService} },
+  { path: ':page/danh-muc/:id/pape/:num_page', component: CategoryComponent, resolve: {res: ArticleCategoryResolverService} },
   { path: ':page/lien-he', component: ContactComponent },
   { path: ':page/ve-chung-toi', component: AboutComponent },
 

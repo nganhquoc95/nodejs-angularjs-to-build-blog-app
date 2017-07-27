@@ -13,6 +13,7 @@ import { ArticleListComponent } from './articles/article-list/article-list.compo
 import { ArticleComponent } from './articles/article-list/article.component';
 
 // admin services
+import { AdminPageService } from './services/admin/admin-page.service';
 import { AdminUserService } from './services/admin/user.service';
 import { AdminArticleService } from './services/admin/article.service';
 import { AdminCategoryService } from './services/admin/category.service';
@@ -55,6 +56,10 @@ import { AdminUserCreateComponent } from './admin/user/admin-user-create/admin-u
 import { ProfileComponent } from './profile/profile.component';
 import { IndexComponent } from './index/index.component';
 
+import {NgxPaginationModule} from 'ngx-pagination';
+import { AdminAboutPageComponent } from './admin/about/admin-about-page/admin-about-page.component';
+import { AdminContactPageComponent } from './admin/contact/admin-contact-page/admin-contact-page.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,7 +88,9 @@ import { IndexComponent } from './index/index.component';
     AdminUserUpdateComponent,
     AdminUserCreateComponent,
     ProfileComponent,
-    IndexComponent
+    IndexComponent,
+    AdminAboutPageComponent,
+    AdminContactPageComponent
   ],
   imports: [
     routes,
@@ -91,7 +98,8 @@ import { IndexComponent } from './index/index.component';
     FormsModule,
     HttpModule,
     SelectModule,
-    CKEditorModule
+    CKEditorModule,
+    NgxPaginationModule
   ],
   providers: [
     { provide: Window, useValue: window },
@@ -108,7 +116,8 @@ import { IndexComponent } from './index/index.component';
     AdminUserService,
     AdminArticleService,
     AdminCategoryService,
-    AdminArticleResolverService
+    AdminArticleResolverService,
+    AdminPageService
   ],
   bootstrap: [AppComponent]
 })

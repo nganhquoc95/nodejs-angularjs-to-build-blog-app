@@ -4,6 +4,7 @@ var login = require('./Controllers/LoginController');
 var adminUsers = require('./Controllers/Admin/UserController');
 var adminCategories = require('./Controllers/Admin/CategoryController');
 var adminArticles = require('./Controllers/Admin/ArticlesController');
+var adminPages = require('./Controllers/Admin/PageController');
 
 var users = require('./Controllers/UserController');
 var categories = require('./Controllers/CategoryController');
@@ -23,6 +24,7 @@ module.exports = function(app){
 	app.use('/admin/categories', adminCategories);
 	app.use('/admin/articles', adminArticles);
 	app.use('/admin/user', adminUsers);
+    app.use('/admin/page', adminPages);
 
     app.use('/user', users);
     app.use('/comment', comments);

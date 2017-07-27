@@ -27,7 +27,7 @@
 			</thead>
 			<tbody>
 
-				<tr *ngFor="let article of articles | async">
+				<tr *ngFor="let article of articles | async | paginate: { itemsPerPage: 10, currentPage: p }">
 					<td><img [src]="srcImage(article.image)" width="70"/></td>
 					<td>{{article.title}} </td>
 					<td class="text-center">{{article.visibility}} </td>
@@ -36,8 +36,8 @@
 						<a [routerLink]="['/admin/article/delete', article._id]" class="btn btn-danger inline"> Delete</a>
 					</td>
 				</tr>
-
 			</tbody>
 		</table>
+		<pagination-controls (pageChange)="p = $event"></pagination-controls>
 	</div>
 </div>

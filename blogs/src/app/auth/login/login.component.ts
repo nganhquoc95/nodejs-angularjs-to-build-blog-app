@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { ArticleService } from '../../services/article.service';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
 	selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
 		private authService: AuthService,
 		private userService: UserService,
 		private articleService: ArticleService,
+		private categoryService: CategoryService,
 		private router: Router) {
 
 		this.userService.configObservable.subscribe( res => {
@@ -52,9 +54,14 @@ export class LoginComponent implements OnInit {
 				if(localStorage.getItem('currentUser')){
 					let user = JSON.parse(localStorage.getItem('currentUser'));
 					this.isLoggedIn = true;
+
 					this.articleService.emitConfig(true);
 					this.articleService.getArticleNew(user.page).subscribe(res=>{
-						this.articleService.emitArticleNew(JSON.stringify(res.articles));
+						this.articleService.emitArticleNew(JSON.stringify(res));
+					});
+
+					this.categoryService.getCategories(user.page).subscribe(res=>{
+						this.categoryService.emitCategories(JSON.stringify(res));
 					});
 					this.emit(localStorage.getItem('currentUser'));
 				}

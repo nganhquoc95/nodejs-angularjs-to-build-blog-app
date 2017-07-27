@@ -11,3 +11,7 @@
     border-left: 5px solid #daa006;
     border-bottom: 1px solid #ffcc3d;
 }
+
+.ngx-pagination li.current{
+    background: #757575;
+}

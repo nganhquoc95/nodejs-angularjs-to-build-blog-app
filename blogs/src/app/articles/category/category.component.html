@@ -6,7 +6,7 @@
 
 <div *ngIf="articles.length==0"><div class="well">Danh mục trống</div></div>
 
-<div class="date-outer" *ngFor="let article of articles">
+<div class="date-outer" *ngFor="let article of articles | paginate: { itemsPerPage: 10, currentPage: p, id: 'article_category' }">
     <h2 class="date-header"><span>Đăng {{ article.created_on | date: "\'ngày'\ dd\', tháng\' MM\', năm\' yyyy \'| Lúc\' h:m"}}</span></h2>
     <div class="date-posts">
         <div class="post-outer">
@@ -34,6 +34,6 @@
             </article>
             <div style="clear: both;"></div>
         </div>
-
     </div>
 </div>
+<pagination-controls (pageChange)="p = $event" id="article_category"></pagination-controls>

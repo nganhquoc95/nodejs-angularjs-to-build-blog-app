@@ -65,12 +65,12 @@
 						<div *ngIf="content.errors?.required && content.touched" class="alert alert-danger">Nội dung là trường bắt buộc nhập và không được bỏ trống.</div>
 					</div>
 				</div>
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<div class="col-lg-12">
 						<label for="visibility">Hiển thị: </label> <input type="checkbox" id="visibility" name="visibility" 
 						[checked]="article.visibility" (change)="article.visibility = $event.target.checked">
 					</div>
-				</div>
+				</div> -->
 				<div class="form-group">
 					<div class="col-lg-12">
 						<button type="submit" class="btn btn-primary" [disabled]="updateArticleForm.invalid">Cập nhật</button>

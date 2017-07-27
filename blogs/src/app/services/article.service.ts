@@ -44,7 +44,11 @@ export class ArticleService {
 	}
 
 	getArticlesCategories(page: string, id: string) {
-		return this.http.get(this.apiUrl + page + "/articles" + '/category/' + id, this._options())
+		let per_page = 0;
+		let headers = new Headers({ 'per_page': per_page });
+	  	let requestOptions = new RequestOptions({ headers: headers, withCredentials: true });
+
+		return this.http.get(this.apiUrl + page + "/articles" + '/category/' + id, requestOptions)
 		.map(response => response.json());
 	}
 
