@@ -10,7 +10,17 @@
 			<input type="hidden" name="page_type" value="contact" ngModel>
 			<div class="form-group">
 				<label for="describe" class="container-fluid">Nội dung</label>
-				<div class="container-fluid">
+				<div class="container-fluid" *ngIf="!page">
+					<ckeditor
+					    id="content"
+					    name="content"
+					    ngModel #content="ngModel"
+					    required
+					    debounce="500"></ckeditor>
+					<div *ngIf="content.errors?.required && content.touched" class="alert alert-danger">Nội dung là trường bắt buộc nhập và không được bỏ trống.</div>
+				</div>
+
+				<div class="container-fluid" *ngIf="page!=null && page!='undefined'">
 					<ckeditor
 						[(ngModel)]="page.content"
 					    ngModel

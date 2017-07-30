@@ -10,6 +10,7 @@ var users = require('./Controllers/UserController');
 var categories = require('./Controllers/CategoryController');
 var articles = require('./Controllers/ArticlesController');
 var comments = require('./Controllers/CommentController');
+var pages = require('./Controllers/PageController');
 
 // Routes
 module.exports = function(app){
@@ -30,6 +31,8 @@ module.exports = function(app){
     app.use('/comment', comments);
 	app.use('/:page/categories', categories);
 	app.use('/:page/articles', articles);
+
+    app.use('/page', pages);
 
     app.use('/', function(req, res){
     	// res.redirect('/');

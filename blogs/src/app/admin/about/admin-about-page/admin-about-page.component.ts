@@ -15,7 +15,7 @@ export class AdminAboutPageComponent implements OnInit {
 
 	constructor(private router: Router, private activatedRoute: ActivatedRoute, private pageService: AdminPageService) {
 		this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-		if(!localStorage.getItem('currentUser') || this.currentUser.role!="admin"){
+		if(!localStorage.getItem('currentUser')){
 			this.router.navigate(['/admin/']);
 		}
 
@@ -32,20 +32,18 @@ export class AdminAboutPageComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		let created = new Date().getTime();
-		this.page = new Page("0","","",this.currentUser._id, "about", created, created);
 	}
 
 	updateAbout(data){
-		data._id = this.page._id;
 		data.page_type = "about";
 		data.user_id = this.currentUser._id;
-		if(this.page._id=="0"){
+		if(this.page==undefined || this.page==null){
 			this.pageService.addPage(data).subscribe(res=>{
 				this.page = res.page;
 			});
 		}
 		else{
+			data._id = this.page._id;
 			this.pageService.updatePage(data).subscribe(res=>{
 				this.page = res.page;
 			});

@@ -13,9 +13,7 @@ export class AdminPageService {
 	constructor(private http: Http) { }
 
 	getPage(page_type: string) {
-		let headers = new Headers({ 'get_page': true });
-  		let requestOptions = new RequestOptions({ headers: headers, withCredentials: true });
-		return this.http.get(this.apiUrl + page_type, requestOptions)
+		return this.http.get(this.apiUrl + page_type, this._options())
 			.map(response => response.json());
 	}
 

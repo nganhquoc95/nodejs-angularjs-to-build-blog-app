@@ -19,6 +19,7 @@ import { AdminArticleService } from './services/admin/article.service';
 import { AdminCategoryService } from './services/admin/category.service';
 import { AdminArticleResolverService } from './services/admin/article-resolver.service';
 
+import { PageService } from './services/page.service';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { ArticleService } from './services/article.service';
@@ -110,6 +111,7 @@ import { AdminContactPageComponent } from './admin/contact/admin-contact-page/ad
     CategoryService,
     ArticleResolverService,
     ArticleCategoryResolverService,
+    PageService,
 
     CategoryResolverService,
 

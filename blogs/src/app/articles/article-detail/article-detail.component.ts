@@ -55,6 +55,7 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
 
 	doComment(): void{
 		if(localStorage.getItem('currentUser') != null && localStorage.getItem('currentUser') != "undefined"){
+			this.user = JSON.parse(localStorage.getItem('currentUser'));
 			let obj = {
 				user_id: this.user._id,
 				article_id: this.selectedArticle._id,

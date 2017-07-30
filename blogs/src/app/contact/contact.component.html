@@ -6,21 +6,8 @@
 </ol>
 
 <div class="container-fluid">
-	<h4 class="text-center">Bạn có thê liên hệ với chúng tôi theo thông tin bên dưới</h4>
-
-	<div>
-		<h4>Nguyễn Anh Quốc</h4>
-		<ul>
-			<li><b>Facebook:</b> <a href="https://www.facebook.com/NguyenAnhQuocCS">fb.com/NguyenAnhQuocCs</a></li>
-			<li><b>Email:</b> <a href="mailto:nganhquoc95@gmail.com">nganhquoc95@gmail.com</a></li>
-			<li><b>Điện thoại:</b> <a href="tel:0963453217"></a>0963453217</li>
-		</ul>
-
-		<h4>Mai Thanh Trường</h4>
-		<ul>
-			<li><b>Facebook:</b> <a href="https://www.facebook.com/truong.mai.1234"></a>fb.com/truong.mai.1234</li>
-			<li><b>Email:</b> <a href="mailto:nganhquoc95@gmail.com">thankem@gmail.com</a></li>
-			<li><b>Điện thoại:</b> <a href="tel:0963453217"></a> asdfasdf  </li>
-		</ul>
+	<div *ngIf="page == null || page == 'undefined'">
+		{{ message }}
 	</div>
+	<div *ngIf="page" [innerHTML]="page.content"></div>
 </div>
