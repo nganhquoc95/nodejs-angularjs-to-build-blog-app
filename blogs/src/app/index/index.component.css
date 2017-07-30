@@ -1,23 +1,41 @@
 .index-title{
+	margin:0;
+	color: blanchedalmond;
+	padding: 20px 0;
 	font-size: 48px;
-	margin-bottom: 50px;
 	text-transform: uppercase;
 	text-shadow: 1px 1px 0px gray,2px 2px 0px gray,3px 3px 0px gray;
 }
 
-ul.index-slogan{
-	list-style-type: none;
-	counter-reset: section;
-	list-style-type: none;
-    padding-left: 0;
+[class^='section-'] {
+    position: relative;
 }
 
-ul.index-slogan li{
-	font-size: 20px;
-	margin-bottom: 20px;
+[class^='section-'] h3 {
+    position: absolute;
+    margin: auto;
+    font-size: 32px;
+    text-transform: capitalize;
 }
 
-ul.index-slogan li:before{
-	counter-increment: section;
-	content: counter(section) ". ";
+.section-1 h3,
+.section-2 h3 {
+	text-align: center;
+    bottom: 5%;
+    left: 0;
+    right: 0;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.49);
+    text-shadow: 1px 1px 0px #ae55b6, 2px 2px 2px #a250ad, 3px 4px 1px #270325;
+}
+
+.section-3 h3 {
+	text-align: center;
+    top: 50%;
+    left: 0;
+    right: 0;
+    color: #707aff;
+    text-shadow: 1px 1px 0px #ffffff, 2px 2px 1px #a04e4e, 3px 4px 1px #007bf3;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.49);
 }
