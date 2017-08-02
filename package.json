@@ -28,6 +28,7 @@
     "ejs": "^2.5.6",
     "express": "^4.14.1",
     "express-ejs-layouts": "^2.2.0",
+    "express-mailer": "^0.3.1",
     "method-override": "^2.3.7",
     "mongodb": "^2.2.24",
     "mongodb-autoincrement": "^1.0.1",

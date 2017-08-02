@@ -64,6 +64,8 @@ export class LoginComponent implements OnInit {
 						this.categoryService.emitCategories(JSON.stringify(res));
 					});
 					this.emit(localStorage.getItem('currentUser'));
+
+					this.router.navigate(['/']);
 				}
 			}
 		});

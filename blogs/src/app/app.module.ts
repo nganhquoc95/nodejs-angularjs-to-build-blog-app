@@ -60,6 +60,7 @@ import { IndexComponent } from './index/index.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { AdminAboutPageComponent } from './admin/about/admin-about-page/admin-about-page.component';
 import { AdminContactPageComponent } from './admin/contact/admin-contact-page/admin-contact-page.component';
+import { ForgotComponent } from './auth/forgot/forgot.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { AdminContactPageComponent } from './admin/contact/admin-contact-page/ad
     ProfileComponent,
     IndexComponent,
     AdminAboutPageComponent,
-    AdminContactPageComponent
+    AdminContactPageComponent,
+    ForgotComponent
   ],
   imports: [
     routes,

@@ -4,6 +4,7 @@ import { ModuleWithProviders } from "@angular/core";
 // import { NavbarComponent } from './navbar.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { ForgotComponent } from './auth/forgot/forgot.component';
 import { ArticlesComponent } from './articles/articles.component';
 import { ArticleDetailComponent } from './articles/article-detail/article-detail.component';
 import { CategoryComponent } from './articles/category/category.component';
@@ -25,6 +26,7 @@ const appRoutes: Routes = [
   { path: '', component: IndexComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'forgot', component: ForgotComponent },
   { path: 'profiles', component: ProfileComponent },
 
   { path: 'admin', component: AdminComponent, children: adminRoutes },

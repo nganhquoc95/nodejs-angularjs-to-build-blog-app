@@ -61,6 +61,12 @@ export class UserService {
 			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
 	}
 
+	forgotPassword(email: Object){
+		return this.http.get("http://localhost:8000/mailer?email=" + email)
+			.map((response: Response)=>response.json())
+			.catch((error:any) => Observable.throw(error.json().error || {message: "Server Error"}));
+	}
+
 	changeUrl(user: Object){
 		return this.http.put(this.apiUrl + user["_id"] + "/url-page", user, this._options())
 			.map((response: Response)=>response.json())

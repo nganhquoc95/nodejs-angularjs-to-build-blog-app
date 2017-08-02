@@ -1,0 +1,18 @@
+<form action="" method="POST" role="form" (ngSubmit)="forgotSubmit(forgotForm.value)" #forgotForm="ngForm">
+	<legend class="text-center">Đăng ký</legend>
+	<div *ngIf="status=='error'" class="alert alert-danger">{{ message }}</div>
+	<div *ngIf="status=='success'" class="alert alert-success">{{ message }}</div>
+
+	<p><strong>Quên mật khẩu</strong>:</p>
+	<p>Vui lòng nhập email của tài khoản.</p>
+	<div class="form-group">
+		<label for="email">Email</label>
+		<input type="email" class="form-control" id="email" name="email" placeholder="E-Mail" ngModel #email="ngModel" required>
+		<div *ngIf="email.errors?.required && email.touched" class="text-red">
+			<strong>E-Mail</strong> là trường bắt buộc nhập
+		</div>
+	</div>
+
+	<button type="submit" class="btn btn-primary" [disabled]="forgotForm.invalid">Đồng ý</button>
+	<a class="btn btn-link" [routerLink]="['/']">Trở về</a>
+</form>
