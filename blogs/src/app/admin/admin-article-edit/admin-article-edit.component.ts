@@ -64,6 +64,8 @@ export class AdminArticleEditComponent implements OnInit, OnDestroy {
                 }
             }
             xhr.open("POST", apiUrl, true);
+            let user = JSON.parse(tmpUser);
+            xhr.setRequestHeader('Authorization', user._id + ":" + user.password);
             xhr.send(formData);
 		}
 	}

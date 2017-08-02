@@ -25,6 +25,7 @@ export class AdminArticleCreateComponent implements OnInit {
 	fileChange($event): void {
 		let fileList: FileList = $event.target.files;
 		let apiUrl = 'http://localhost:8000/articles/uploads';
+
 		if (fileList.length > 0) {
 			let file: File = fileList[0];
 			let formData: FormData = new FormData();
@@ -47,7 +48,9 @@ export class AdminArticleCreateComponent implements OnInit {
                     }
                 }
             }
+			let user = JSON.parse(tmpUser);
             xhr.open("POST", apiUrl, true);
+            xhr.setRequestHeader('Authorization', user._id + ":" + user.password);
             xhr.send(formData);
 		}
 	}
