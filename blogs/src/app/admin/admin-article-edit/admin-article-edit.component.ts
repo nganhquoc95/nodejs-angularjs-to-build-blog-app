@@ -3,6 +3,7 @@ import { Component, OnInit, Input, OnDestroy, AfterViewChecked } from '@angular/
 import { ActivatedRoute } from '@angular/router';
 import { Article } from '../../models/article';
 import { Category } from '../../models/category';
+import { User } from '../../models/user';
 import { AdminArticleService } from '../../services/admin/article.service';
 import { AdminCategoryService } from '../../services/admin/category.service';
 import { Observable } from 'rxjs/Observable';
@@ -15,7 +16,7 @@ import { Observable } from 'rxjs/Observable';
 export class AdminArticleEditComponent implements OnInit, OnDestroy {
 	status: string;
 	message: string;
-
+	user: User;
 	id: any;
 	params: any;
 	static imgLink: string;
@@ -26,7 +27,10 @@ export class AdminArticleEditComponent implements OnInit, OnDestroy {
 
 	constructor(private activatedRoute: ActivatedRoute, 
 		private articleService: AdminArticleService, 
-		private categoryService: AdminCategoryService) { }
+		private categoryService: AdminCategoryService) {
+			let tmpUser = localStorage.getItem('currentUser');
+			this.user = JSON.parse(tmpUser);
+		}
 
 	ngOnInit() {
 
@@ -41,7 +45,7 @@ export class AdminArticleEditComponent implements OnInit, OnDestroy {
 
 	fileChange($event): void {
 		let fileList: FileList = $event.target.files;
-		let apiUrl = 'http://localhost:8000/articles/uploads';
+		let apiUrl = 'http://localhost:8000/'+this.user.page+'/articles/uploads';
 		if (fileList.length > 0) {
 			let file: File = fileList[0];
 			let formData: FormData = new FormData();
@@ -64,8 +68,7 @@ export class AdminArticleEditComponent implements OnInit, OnDestroy {
                 }
             }
             xhr.open("POST", apiUrl, true);
-            let user = JSON.parse(tmpUser);
-            xhr.setRequestHeader('Authorization', user._id + ":" + user.password);
+            xhr.setRequestHeader('Authorization', this.user._id + ":" + this.user.password);
             xhr.send(formData);
 		}
 	}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
 import { Category } from '../../models/category';
+import { User } from '../../models/user';
 import { AdminArticleService } from '../../services/admin/article.service';
 import { AdminCategoryService } from '../../services/admin/category.service';
 import { Observable } from 'rxjs/Observable';
@@ -12,11 +13,15 @@ import { Observable } from 'rxjs/Observable';
 })
 export class AdminArticleCreateComponent implements OnInit {
 
+	user: User;
 	categories: Observable<Category[]>;
 	isBusy = false;
 	static imgLink: string;
 
-	constructor(private articleService: AdminArticleService, private categoryService: AdminCategoryService, private router: Router) { }
+	constructor(private articleService: AdminArticleService, private categoryService: AdminCategoryService, private router: Router) {
+		let tmpUser = localStorage.getItem('currentUser');
+		this.user = JSON.parse(tmpUser);
+	}
 
 	ngOnInit() {
 		this.categories = this.categoryService.getCategories();
@@ -24,7 +29,7 @@ export class AdminArticleCreateComponent implements OnInit {
 
 	fileChange($event): void {
 		let fileList: FileList = $event.target.files;
-		let apiUrl = 'http://localhost:8000/articles/uploads';
+		let apiUrl = 'http://localhost:8000/'+this.user.page+'/articles/uploads';
 
 		if (fileList.length > 0) {
 			let file: File = fileList[0];
@@ -48,9 +53,8 @@ export class AdminArticleCreateComponent implements OnInit {
                     }
                 }
             }
-			let user = JSON.parse(tmpUser);
             xhr.open("POST", apiUrl, true);
-            xhr.setRequestHeader('Authorization', user._id + ":" + user.password);
+            xhr.setRequestHeader('Authorization', this.user._id + ":" + this.user.password);
             xhr.send(formData);
 		}
 	}
