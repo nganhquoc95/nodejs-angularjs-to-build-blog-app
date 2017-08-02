@@ -26,7 +26,7 @@
                 </div>
                 <footer class="entry-meta">
                     Đăng {{ article.created_on | date: "\'ngày'\ dd\', tháng\' MM\', năm\' yyyy \'| Lúc\' h:m"}}
-                    <a [routerLink]="['/admin/article/delete', article._id]" class="text-red"> Delete</a>
+                    <a *ngIf="user&&user.role=='admin'" [routerLink]="['/admin/article/delete', article._id]" class="text-red"> Delete</a>
                 </footer>
             </article>
             <div style="clear: both;"></div>
