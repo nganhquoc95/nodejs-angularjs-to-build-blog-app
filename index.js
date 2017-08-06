@@ -4,6 +4,7 @@ var http = require('http'),
 	// session = require('express-session'),
 	bodyParser = require('body-parser'),
 	cors = require('cors'),
+	sha1 = require('sha1'),
 	ejs = require('ejs'),
 	expressLayouts = require('express-ejs-layouts');
 
@@ -19,12 +20,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 var corsOptions = {
-	origin: 'http://localhost:4200',
+	origin: 'http://no-accent.96.lt',
 	credentials: true
 }
 app.use(cors(corsOptions));
 
-require('./db');
+require('./Models/db');
 
 require('./Controllers/MailerController')(app);
 

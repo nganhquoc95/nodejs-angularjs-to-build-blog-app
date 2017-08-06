@@ -8,4 +8,5 @@
 # dependencies
 /node_modules
 
-/data
+# sources
+/blogs
