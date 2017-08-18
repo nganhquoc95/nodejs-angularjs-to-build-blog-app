@@ -27,7 +27,7 @@ router.route('/')
                     });
                 }
                 else{
-                    req.session.user = user;
+                    // req.session.user = user;
                     res.json({
                         "status": "success",
                         "message": "Đăng nhập thành công",
