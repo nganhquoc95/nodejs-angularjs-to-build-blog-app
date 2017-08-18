@@ -1,5 +1,7 @@
-var mailer = require('express-mailer')
+var config = require('../config'),
+	mailer = require('express-mailer'),
     sha1 = require('sha1');
+
 var User = require('../Models/User');
 
 function make_password() {
@@ -45,11 +47,13 @@ module.exports = function(app){
 			} else {
 				user.password = sha1(password);
 				user.save();
+				console.log(req.query.email);
 				app.mailer.send('email', {
 					to: req.query.email, // REQUIRED. This can be a comma delimited string just like a normal email to field.  
 					subject: 'Quên Mật Khẩu', // REQUIRED.
 					name: (user.name || user.email),
-					pass: password
+					pass: password,
+					host_cors: config.host_cors
 				}, function (err) {
 				    if (err) {
 						// handle error 

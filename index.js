@@ -1,4 +1,5 @@
-var http = require('http'),
+var config = require('./config'),
+	http = require('http'),
 	path = require('path'),
 	express = require('express'),
 	// session = require('express-session'),
@@ -10,7 +11,7 @@ var http = require('http'),
 
 var app = express();
 
-app.set('port',process.env.PORT || 8000);
+app.set('port',process.env.PORT || config.port);
 app.set('views', __dirname + "/views");
 app.set('view engine', 'ejs');
 
@@ -20,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 var corsOptions = {
-	origin: 'http://no-accent.96.lt',
+	origin: config.host_cors,
 	credentials: true
 }
 app.use(cors(corsOptions));

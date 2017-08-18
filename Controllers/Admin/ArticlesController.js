@@ -43,7 +43,6 @@ function isEmptyObject(obj){
 }
 
 router.use(function(req, res, next){
-	console.log(req.headers);
     if(req.headers.authorization){
         var param_user = req.headers.authorization.split(':');
         users.find({_id: param_user[0], password: param_user[1]}, function(err, user){

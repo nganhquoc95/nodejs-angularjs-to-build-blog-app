@@ -6,6 +6,8 @@ var express = require('express'),
     sha1 = require('sha1');
 
 var users = require('../../Models/User');
+var categories = require('../../Models/Category');
+var articles = require('../../Models/Article');
 
 router.use(methodOverride(function(req, res){
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -218,7 +220,15 @@ router.route('/:id/delete').delete(function(req,res){
             });
         }
         else{
-            users.remove(function(err, user){
+            user.remove(function(err, u){
+                categories.find( { user_id: user._id }, function(err, user_categories) {
+                    user_categories.remove();
+                });
+
+                articles.find( { user_id: user._id },function(err, user_articles) {
+                    user_articles.remove();
+                });
+
                 if(err){
                     res.json({
                         "status": "error",

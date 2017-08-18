@@ -37,4 +37,30 @@ router.route('/')
             }
         });
     });
+
+router.route('/is-login')
+    .post(function(req, res){
+        users.find({ 'email': req.body.email, 'password': req.body.password },function(err, user){
+            if(err){
+                res.json({
+                    "status": "error",
+                    "message": err
+                });
+            } else{
+                if(isEmptyObject(user)){
+                    res.json({
+                        "status": "error",
+                        "message": "User not logged"
+                    });
+                }
+                else{
+                    res.json({
+                        "status": "success",
+                        "message": "Has been logged!",
+                        "user": user
+                    });
+                }
+            }
+        });
+    });
 module.exports = router;

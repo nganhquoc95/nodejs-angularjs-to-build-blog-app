@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+config = require('./config');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('localhost','blogapps');
+mongoose.connect(config.db_host, config.db_name);
