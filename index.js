@@ -26,8 +26,10 @@ var corsOptions = {
 }
 app.use(cors(corsOptions));
 
+// Require module database with MongoDB
 require('./Models/db');
 
+// Require module email
 require('./Controllers/MailerController')(app);
 
 require('./router')(app);

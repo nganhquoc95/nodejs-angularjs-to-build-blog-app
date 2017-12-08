@@ -22,16 +22,19 @@ module.exports = function(app){
     // Main Routes
     app.use('/login', login);
 
+    // Admin Routes
 	app.use('/admin/categories', adminCategories);
 	app.use('/admin/articles', adminArticles);
 	app.use('/admin/user', adminUsers);
     app.use('/admin/page', adminPages);
 
+    // User Routes
     app.use('/user', users);
     app.use('/comment', comments);
 	app.use('/:page/categories', categories);
 	app.use('/:page/articles', articles);
 
+    // Static page Routes
     app.use('/page', pages);
 
     app.use('/', function(req, res){
